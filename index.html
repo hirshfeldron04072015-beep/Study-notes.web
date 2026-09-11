@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 
 <html lang="en">
 
@@ -77,14 +77,23 @@ outline-offset:2px
 /* INTRO */
 
 #intro{
+
 position:fixed;
+
 inset:0;
+
 z-index:9999;
+
 display:grid;
+
 place-items:center;
+
 background:#070707;
+
 overflow:hidden;
+
 animation:introAutoExit 1.15s var(--ease) 3.1s forwards
+
 }
 
 #intro:before,
@@ -228,8 +237,29 @@ transform:scale(1.35)
 }
 
 @keyframes introAutoExit{
-0%{opacity:1;transform:scale(1);visibility:visible}
-100%{opacity:0;transform:scale(1.13);visibility:hidden;pointer-events:none}
+
+0%{
+
+opacity:1;
+
+transform:scale(1);
+
+visibility:visible
+
+}
+
+100%{
+
+opacity:0;
+
+transform:scale(1.13);
+
+visibility:hidden;
+
+pointer-events:none
+
+}
+
 }
 
 @keyframes introExit{
@@ -1070,33 +1100,41 @@ touch-action:none
 
 position:absolute;
 
-top:14px;
+top:16px;
 
-left:50%;
+left:16px;
 
-transform:translateX(-50%);
+right:16px;
+
+transform:none;
 
 display:flex;
 
 align-items:center;
 
+justify-content:flex-end;
+
 gap:5px;
 
-padding:7px;
+padding:8px;
 
-background:rgba(26,26,26,.92);
+background:rgba(28,28,30,.72);
 
-border:1px solid #393939;
+border:1px solid rgba(255,255,255,.12);
 
-border-radius:14px;
+border-radius:22px;
 
-box-shadow:0 15px 45px #0009;
+box-shadow:0 18px 55px rgba(0,0,0,.45);
 
-backdrop-filter:blur(22px);
+backdrop-filter:blur(28px);
 
-max-width:94%;
+-webkit-backdrop-filter:blur(28px);
 
-overflow:auto
+max-width:95%;
+
+overflow:visible;
+
+animation:topPaletteIn .28s var(--ease)
 
 }
 
@@ -1104,7 +1142,7 @@ overflow:auto
 
 position:absolute;
 
-bottom:17px;
+bottom:18px;
 
 left:50%;
 
@@ -1114,59 +1152,211 @@ display:flex;
 
 align-items:center;
 
-gap:5px;
+gap:8px;
 
-padding:7px;
+padding:8px 10px;
 
-background:rgba(26,26,26,.92);
+background:rgba(28,28,30,.82);
 
-border:1px solid #393939;
+border:1px solid rgba(255,255,255,.13);
 
-border-radius:15px;
+border-radius:26px;
 
-box-shadow:0 18px 55px #0009;
+box-shadow:0 22px 70px rgba(0,0,0,.55);
 
-backdrop-filter:blur(22px);
+backdrop-filter:blur(30px);
+
+-webkit-backdrop-filter:blur(30px);
 
 max-width:96%;
 
-overflow:auto
+overflow:visible;
+
+animation:paletteIn .32s var(--ease)
+
+}
+
+@keyframes topPaletteIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(-8px) scale(.97)
+
+}
+
+to{
+
+opacity:1;
+
+transform:none
+
+}
+
+}
+
+@keyframes paletteIn{
+
+from{
+
+opacity:0;
+
+transform:translate(-50%,10px) scale(.97)
+
+}
+
+to{
+
+opacity:1;
+
+transform:translate(-50%,0) scale(1)
+
+}
 
 }
 
 .drawTool{
 
-height:36px;
+height:46px;
+
+min-width:46px;
 
 padding:0 11px;
 
-border-radius:9px;
+border-radius:50%;
 
-background:#232323;
+background:rgba(255,255,255,.08);
 
-color:#aaa;
+color:#bdbdbd;
 
-font-size:12px;
+font-size:15px;
 
-white-space:nowrap;
+display:grid;
 
-transition:.18s
+place-items:center;
+
+transition:
+
+transform .22s var(--ease),
+
+background .22s,
+
+color .22s,
+
+box-shadow .22s
 
 }
 
 .drawTool:hover{
 
-background:#333;
+background:rgba(255,255,255,.15);
 
-color:#fff
+color:#fff;
+
+transform:translateY(-2px) scale(1.04)
 
 }
 
 .drawTool.active{
 
-background:#f0f0f0;
+background:#f5f5f5;
+
+color:#111;
+
+box-shadow:0 4px 16px rgba(255,255,255,.13);
+
+transform:scale(1.06)
+
+}
+
+.drawTool[data-draw]{
+
+font-size:0
+
+}
+
+.drawTool[data-draw="pen"]::before{
+
+content:"✒"
+
+}
+
+.drawTool[data-draw="pencil"]::before{
+
+content:"✎"
+
+}
+
+.drawTool[data-draw="marker"]::before{
+
+content:"▰"
+
+}
+
+.drawTool[data-draw="ruler"]::before{
+
+content:"╱"
+
+}
+
+.drawTool[data-draw="eraser"]::before{
+
+content:"▱"
+
+}
+
+.drawClose{
+
+background:#eee;
 
 color:#111
+
+}
+
+.drawSeparator{
+
+width:1px;
+
+height:22px;
+
+background:#444;
+
+margin:0 4px;
+
+flex:none
+
+}
+
+#drawHighlighter{
+
+background:#292929;
+
+color:#c9c35b
+
+}
+
+#drawHighlighter.active{
+
+background:#c9c35b;
+
+color:#111
+
+}
+
+#drawOverlay.highlighterMode{
+
+pointer-events:none
+
+}
+
+#drawOverlay.highlighterMode .drawTop,
+
+#drawOverlay.highlighterMode .drawBottom,
+
+#drawOverlay.highlighterMode #ruler{
+
+pointer-events:auto
 
 }
 
@@ -1778,6 +1968,26 @@ font-size:16px
 
 }
 
+.drawTop{
+
+left:8px;
+
+right:8px;
+
+justify-content:flex-start;
+
+overflow-x:auto
+
+}
+
+.drawBottom{
+
+max-width:96%;
+
+overflow-x:auto
+
+}
+
 }
 
 /* MARKDOWN PREVIEW */
@@ -1885,14 +2095,23 @@ line-height:1.7
 <svg class="introLogo" viewBox="0 0 120 120">
 
 <ellipse
+
 cx="60"
+
 cy="60"
+
 rx="49"
+
 ry="20"
+
 fill="none"
+
 stroke="#707070"
+
 stroke-width="1.4"
+
 transform="rotate(45 60 60)"
+
 />
 
 <circle cx="60" cy="60" r="16" fill="#202020"/>
@@ -1919,37 +2138,11 @@ transform="rotate(45 60 60)"
 
 <svg viewBox="0 0 60 60">
 
-<ellipse
-cx="30"
-cy="30"
-rx="24"
-ry="10"
-fill="none"
-stroke="#777"
-stroke-width="1.2"
-/>
+<ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#777" stroke-width="1.2"/>
 
-<ellipse
-cx="30"
-cy="30"
-rx="24"
-ry="10"
-fill="none"
-stroke="#777"
-stroke-width="1.2"
-transform="rotate(60 30 30)"
-/>
+<ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#777" stroke-width="1.2" transform="rotate(60 30 30)"/>
 
-<ellipse
-cx="30"
-cy="30"
-rx="24"
-ry="10"
-fill="none"
-stroke="#777"
-stroke-width="1.2"
-transform="rotate(120 30 30)"
-/>
+<ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#777" stroke-width="1.2" transform="rotate(120 30 30)"/>
 
 <circle cx="30" cy="30" r="7" fill="#eee"/>
 
@@ -1963,12 +2156,7 @@ transform="rotate(120 30 30)"
 
 <div class="searchIcon">⌕</div>
 
-<input
-id="search"
-class="search"
-placeholder="Search notes..."
-autocomplete="off"
-/>
+<input id="search" class="search" placeholder="Search notes..." autocomplete="off"/>
 
 </div>
 
@@ -2018,19 +2206,9 @@ autocomplete="off"
 
 <div class="noteHeader">
 
-<input
-id="title"
-class="title"
-placeholder="Untitled"
-autocomplete="off"
-/>
+<input id="title" class="title" placeholder="Untitled" autocomplete="off"/>
 
-<button
-id="pinBtn"
-class="icon pin"
-onclick="togglePin()"
-title="Pin note"
->☆</button>
+<button id="pinBtn" class="icon pin" onclick="togglePin()" title="Pin note">☆</button>
 
 </div>
 
@@ -2068,12 +2246,7 @@ title="Pin note"
 
 <div id="editorWrap" class="editorWrap">
 
-<div
-id="editor"
-class="editor"
-contenteditable="true"
-spellcheck="true"
-></div>
+<div id="editor" class="editor" contenteditable="true" spellcheck="true"></div>
 
 <textarea id="markdownArea" class="markdownArea"></textarea>
 
@@ -2083,35 +2256,21 @@ spellcheck="true"
 
 <div class="drawTop">
 
-<button
-class="drawTool active"
-data-draw="pen"
-onclick="setDrawTool('pen')"
->Pen</button>
+<button class="drawTool active" data-draw="pen" onclick="setDrawTool('pen')">Pen</button>
 
-<button
-class="drawTool"
-data-draw="pencil"
-onclick="setDrawTool('pencil')"
->Pencil</button>
+<button class="drawTool" data-draw="pencil" onclick="setDrawTool('pencil')">Pencil</button>
 
-<button
-class="drawTool"
-data-draw="marker"
-onclick="setDrawTool('marker')"
->Marker</button>
+<button class="drawTool" data-draw="marker" onclick="setDrawTool('marker')">Marker</button>
 
-<button
-class="drawTool"
-data-draw="ruler"
-onclick="setDrawTool('ruler')"
->Ruler</button>
+<button class="drawTool" data-draw="ruler" onclick="setDrawTool('ruler')">Ruler</button>
 
-<button
-class="drawTool"
-data-draw="eraser"
-onclick="setDrawTool('eraser')"
->Eraser</button>
+<button class="drawTool" data-draw="eraser" onclick="setDrawTool('eraser')">Eraser</button>
+
+<div class="drawSeparator"></div>
+
+<button class="drawTool" id="drawHighlighter" onclick="activateDrawingHighlighter()" title="Highlight words">▰</button>
+
+<button class="drawTool drawClose" onclick="closeDrawing()" title="Close drawing tools">×</button>
 
 </div>
 
@@ -2153,7 +2312,7 @@ onclick="setDrawTool('eraser')"
 
 <button class="drawTool" onclick="clearDraw()">Clear</button>
 
-<button class="drawTool" onclick="closeDrawing()">Done</button>
+<button class="drawTool drawClose" onclick="closeDrawing()">Done</button>
 
 </div>
 
@@ -2230,10 +2389,15 @@ onclick="setDrawTool('eraser')"
 const KEY="studynotes_ultra_v2";
 
 let data={
+
 folders:[],
+
 notes:[],
+
 activeFolder:null,
+
 activeNote:null
+
 };
 
 let highlighter=false;
@@ -2310,9 +2474,7 @@ id,
 
 title:"Welcome to StudyNotes",
 
-html:
-
-"<h1>Welcome</h1><p>This is your writing space.</p><p>Create notes, organise them into folders, use templates, highlight words, format text or open the drawing tools.</p>",
+html:"<h1>Welcome</h1><p>This is your writing space.</p><p>Create notes, organise them into folders, use templates, highlight words, format text or open the drawing tools.</p>",
 
 folder:null,
 
@@ -2480,7 +2642,7 @@ b.onclick=()=>{
 
 data.activeNote=n.id;
 
-renderEditor()
+renderEditor();
 
 renderNotes()
 
@@ -2584,7 +2746,7 @@ data.activeNote=id;
 
 save();
 
-render()
+render();
 
 setTimeout(()=>{
 
@@ -2794,43 +2956,103 @@ function toggleHighlighter(){
 
 highlighter=!highlighter;
 
-$("highlightBtn").classList.toggle("active",highlighter)
+$("highlightBtn")
+
+.classList
+
+.toggle("active",highlighter);
+
+$("editor").style.cursor=
+
+highlighter?"pointer":""
 
 }
 
-function applyHighlightToWord(){
+function wordRangeFromPoint(e){
 
-const sel=window.getSelection();
+let r=null;
 
-if(!sel||!sel.rangeCount)
+if(document.caretRangeFromPoint){
 
-return;
+r=document.caretRangeFromPoint(
 
-const range=sel.getRangeAt(0);
+e.clientX,
 
-if(range.collapsed)
+e.clientY
 
-return;
+)
 
-const mark=document.createElement("mark");
+}else if(document.caretPositionFromPoint){
 
-try{
+const p=document.caretPositionFromPoint(
 
-range.surroundContents(mark)
+e.clientX,
 
-}catch(e){
+e.clientY
 
-const text=range.toString();
+);
 
-if(text){
+if(p){
 
-document.execCommand("backColor",false,"#c9c35b")
+r=document.createRange();
+
+r.setStart(
+
+p.offsetNode,
+
+p.offset
+
+);
+
+r.collapse(true)
 
 }
 
 }
 
-update()
+if(!r||r.startContainer.nodeType!==3)
+
+return null;
+
+const node=r.startContainer;
+
+const text=node.textContent;
+
+let a=r.startOffset;
+
+let b=a;
+
+while(
+
+a>0&&
+
+!/\s/.test(text[a-1])
+
+)
+
+a--;
+
+while(
+
+b<text.length&&
+
+!/\s/.test(text[b])
+
+)
+
+b++;
+
+if(a===b)
+
+return null;
+
+const out=document.createRange();
+
+out.setStart(node,a);
+
+out.setEnd(node,b);
+
+return out
 
 }
 
@@ -2840,79 +3062,45 @@ if(!highlighter)
 
 return;
 
-if(e.target.closest("a"))
+const r=wordRangeFromPoint(e);
+
+if(!r)
 
 return;
 
-const sel=window.getSelection();
+const sel=getSelection();
 
-if(sel&&sel.toString().trim()){
+sel.removeAllRanges();
 
-applyHighlightToWord();
-
-return
-
-}
-
-const textNode=e.target.nodeType===3?e.target:e.target.firstChild;
-
-if(!textNode||textNode.nodeType!==3)
-
-return;
-
-const text=textNode.textContent;
-
-let pos=0;
-
-let x=e.clientX;
-
-const range=document.createRange();
-
-for(let i=0;i<text.length;i++){
-
-range.setStart(textNode,i);
-
-range.setEnd(textNode,i+1);
-
-const r=range.getBoundingClientRect();
-
-if(x>=r.left&&x<=r.right){
-
-let start=i;
-
-let end=i;
-
-while(start>0&&!/\s/.test(text[start-1]))
-
-start--;
-
-while(end<text.length&&!/\s/.test(text[end]))
-
-end++;
-
-range.setStart(textNode,start);
-
-range.setEnd(textNode,end);
-
-const mark=document.createElement("mark");
+sel.addRange(r);
 
 try{
 
-range.surroundContents(mark)
+document.execCommand(
 
-}catch(err){
+"hiliteColor",
 
-return
+false,
 
-}
+"#c9c35b"
 
-update();
+);
 
-return
+document.execCommand(
 
-}
+"backColor",
 
-}
+false,
+
+"#c9c35b"
+
+)
+
+}catch(error){}
+
+sel.removeAllRanges();
+
+update()
 
 });
 
@@ -2926,7 +3114,15 @@ $("textColors").classList.toggle("show")
 
 function setTextColor(color){
 
-document.execCommand("foreColor",false,color);
+document.execCommand(
+
+"foreColor",
+
+false,
+
+color
+
+);
 
 $("textColors").classList.remove("show");
 
@@ -2976,19 +3172,43 @@ $("sidebar").classList.toggle("closed")
 
 function updateStats(){
 
-const text=stripHTML($("editor").innerHTML||"").trim();
+const text=stripHTML(
 
-const words=text?text.split(/\s+/).length:0;
+$("editor").innerHTML||""
+
+).trim();
+
+const words=text?
+
+text.split(/\s+/).length:
+
+0;
 
 const chars=text.length;
 
-const minutes=words?Math.max(1,Math.ceil(words/200)):0;
+const minutes=words?
 
-$("wordCount").textContent=words+" words";
+Math.max(
 
-$("charCount").textContent=chars+" characters";
+1,
 
-$("readingTime").textContent=minutes+" min read"
+Math.ceil(words/200)
+
+):
+
+0;
+
+$("wordCount").textContent=
+
+words+" words";
+
+$("charCount").textContent=
+
+chars+" characters";
+
+$("readingTime").textContent=
+
+minutes+" min read"
 
 }
 
@@ -3068,7 +3288,15 @@ const image=new Image();
 
 image.onload=()=>{
 
-drawCtx.drawImage(image,0,0)
+drawCtx.drawImage(
+
+image,
+
+0,
+
+0
+
+)
 
 };
 
@@ -3078,13 +3306,35 @@ image.src=n.drawing
 
 saveDrawState();
 
-drawCanvas.addEventListener("pointerdown",drawStart);
+drawCanvas.addEventListener(
 
-drawCanvas.addEventListener("pointermove",drawMove);
+"pointerdown",
 
-window.addEventListener("pointerup",drawEnd);
+drawStart
 
-$("drawBtn").classList.add("active")
+);
+
+drawCanvas.addEventListener(
+
+"pointermove",
+
+drawMove
+
+);
+
+window.addEventListener(
+
+"pointerup",
+
+drawEnd
+
+);
+
+$("drawBtn")
+
+.classList
+
+.add("active")
 
 }
 
@@ -3100,15 +3350,29 @@ return
 
 }
 
+if(drawTool==="highlighter")
+
+return;
+
 drawing=true;
 
-drawCanvas.setPointerCapture?.(e.pointerId);
+drawCanvas.setPointerCapture?.(
+
+e.pointerId
+
+);
 
 const p=point(e);
 
 drawCtx.beginPath();
 
-drawCtx.moveTo(p.x,p.y)
+drawCtx.moveTo(
+
+p.x,
+
+p.y
+
+)
 
 }
 
@@ -3130,11 +3394,23 @@ drawTool==="eraser"
 
 :"source-over";
 
-let size=Number($("drawSize").value);
+let size=
+
+Number(
+
+$("drawSize").value
+
+);
 
 if(drawTool==="pencil"){
 
-size=Math.max(1,size*.48)
+size=Math.max(
+
+1,
+
+size*.48
+
+)
 
 }
 
@@ -3156,7 +3432,13 @@ drawTool==="marker"
 
 drawCtx.strokeStyle=drawColor;
 
-drawCtx.lineTo(p.x,p.y);
+drawCtx.lineTo(
+
+p.x,
+
+p.y
+
+);
 
 drawCtx.stroke()
 
@@ -3174,7 +3456,9 @@ drawing=false;
 
 drawCtx.globalAlpha=1;
 
-drawCtx.globalCompositeOperation="source-over";
+drawCtx.globalCompositeOperation=
+
+"source-over";
 
 saveDrawState();
 
@@ -3186,7 +3470,9 @@ persistDrawing()
 
 function point(e){
 
-const rect=drawCanvas.getBoundingClientRect();
+const rect=
+
+drawCanvas.getBoundingClientRect();
 
 return{
 
@@ -3204,11 +3490,25 @@ function setDrawTool(tool){
 
 drawTool=tool;
 
+highlighter=false;
+
+$("highlightBtn")?.classList.remove("active");
+
+$("drawHighlighter")?.classList.remove("active");
+
+$("drawOverlay")?.classList.remove(
+
+"highlighterMode"
+
+);
+
+$("editor").style.cursor="";
+
 document
 
 .querySelectorAll("[data-draw]")
 
-.forEach(button=>
+.forEach(button=>{
 
 button.classList.toggle(
 
@@ -3218,7 +3518,7 @@ button.dataset.draw===tool
 
 )
 
-);
+});
 
 if(tool==="ruler"){
 
@@ -3232,9 +3532,45 @@ hideRuler()
 
 }
 
+function activateDrawingHighlighter(){
+
+highlighter=true;
+
+drawTool="highlighter";
+
+$("drawHighlighter")?.classList.add("active");
+
+document
+
+.querySelectorAll("[data-draw]")
+
+.forEach(button=>{
+
+button.classList.remove("active")
+
+});
+
+hideRuler();
+
+$("drawOverlay")?.classList.add(
+
+"highlighterMode"
+
+);
+
+$("editor").style.cursor="pointer"
+
+}
+
 /* DRAW COLOUR */
 
-function setDrawColor(color,button){
+function setDrawColor(
+
+color,
+
+button
+
+){
 
 drawColor=color;
 
@@ -3266,7 +3602,11 @@ if(!drawCanvas)
 
 return;
 
-undoStack.push(drawCanvas.toDataURL());
+undoStack.push(
+
+drawCanvas.toDataURL()
+
+);
 
 if(undoStack.length>35){
 
@@ -3320,7 +3660,11 @@ if(undoStack.length<2)
 
 return;
 
-redoStack.push(undoStack.pop());
+redoStack.push(
+
+undoStack.pop()
+
+);
 
 restoreDraw(
 
@@ -3340,7 +3684,9 @@ if(!redoStack.length)
 
 return;
 
-const state=redoStack.pop();
+const state=
+
+redoStack.pop();
 
 undoStack.push(state);
 
@@ -3378,7 +3724,9 @@ const n=currentNote();
 
 if(n&&drawCanvas){
 
-n.drawing=drawCanvas.toDataURL();
+n.drawing=
+
+drawCanvas.toDataURL();
 
 save()
 
@@ -3390,9 +3738,31 @@ function closeDrawing(){
 
 persistDrawing();
 
+$("drawOverlay")
+
+.classList
+
+.remove("highlighterMode");
+
 $("drawOverlay").style.display="none";
 
-$("drawBtn").classList.remove("active");
+$("drawBtn")
+
+.classList
+
+.remove("active");
+
+$("drawHighlighter")?.classList.remove(
+
+"active"
+
+);
+
+highlighter=false;
+
+drawTool="pen";
+
+$("editor").style.cursor="";
 
 drawCanvas=null;
 
@@ -3406,13 +3776,21 @@ hideRuler()
 
 function showRuler(){
 
-$("ruler").classList.add("show")
+$("ruler")
+
+.classList
+
+.add("show")
 
 }
 
 function hideRuler(){
 
-$("ruler").classList.remove("show")
+$("ruler")
+
+.classList
+
+.remove("show")
 
 }
 
@@ -3424,35 +3802,77 @@ let ry=0;
 
 const ruler=$("ruler");
 
-ruler.addEventListener("pointerdown",e=>{
+ruler.addEventListener(
+
+"pointerdown",
+
+e=>{
 
 rulerDrag=true;
 
-rx=e.clientX-ruler.offsetLeft;
+rx=
 
-ry=e.clientY-ruler.offsetTop;
+e.clientX-
 
-ruler.setPointerCapture?.(e.pointerId)
+ruler.offsetLeft;
 
-});
+ry=
 
-ruler.addEventListener("pointermove",e=>{
+e.clientY-
+
+ruler.offsetTop;
+
+ruler.setPointerCapture?.(
+
+e.pointerId
+
+)
+
+}
+
+);
+
+ruler.addEventListener(
+
+"pointermove",
+
+e=>{
 
 if(!rulerDrag)
 
 return;
 
-ruler.style.left=(e.clientX-rx)+"px";
+ruler.style.left=
 
-ruler.style.top=(e.clientY-ry)+"px"
+(
 
-});
+e.clientX-rx
 
-ruler.addEventListener("pointerup",()=>{
+)+"px";
+
+ruler.style.top=
+
+(
+
+e.clientY-ry
+
+)+"px"
+
+}
+
+);
+
+ruler.addEventListener(
+
+"pointerup",
+
+()=>{
 
 rulerDrag=false
 
-});
+}
+
+);
 
 /* TEMPLATES */
 
@@ -3524,15 +3944,27 @@ html:"<h1>Flashcards</h1><h2>Card 1</h2><p><strong>Question:</strong></p><p><str
 
 function templates(){
 
-let html='<div class="templateGrid">';
+let html=
 
-Object.entries(templatesData).forEach(([name,t])=>{
+'<div class="templateGrid">';
+
+Object.entries(
+
+templatesData
+
+).forEach(
+
+([name,t])=>{
 
 html+=
 
 '<button class="templateCard" onclick="useTemplate('+JSON.stringify(name)+')">'+
 
-'<div class="templatePreview '+t.shape+'">'+
+'<div class="templatePreview '+
+
+t.shape+
+
+'">'+
 
 '<span></span>'+
 
@@ -3562,7 +3994,13 @@ t.desc+
 
 html+='</div>';
 
-openModal("Templates",html)
+openModal(
+
+"Templates",
+
+html
+
+)
 
 }
 
@@ -3578,7 +4016,9 @@ return;
 
 n.title=name;
 
-n.html=templatesData[name].html;
+n.html=
+
+templatesData[name].html;
 
 save();
 
@@ -3626,7 +4066,11 @@ if(!old)
 
 return openPrivateFolder();
 
-const cur=prompt("Current private code:");
+const cur=prompt(
+
+"Current private code:"
+
+);
 
 if(cur===null)
 
@@ -3636,9 +4080,19 @@ if(codeHash(cur.trim())!==old)
 
 return alert("Wrong current code.");
 
-const next=prompt("New private code:");
+const next=prompt(
 
-if(next===null||!next.trim())
+"New private code:"
+
+);
+
+if(
+
+next===null||
+
+!next.trim()
+
+)
 
 return;
 
@@ -3660,7 +4114,19 @@ function exportData(){
 
 const blob=new Blob(
 
-[JSON.stringify(data,null,2)],
+[
+
+JSON.stringify(
+
+data,
+
+null,
+
+2
+
+)
+
+],
 
 {
 
@@ -3672,13 +4138,23 @@ type:"application/json"
 
 const a=document.createElement("a");
 
-a.href=URL.createObjectURL(blob);
+a.href=
 
-a.download="StudyNotes-backup.json";
+URL.createObjectURL(blob);
+
+a.download=
+
+"StudyNotes-backup.json";
 
 a.click();
 
-setTimeout(()=>URL.revokeObjectURL(a.href),1000)
+setTimeout(
+
+()=>URL.revokeObjectURL(a.href),
+
+1000
+
+)
 
 }
 
@@ -3686,7 +4162,15 @@ setTimeout(()=>URL.revokeObjectURL(a.href),1000)
 
 function resetData(){
 
-if(confirm("Delete all notes and folders?")){
+if(
+
+confirm(
+
+"Delete all notes and folders?"
+
+)
+
+){
 
 localStorage.removeItem(KEY);
 
@@ -3708,9 +4192,11 @@ openModal(
 
 '<p><b>☰</b> hides the left panel so the writing area becomes full width.</p>'+
 
-'<p><b>Highlighter:</b> turn it on, then tap the exact word you want highlighted. It does not draw over the page.</p>'+
+'<p><b>Highlighter:</b> open Drawing Tools, choose the soft yellow Highlighter, then simply tap a word.</p>'+
 
 '<p><b>Drawing:</b> use Pen, Pencil, Marker, Ruler and Eraser. Choose a colour and thickness.</p>'+
+
+'<p><b>× Close</b> or <b>Done</b> exits the drawing tools completely.</p>'+
 
 '<p><b>Templates:</b> choose a complete study layout and start filling it in.</p>'+
 
@@ -3724,7 +4210,13 @@ openModal(
 
 /* MODAL */
 
-function openModal(title,body){
+function openModal(
+
+title,
+
+body
+
+){
 
 $("modalTitle").textContent=title;
 
@@ -3742,15 +4234,35 @@ $("modal").classList.remove("show")
 
 /* SEARCH */
 
-$("search").addEventListener("input",renderNotes);
+$("search").addEventListener(
+
+"input",
+
+renderNotes
+
+);
 
 /* KEYBOARD */
 
-document.addEventListener("keydown",e=>{
+document.addEventListener(
 
-const modifier=e.metaKey||e.ctrlKey;
+"keydown",
 
-if(modifier&&e.key.toLowerCase()==="n"){
+e=>{
+
+const modifier=
+
+e.metaKey||
+
+e.ctrlKey;
+
+if(
+
+modifier&&
+
+e.key.toLowerCase()==="n"
+
+){
 
 e.preventDefault();
 
@@ -3758,7 +4270,13 @@ newNote()
 
 }
 
-if(modifier&&e.key.toLowerCase()==="s"){
+if(
+
+modifier&&
+
+e.key.toLowerCase()==="s"
+
+){
 
 e.preventDefault();
 
@@ -3766,7 +4284,13 @@ update()
 
 }
 
-if(modifier&&e.key.toLowerCase()==="f"){
+if(
+
+modifier&&
+
+e.key.toLowerCase()==="f"
+
+){
 
 e.preventDefault();
 
@@ -3778,13 +4302,35 @@ if(e.key==="Escape"){
 
 closeModal();
 
-$("textColors").classList.remove("show");
+$("textColors")
+
+.classList
+
+.remove("show");
 
 if(highlighter){
 
 highlighter=false;
 
-$("highlightBtn").classList.remove("active")
+$("highlightBtn")
+
+.classList
+
+.remove("active");
+
+$("drawHighlighter")?.classList.remove(
+
+"active"
+
+);
+
+$("drawOverlay")?.classList.remove(
+
+"highlighterMode"
+
+);
+
+$("editor").style.cursor=""
 
 }
 
@@ -3796,11 +4342,17 @@ $("highlightBtn").classList.remove("active")
 
 function stripHTML(html){
 
-const div=document.createElement("div");
+const div=
+
+document.createElement("div");
 
 div.innerHTML=html;
 
-return div.textContent||div.innerText||""
+return div.textContent||
+
+div.innerText||
+
+""
 
 }
 
@@ -3822,7 +4374,9 @@ return String(str)
 
 function htmlToMarkdown(html){
 
-const div=document.createElement("div");
+const div=
+
+document.createElement("div");
 
 div.innerHTML=html;
 
@@ -3834,9 +4388,21 @@ function codeHash(str){
 
 let h=0;
 
-for(let i=0;i<str.length;i++){
+for(
 
-h=((h<<5)-h)+str.charCodeAt(i);
+let i=0;
+
+i<str.length;
+
+i++
+
+){
+
+h=
+
+((h<<5)-h)+
+
+str.charCodeAt(i);
 
 h|=0
 
@@ -3848,15 +4414,31 @@ return String(h)
 
 function privateCode(){
 
-return localStorage.getItem(KEY+"_private_code")
+return localStorage.getItem(
+
+KEY+"_private_code"
+
+)
 
 }
 
 function openPrivateFolder(){
 
-const code=prompt("Create a private folder code:");
+const code=
 
-if(code===null||!code.trim())
+prompt(
+
+"Create a private folder code:"
+
+);
+
+if(
+
+code===null||
+
+!code.trim()
+
+)
 
 return;
 
@@ -3864,11 +4446,19 @@ localStorage.setItem(
 
 KEY+"_private_code",
 
-codeHash(code.trim())
+codeHash(
+
+code.trim()
+
+)
 
 );
 
-alert("Private folder code created.")
+alert(
+
+"Private folder code created."
+
+)
 
 }
 
