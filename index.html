@@ -1,19 +1,14 @@
-<!doctype html>
+ <!doctype html>
+
 <html lang="en">
 
 <head>
 
 <meta charset="utf-8">
 
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1,viewport-fit=cover"
->
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<meta
-name="theme-color"
-content="#070707"
->
+<meta name="theme-color" content="#070707">
 
 <title>StudyNotes</title>
 
@@ -82,21 +77,14 @@ outline-offset:2px
 /* INTRO */
 
 #intro{
-
 position:fixed;
-
 inset:0;
-
 z-index:9999;
-
 display:grid;
-
 place-items:center;
-
 background:#070707;
-
-overflow:hidden
-
+overflow:hidden;
+animation:introAutoExit 1.15s var(--ease) 3.1s forwards
 }
 
 #intro:before,
@@ -237,6 +225,11 @@ transform:scale(1.35)
 
 }
 
+}
+
+@keyframes introAutoExit{
+0%{opacity:1;transform:scale(1);visibility:visible}
+100%{opacity:0;transform:scale(1.13);visibility:hidden;pointer-events:none}
 }
 
 @keyframes introExit{
@@ -955,7 +948,7 @@ color:#606060
 
 }
 
-/* POPUPS */
+/* TEXT COLOUR */
 
 .pop{
 
@@ -1011,8 +1004,6 @@ transform:none
 
 }
 
-/* TEXT COLOUR */
-
 .swatch{
 
 width:28px;
@@ -1055,11 +1046,9 @@ z-index:200;
 
 display:none;
 
-background:rgba(0,0,0,.10);
+background:rgba(7,7,7,.08);
 
-backdrop-filter:blur(2px);
-
--webkit-backdrop-filter:blur(2px)
+backdrop-filter:blur(1px)
 
 }
 
@@ -1081,47 +1070,7 @@ touch-action:none
 
 position:absolute;
 
-top:16px;
-
-left:16px;
-
-right:16px;
-
-transform:none;
-
-display:flex;
-
-align-items:center;
-
-justify-content:flex-end;
-
-gap:6px;
-
-padding:8px;
-
-background:rgba(28,28,30,.72);
-
-border:1px solid rgba(255,255,255,.12);
-
-border-radius:22px;
-
-box-shadow:0 18px 55px rgba(0,0,0,.45);
-
-backdrop-filter:blur(28px);
-
--webkit-backdrop-filter:blur(28px);
-
-overflow:visible;
-
-animation:topPaletteIn .28s var(--ease)
-
-}
-
-.drawBottom{
-
-position:absolute;
-
-bottom:18px;
+top:14px;
 
 left:50%;
 
@@ -1131,133 +1080,93 @@ display:flex;
 
 align-items:center;
 
-gap:8px;
+gap:5px;
 
-padding:8px 10px;
+padding:7px;
 
-background:rgba(28,28,30,.82);
+background:rgba(26,26,26,.92);
 
-border:1px solid rgba(255,255,255,.13);
+border:1px solid #393939;
 
-border-radius:26px;
+border-radius:14px;
 
-box-shadow:0 22px 70px rgba(0,0,0,.55);
+box-shadow:0 15px 45px #0009;
 
-backdrop-filter:blur(30px);
+backdrop-filter:blur(22px);
 
--webkit-backdrop-filter:blur(30px);
+max-width:94%;
 
-overflow:visible;
+overflow:auto
 
-animation:paletteIn .32s var(--ease)
+}
+
+.drawBottom{
+
+position:absolute;
+
+bottom:17px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+display:flex;
+
+align-items:center;
+
+gap:5px;
+
+padding:7px;
+
+background:rgba(26,26,26,.92);
+
+border:1px solid #393939;
+
+border-radius:15px;
+
+box-shadow:0 18px 55px #0009;
+
+backdrop-filter:blur(22px);
+
+max-width:96%;
+
+overflow:auto
 
 }
 
 .drawTool{
 
-width:46px;
+height:36px;
 
-height:46px;
+padding:0 11px;
 
-padding:0;
+border-radius:9px;
 
-border-radius:50%;
+background:#232323;
 
-background:rgba(255,255,255,.08);
+color:#aaa;
 
-color:#bdbdbd;
+font-size:12px;
 
-font-size:20px;
+white-space:nowrap;
 
-display:grid;
-
-place-items:center;
-
-transition:
-
-transform .22s var(--ease),
-
-background .22s,
-
-color .22s,
-
-box-shadow .22s
+transition:.18s
 
 }
 
 .drawTool:hover{
 
-background:rgba(255,255,255,.15);
+background:#333;
 
-color:#fff;
-
-transform:translateY(-2px) scale(1.04)
+color:#fff
 
 }
 
 .drawTool.active{
 
-background:#f5f5f5;
+background:#f0f0f0;
 
-color:#111;
-
-box-shadow:0 4px 16px rgba(255,255,255,.13);
-
-transform:scale(1.06)
-
-}
-
-.drawTool[data-draw]{
-
-font-size:0
-
-}
-
-.drawTool[data-draw="pen"]::before{
-
-content:"✒";
-
-font-size:20px
-
-}
-
-.drawTool[data-draw="pencil"]::before{
-
-content:"✎";
-
-font-size:21px
-
-}
-
-.drawTool[data-draw="marker"]::before{
-
-content:"▰";
-
-font-size:18px
-
-}
-
-.drawTool[data-draw="ruler"]::before{
-
-content:"╱";
-
-font-size:22px
-
-}
-
-.drawTool[data-draw="eraser"]::before{
-
-content:"▱";
-
-font-size:20px
-
-}
-
-.drawTop .drawTool{
-
-width:42px;
-
-height:42px
+color:#111
 
 }
 
@@ -1269,23 +1178,9 @@ height:25px;
 
 border-radius:50%;
 
-border:2px solid rgba(255,255,255,.25);
+border:2px solid #555;
 
-flex:none;
-
-transition:
-
-transform .2s var(--ease),
-
-border .2s,
-
-box-shadow .2s
-
-}
-
-.drawColor:hover{
-
-transform:scale(1.15)
+flex:none
 
 }
 
@@ -1293,13 +1188,7 @@ transform:scale(1.15)
 
 border-color:#fff;
 
-box-shadow:
-
-0 0 0 2px rgba(0,0,0,.55),
-
-0 0 0 3px rgba(255,255,255,.2);
-
-transform:scale(1.13)
+box-shadow:0 0 0 2px #111 inset
 
 }
 
@@ -1323,129 +1212,39 @@ transform:scale(1.13)
 
 .size{
 
-height:42px;
+height:36px;
 
-min-width:72px;
-
-background:rgba(255,255,255,.08);
-
-border:1px solid rgba(255,255,255,.08);
-
-color:#ddd;
-
-border-radius:21px;
-
-padding:0 12px
-
-}
-
-.drawClose{
-
-background:#f5f5f5!important;
-
-color:#111!important;
-
-width:48px!important;
-
-height:48px!important;
-
-font-size:0!important
-
-}
-
-.drawClose::before{
-
-content:"✓";
-
-font-size:20px
-
-}
-
-.drawExit{
-
-font-size:22px!important;
-
-background:rgba(255,255,255,.08)!important;
-
-color:#fff!important
-
-}
-
-@keyframes paletteIn{
-
-from{
-
-opacity:0;
-
-transform:translateX(-50%) translateY(12px) scale(.94)
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateX(-50%) translateY(0) scale(1)
-
-}
-
-}
-
-@keyframes topPaletteIn{
-
-from{
-
-opacity:0;
-
-transform:translateY(-8px) scale(.96)
-
-}
-
-to{
-
-opacity:1;
-
-transform:none
-
-}
-
-}
-
-/* RULER */
-
-.ruler{
-
-position:absolute;
-
-z-index:3;
-
-left:20%;
-
-top:30%;
-
-width:360px;
-
-height:48px;
-
-border-radius:9px;
-
-background:linear-gradient(#4b4b4b,#292929);
-
-border:1px solid #777;
-
-box-shadow:0 12px 35px #000b;
-
-display:none;
-
-align-items:flex-end;
-
-justify-content:space-around;
-
-padding:0 10px 7px;
+background:#232323;
 
 color:#bbb;
 
-font-size:9px;
+border:0;
+
+border-radius:9px;
+
+padding:0 8px
+
+}
+
+#ruler{
+
+position:absolute;
+
+display:none;
+
+z-index:210;
+
+width:330px;
+
+height:38px;
+
+background:rgba(35,35,35,.95);
+
+border:1px solid #555;
+
+border-radius:7px;
+
+box-shadow:0 15px 40px #0009;
 
 cursor:grab;
 
@@ -1453,177 +1252,63 @@ touch-action:none
 
 }
 
-.ruler.show{
+#ruler.show{
 
-display:flex
+display:block
 
 }
 
-.ruler:before{
-
-content:"";
+.rulerTicks{
 
 position:absolute;
 
-left:10px;
+left:12px;
 
-right:10px;
+right:12px;
 
-top:9px;
+top:5px;
 
-height:1px;
+height:26px;
 
-background:#777;
+background:
 
-box-shadow:
+repeating-linear-gradient(
 
-0 8px #666,
+90deg,
 
-0 16px #666,
+#aaa 0,
 
-0 24px #666
+#aaa 1px,
 
-}
+transparent 1px,
 
-.ruler:active{
+transparent 10px
 
-cursor:grabbing
+);
 
-}
-
-/* FOLDER ACTIONS */
-
-.folderActions{
-
-display:flex;
-
-align-items:center;
-
-gap:2px;
-
-opacity:0;
-
-transition:opacity .18s
+opacity:.65
 
 }
 
-.folder:hover .folderActions,
+.rulerCenter{
 
-.folder.active .folderActions{
+position:absolute;
 
-opacity:1
+left:50%;
 
-}
+top:0;
 
-.folderAction{
+height:100%;
 
-width:27px;
+width:1px;
 
-height:27px;
-
-border-radius:7px;
-
-background:transparent;
-
-color:#666;
-
-font-size:15px
+background:#fff
 
 }
 
-.folderAction:hover{
+/* MODAL */
 
-background:#2b2b2b;
-
-color:#fff
-
-}
-
-/* PRIVATE */
-
-.privateGate{
-
-display:grid;
-
-place-items:center;
-
-min-height:260px;
-
-text-align:center;
-
-padding:30px
-
-}
-
-.privateIcon{
-
-font-size:36px;
-
-margin-bottom:12px
-
-}
-
-.privateGate h3{
-
-margin:0 0 8px;
-
-font-size:21px
-
-}
-
-.privateGate p{
-
-color:#777;
-
-margin:0 0 18px
-
-}
-
-.privateInput{
-
-width:220px;
-
-height:44px;
-
-border:1px solid #333;
-
-background:#111;
-
-color:#fff;
-
-border-radius:12px;
-
-text-align:center;
-
-outline:0
-
-}
-
-.privateInput:focus{
-
-border-color:#666;
-
-box-shadow:0 0 0 4px #fff08
-
-}
-
-.privateBtn{
-
-margin-top:10px;
-
-padding:10px 18px;
-
-border-radius:11px;
-
-background:#eee;
-
-color:#111
-
-}
-
-/* MODALS */
-
-.modal{
+#modal{
 
 position:fixed;
 
@@ -1635,25 +1320,35 @@ display:none;
 
 place-items:center;
 
-background:rgba(0,0,0,.58);
+background:#0008;
 
-backdrop-filter:blur(12px);
+backdrop-filter:blur(10px);
 
--webkit-backdrop-filter:blur(12px)
+padding:20px
 
 }
 
-.modal.show{
+#modal.show{
 
-display:grid
+display:grid;
+
+animation:modalIn .22s var(--ease)
+
+}
+
+@keyframes modalIn{
+
+from{opacity:0}
+
+to{opacity:1}
 
 }
 
 .modalBox{
 
-width:min(760px,92vw);
+width:min(720px,94vw);
 
-max-height:84vh;
+max-height:86vh;
 
 overflow:auto;
 
@@ -1665,17 +1360,17 @@ border-radius:18px;
 
 box-shadow:0 30px 90px #000c;
 
-animation:modalIn .22s var(--ease)
+animation:modalBoxIn .25s var(--ease)
 
 }
 
-@keyframes modalIn{
+@keyframes modalBoxIn{
 
 from{
 
 opacity:0;
 
-transform:translateY(12px) scale(.97)
+transform:translateY(14px) scale(.97)
 
 }
 
@@ -1691,115 +1386,97 @@ transform:none
 
 .modalHead{
 
+height:58px;
+
 display:flex;
 
 align-items:center;
 
-justify-content:space-between;
-
-padding:18px 20px;
+padding:0 17px;
 
 border-bottom:1px solid #292929
 
 }
 
-.modalHead h2{
+.modalTitle{
 
-margin:0;
+font-size:17px;
 
-font-size:20px
+font-weight:650;
+
+flex:1
 
 }
 
-.close{
+.modalClose{
 
 width:34px;
 
 height:34px;
 
-border-radius:50%;
+border-radius:9px;
 
-background:#222;
+background:none;
 
-color:#aaa;
+color:#777;
 
 font-size:20px
 
 }
 
-.close:hover{
+.modalClose:hover{
 
-background:#333;
+background:#202020;
 
 color:#fff
 
 }
 
-.settingRow{
+.modalBody{
 
-padding:16px 20px;
-
-border-bottom:1px solid #242424;
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-gap:15px;
-
-color:#aaa
-
-}
-
-.settingRow button{
-
-background:#252525;
-
-padding:9px 13px;
-
-border-radius:9px;
-
-color:#eee
+padding:18px
 
 }
 
 .helpText{
 
-padding:20px;
-
 color:#aaa;
 
-line-height:1.7
+line-height:1.65
 
 }
 
-.templateGrid{
+.helpText p{
 
-padding:20px;
+margin:0 0 14px
+
+}
+
+/* TEMPLATES */
+
+.templateGrid{
 
 display:grid;
 
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(2,minmax(0,1fr));
 
-gap:14px
+gap:12px
 
 }
 
 .templateCard{
 
-text-align:left;
-
 background:#171717;
 
-border:1px solid #2b2b2b;
+border:1px solid #292929;
 
 border-radius:14px;
 
 padding:12px;
 
-transition:.2s
+text-align:left;
+
+transition:.22s var(--ease)
 
 }
 
@@ -1807,9 +1484,9 @@ transition:.2s
 
 background:#202020;
 
-transform:translateY(-2px);
+border-color:#444;
 
-border-color:#444
+transform:translateY(-2px)
 
 }
 
@@ -1817,59 +1494,67 @@ border-color:#444
 
 height:120px;
 
-background:#0d0d0d;
+border:1px solid #303030;
 
-border:1px solid #282828;
+background:#0c0c0c;
 
-border-radius:10px;
+border-radius:9px;
 
-padding:14px;
+margin-bottom:11px;
+
+padding:10px;
 
 display:grid;
 
-gap:7px;
-
-margin-bottom:10px
+gap:7px
 
 }
 
 .templatePreview span{
 
-height:6px;
+display:block;
 
-background:#555;
+height:8px;
 
-border-radius:5px
+background:#454545;
 
-}
-
-.templateName{
-
-font-weight:650;
-
-margin-bottom:4px
+border-radius:4px
 
 }
 
-.templateDesc{
+.templatePreview span:nth-child(2){
 
-font-size:11px;
-
-color:#707070;
-
-line-height:1.4
+width:72%
 
 }
 
-.shapeDaily{
+.templatePreview span:nth-child(3){
 
-grid-template-rows:14px 7px 1fr 7px 1fr 7px
+width:90%
+
+}
+
+.templatePreview span:nth-child(4){
+
+width:55%
 
 }
 
 .shapeCornell{
 
-grid-template-columns:35% 1fr
+grid-template-columns:30% 1fr
+
+}
+
+.shapeCornell span:nth-child(3){
+
+grid-column:1/3
+
+}
+
+.shapeCornell span:nth-child(4){
+
+grid-column:1/3
 
 }
 
@@ -1879,15 +1564,45 @@ grid-template-columns:1fr 1fr
 
 }
 
+.shapeExam span:nth-child(3){
+
+width:100%
+
+}
+
+.shapeExam span:nth-child(4){
+
+width:100%
+
+}
+
 .shapeEssay{
 
 grid-template-columns:1fr
 
 }
 
+.shapeEssay span:nth-child(2){
+
+width:60%
+
+}
+
+.shapeEssay span:nth-child(3){
+
+width:85%
+
+}
+
 .shapeProject{
 
-grid-template-columns:1fr 1fr
+grid-template-columns:repeat(3,1fr)
+
+}
+
+.shapeProject span{
+
+width:100%!important
 
 }
 
@@ -1897,15 +1612,85 @@ grid-template-columns:1fr 1fr
 
 }
 
+.shapeFlash span{
+
+width:100%!important
+
+}
+
+.templateName{
+
+font-weight:650;
+
+font-size:14px;
+
+margin-bottom:4px
+
+}
+
+.templateDesc{
+
+font-size:11px;
+
+color:#777;
+
+line-height:1.45
+
+}
+
+/* SETTINGS */
+
+.settingRow{
+
+padding:13px 0;
+
+border-bottom:1px solid #292929;
+
+color:#aaa;
+
+display:flex;
+
+align-items:center;
+
+gap:12px
+
+}
+
+.settingRow:last-child{
+
+border-bottom:0
+
+}
+
+.settingRow button{
+
+margin-left:auto;
+
+background:#242424;
+
+border-radius:9px;
+
+padding:8px 11px;
+
+color:#ddd
+
+}
+
+.settingRow button:hover{
+
+background:#333
+
+}
+
 /* RESPONSIVE */
 
 @media(max-width:800px){
 
 #sidebar{
 
-width:260px;
+width:270px;
 
-min-width:260px
+min-width:270px
 
 }
 
@@ -1914,12 +1699,6 @@ min-width:260px
 padding-left:5%;
 
 padding-right:5%
-
-}
-
-.title{
-
-font-size:30px
 
 }
 
@@ -1947,23 +1726,39 @@ padding-right:5%
 
 }
 
-.templateGrid{
+.title{
 
-grid-template-columns:1fr 1fr
-
-}
-
-.drawTop,
-
-.drawBottom{
-
-max-width:95%
+font-size:34px
 
 }
 
 }
 
-@media(max-width:500px){
+@media(max-width:600px){
+
+#sidebar{
+
+position:absolute;
+
+z-index:300;
+
+height:100%;
+
+box-shadow:20px 0 50px #0008
+
+}
+
+#sidebar.closed{
+
+transform:translateX(-100%);
+
+width:270px;
+
+min-width:270px;
+
+opacity:1
+
+}
 
 .templateGrid{
 
@@ -1971,77 +1766,109 @@ grid-template-columns:1fr
 
 }
 
-.noteHeader{
+.title{
 
-padding-top:24px
-
-}
-
-.drawBottom{
-
-gap:5px;
-
-padding:7px;
-
-bottom:10px
+font-size:29px
 
 }
 
-.drawTool{
+.editor{
 
-width:40px;
-
-height:40px
-
-}
-
-.drawColor{
-
-width:22px;
-
-height:22px
-
-}
-
-.size{
-
-min-width:60px
+font-size:16px
 
 }
 
 }
 
-/* STARTUP FALLBACK */
+/* MARKDOWN PREVIEW */
 
-#intro{
+#preview{
 
-animation:introAutoExit 1.15s var(--ease) 3.1s forwards
+display:none;
+
+flex:1;
+
+min-height:0;
+
+overflow:auto;
+
+padding:28px 8% 75px;
+
+color:#e8e8e8;
+
+font-size:17px;
+
+line-height:1.76
+
+}
+
+#preview h1{
+
+font-size:33px
 
 }
 
-@keyframes introAutoExit{
+#preview h2{
 
-0%{
-
-opacity:1;
-
-transform:scale(1);
-
-visibility:visible
+font-size:25px
 
 }
 
-100%{
+#preview h3{
 
-opacity:0;
-
-transform:scale(1.13);
-
-visibility:hidden;
-
-pointer-events:none
+font-size:20px
 
 }
+
+#preview pre{
+
+background:#121212;
+
+border:1px solid #292929;
+
+border-radius:11px;
+
+padding:15px;
+
+white-space:pre-wrap
+
+}
+
+#preview blockquote{
+
+border-left:3px solid #626262;
+
+padding-left:15px;
+
+color:#aaa
+
+}
+
+/* MARKDOWN */
+
+.markdownArea{
+
+display:none;
+
+width:100%;
+
+height:100%;
+
+resize:none;
+
+border:0;
+
+outline:0;
+
+background:transparent;
+
+color:#e8e8e8;
+
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+
+font-size:16px;
+
+line-height:1.7
 
 }
 
@@ -2051,16 +1878,11 @@ pointer-events:none
 
 <body>
 
-<!-- INTRO -->
-
 <div id="intro">
 
 <div class="introCore">
 
-<svg
-class="introLogo"
-viewBox="0 0 120 120"
->
+<svg class="introLogo" viewBox="0 0 120 120">
 
 <ellipse
 cx="60"
@@ -2073,33 +1895,19 @@ stroke-width="1.4"
 transform="rotate(45 60 60)"
 />
 
-<circle
-cx="60"
-cy="60"
-r="16"
-fill="#202020"
-/>
+<circle cx="60" cy="60" r="16" fill="#202020"/>
 
-<circle
-cx="60"
-cy="60"
-r="10"
-fill="#f4f4f4"
-/>
+<circle cx="60" cy="60" r="10" fill="#f4f4f4"/>
 
 </svg>
 
-<div class="introName">
-StudyNotes
-</div>
+<div class="introName">StudyNotes</div>
 
 <div class="introRule"></div>
 
 </div>
 
 </div>
-
-<!-- APP -->
 
 <div id="app">
 
@@ -2109,62 +1917,56 @@ StudyNotes
 
 <div class="brand">
 
-<svg
-viewBox="0 0 40 40"
->
+<svg viewBox="0 0 60 60">
 
 <ellipse
-cx="20"
-cy="20"
-rx="16"
-ry="7"
+cx="30"
+cy="30"
+rx="24"
+ry="10"
 fill="none"
 stroke="#777"
-/>
-
-<ellipse
-cx="20"
-cy="20"
-rx="16"
-ry="7"
-fill="none"
-stroke="#777"
-transform="rotate(60 20 20)"
+stroke-width="1.2"
 />
 
 <ellipse
-cx="20"
-cy="20"
-rx="16"
-ry="7"
+cx="30"
+cy="30"
+rx="24"
+ry="10"
 fill="none"
 stroke="#777"
-transform="rotate(120 20 20)"
+stroke-width="1.2"
+transform="rotate(60 30 30)"
 />
 
-<circle
-cx="20"
-cy="20"
-r="5"
-fill="#eee"
+<ellipse
+cx="30"
+cy="30"
+rx="24"
+ry="10"
+fill="none"
+stroke="#777"
+stroke-width="1.2"
+transform="rotate(120 30 30)"
 />
+
+<circle cx="30" cy="30" r="7" fill="#eee"/>
 
 </svg>
 
-<span>studynotes</span>
+<span>StudyNotes</span>
 
 </div>
 
 <div class="searchWrap">
 
-<span class="searchIcon">
-⌕
-</span>
+<div class="searchIcon">⌕</div>
 
 <input
 id="search"
 class="search"
-placeholder="Search your notes"
+placeholder="Search notes..."
 autocomplete="off"
 />
 
@@ -2172,53 +1974,25 @@ autocomplete="off"
 
 </div>
 
-<div class="sideTitle">
-Your space
-</div>
+<div class="sideTitle">Folders</div>
 
-<div
-id="folders"
-class="folders"
-></div>
+<div id="folders" class="folders"></div>
 
-<button
-class="addFolder"
-onclick="addFolder()"
->
-＋ Add folder
-</button>
+<button class="addFolder" onclick="addFolder()">＋ New folder</button>
 
-<div class="sideTitle">
-Notes
-</div>
+<div class="sideTitle">Notes</div>
 
-<div
-id="notes"
-class="notes"
-></div>
+<div id="notes" class="notes"></div>
 
 <div class="sideBottom">
 
-<button
-class="sideButton"
-onclick="templates()"
->
-Templates
-</button>
+<button class="sideButton" onclick="newNote()">＋ New note</button>
 
-<button
-class="sideButton"
-onclick="settings()"
->
-Settings
-</button>
+<button class="sideButton" onclick="templates()">▦ Templates</button>
 
-<button
-class="sideButton"
-onclick="help()"
->
-? Help
-</button>
+<button class="sideButton" onclick="settings()">⚙ Settings</button>
+
+<button class="sideButton" onclick="help()">? Help</button>
 
 </div>
 
@@ -2228,53 +2002,17 @@ onclick="help()"
 
 <div class="topbar">
 
-<button
-class="icon"
-onclick="toggleSidebar()"
-title="Sidebar"
->
-☰
-</button>
+<button class="icon" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
 
-<button
-id="previewBtn"
-class="icon"
-onclick="togglePreview()"
-title="Preview"
->
-◌
-</button>
+<button class="icon" onclick="newNote()" title="New note">＋</button>
 
-<button
-class="icon"
-onclick="pinNote()"
-title="Pin"
->
-☆
-</button>
+<button class="icon" onclick="duplicateNote()" title="Duplicate">⧉</button>
 
-<button
-class="icon"
-onclick="duplicateNote()"
-title="Duplicate"
->
-⧉
-</button>
+<button class="icon" id="previewBtn" onclick="togglePreview()" title="Preview">◫</button>
 
-<button
-class="icon"
-onclick="deleteNote()"
-title="Delete"
->
-×
-</button>
+<button class="icon" id="drawBtn" onclick="openDrawing()" title="Drawing">✎</button>
 
-<div
-id="status"
-class="status"
->
-Saved
-</div>
+<div class="status" id="status">Saved</div>
 
 </div>
 
@@ -2283,109 +2021,52 @@ Saved
 <input
 id="title"
 class="title"
-placeholder="Note title"
+placeholder="Untitled"
+autocomplete="off"
 />
 
-<span
-id="pinState"
-class="pin"
-></span>
+<button
+id="pinBtn"
+class="icon pin"
+onclick="togglePin()"
+title="Pin note"
+>☆</button>
 
 </div>
 
 <div class="toolbar">
 
-<button
-class="tool"
-onclick="format('bold')"
-title="Bold"
->
-<b>B</b>
-</button>
+<button class="tool" onclick="format('bold')" title="Bold"><b>B</b></button>
 
-<button
-class="tool"
-onclick="format('italic')"
-title="Italic"
->
-<i>I</i>
-</button>
+<button class="tool" onclick="format('italic')" title="Italic"><i>I</i></button>
 
-<button
-class="tool"
-onclick="format('underline')"
-title="Underline"
->
-<u>U</u>
-</button>
+<button class="tool" onclick="format('underline')" title="Underline"><u>U</u></button>
 
-<button
-class="tool"
-onclick="format('h2')"
-title="Heading"
->
-H2
-</button>
+<button class="tool" onclick="formatBlock('h2')" title="Heading">H2</button>
 
-<button
-class="tool"
-onclick="format('check')"
-title="Checklist"
->
-☑
-</button>
+<button class="tool" onclick="formatBlock('blockquote')" title="Quote">❝</button>
 
-<button
-class="tool"
-onclick="format('code')"
-title="Code"
->
-&lt;/&gt;
-</button>
+<button class="tool" onclick="formatBlock('pre')" title="Code">{"}"}</button>
 
-<button
-class="tool"
-onclick="insertLink()"
-title="Link"
->
-Link
-</button>
+<button class="tool" onclick="insertChecklist()" title="Checklist">☑</button>
 
-<span class="sep"></span>
+<button class="tool" onclick="insertLink()" title="Link">↗</button>
 
-<button
-id="highlightBtn"
-class="tool"
-onclick="toggleHighlighter()"
-title="Highlighter"
->
-▰
-</button>
+<div class="sep"></div>
 
-<button
-id="textColorBtn"
-class="tool"
-onclick="openTextColors()"
-title="Text colour"
->
-A
-</button>
+<button class="tool" id="highlightBtn" onclick="toggleHighlighter()" title="Highlighter">▰</button>
 
-<button
-id="drawBtn"
-class="tool"
-onclick="openDrawing()"
-title="Drawing"
->
-✎
-</button>
+<button class="tool" onclick="toggleTextColors()" title="Text colour">A</button>
+
+<div class="sep"></div>
+
+<button class="tool" onclick="clearFormatting()" title="Clear formatting">Tx</button>
+
+<button class="tool" onclick="saveNow()" title="Save">✓</button>
 
 </div>
 
-<div
-id="editorWrap"
-class="editorWrap"
->
+<div id="editorWrap" class="editorWrap">
 
 <div
 id="editor"
@@ -2394,208 +2075,93 @@ contenteditable="true"
 spellcheck="true"
 ></div>
 
-<div
-id="preview"
-class="editor"
-></div>
+<textarea id="markdownArea" class="markdownArea"></textarea>
 
-<!-- DRAWING -->
+<div id="drawOverlay">
 
-<div
-id="drawOverlay"
->
-
-<canvas
-id="drawCanvas"
-class="drawCanvas"
-></canvas>
-
-<div
-id="ruler"
-class="ruler"
->
-
-<span>0</span>
-<span>1</span>
-<span>2</span>
-<span>3</span>
-<span>4</span>
-<span>5</span>
-<span>6</span>
-<span>7</span>
-<span>8</span>
-<span>9</span>
-
-</div>
+<canvas id="drawCanvas" class="drawCanvas"></canvas>
 
 <div class="drawTop">
-
-<button
-class="drawTool drawExit"
-onclick="closeDrawing()"
-title="Close drawing"
->
-×
-</button>
-
-</div>
-
-<div class="drawBottom">
 
 <button
 class="drawTool active"
 data-draw="pen"
 onclick="setDrawTool('pen')"
-title="Pen"
->
-Pen
-</button>
+>Pen</button>
 
 <button
 class="drawTool"
 data-draw="pencil"
 onclick="setDrawTool('pencil')"
-title="Pencil"
->
-Pencil
-</button>
+>Pencil</button>
 
 <button
 class="drawTool"
 data-draw="marker"
 onclick="setDrawTool('marker')"
-title="Marker"
->
-Marker
-</button>
+>Marker</button>
 
 <button
 class="drawTool"
 data-draw="ruler"
 onclick="setDrawTool('ruler')"
-title="Ruler"
->
-Ruler
-</button>
+>Ruler</button>
 
 <button
 class="drawTool"
 data-draw="eraser"
 onclick="setDrawTool('eraser')"
-title="Eraser"
->
-Eraser
-</button>
+>Eraser</button>
 
-<button
-class="drawColor cBlack selected"
-onclick="setDrawColor('#050505',this)"
-title="Black"
-></button>
+</div>
 
-<button
-class="drawColor cWhite"
-onclick="setDrawColor('#fff',this)"
-title="White"
-></button>
+<div class="drawBottom">
 
-<button
-class="drawColor cRed"
-onclick="setDrawColor('#ff453a',this)"
-title="Red"
-></button>
+<button class="drawColor cBlack selected" onclick="setDrawColor('#050505',this)" title="Black"></button>
 
-<button
-class="drawColor cOrange"
-onclick="setDrawColor('#ff9f0a',this)"
-title="Orange"
-></button>
+<button class="drawColor cWhite" onclick="setDrawColor('#ffffff',this)" title="White"></button>
 
-<button
-class="drawColor cYellow"
-onclick="setDrawColor('#ffd60a',this)"
-title="Yellow"
-></button>
+<button class="drawColor cRed" onclick="setDrawColor('#ff453a',this)" title="Red"></button>
 
-<button
-class="drawColor cGreen"
-onclick="setDrawColor('#30d158',this)"
-title="Green"
-></button>
+<button class="drawColor cOrange" onclick="setDrawColor('#ff9f0a',this)" title="Orange"></button>
 
-<button
-class="drawColor cBlue"
-onclick="setDrawColor('#0a84ff',this)"
-title="Blue"
-></button>
+<button class="drawColor cYellow" onclick="setDrawColor('#ffd60a',this)" title="Yellow"></button>
 
-<button
-class="drawColor cPurple"
-onclick="setDrawColor('#bf5af2',this)"
-title="Purple"
-></button>
+<button class="drawColor cGreen" onclick="setDrawColor('#30d158',this)" title="Green"></button>
 
-<button
-class="drawColor cPink"
-onclick="setDrawColor('#ff375f',this)"
-title="Pink"
-></button>
+<button class="drawColor cBlue" onclick="setDrawColor('#0a84ff',this)" title="Blue"></button>
 
-<select
-id="drawSize"
-class="size"
-title="Stroke size"
->
+<button class="drawColor cPurple" onclick="setDrawColor('#bf5af2',this)" title="Purple"></button>
 
-<option value="2">
-Thin
-</option>
+<button class="drawColor cPink" onclick="setDrawColor('#ff375f',this)" title="Pink"></button>
 
-<option value="4" selected>
-Medium
-</option>
+<select id="drawSize" class="size" title="Thickness">
 
-<option value="8">
-Thick
-</option>
+<option value="2">Thin</option>
 
-<option value="14">
-Wide
-</option>
+<option value="4" selected>Medium</option>
+
+<option value="7">Thick</option>
+
+<option value="12">XL</option>
 
 </select>
 
-<button
-class="drawTool"
-onclick="undoDraw()"
-title="Undo"
->
-↶
-</button>
+<button class="drawTool" onclick="undoDraw()">↶</button>
 
-<button
-class="drawTool"
-onclick="redoDraw()"
-title="Redo"
->
-↷
-</button>
+<button class="drawTool" onclick="redoDraw()">↷</button>
 
-<button
-class="drawTool"
-onclick="clearDraw()"
-title="Clear drawing"
->
-⌫
-</button>
+<button class="drawTool" onclick="clearDraw()">Clear</button>
 
-<button
-class="drawTool drawClose"
-onclick="closeDrawing()"
-title="Done"
->
-Done
-</button>
+<button class="drawTool" onclick="closeDrawing()">Done</button>
+
+</div>
+
+<div id="ruler">
+
+<div class="rulerTicks"></div>
+
+<div class="rulerCenter"></div>
 
 </div>
 
@@ -2603,94 +2169,57 @@ Done
 
 </div>
 
-<div
-id="stats"
-class="stats"
->
-0 words · 0 characters · 0 min read
+<div id="preview"></div>
+
+<div class="stats">
+
+<span id="wordCount">0 words</span>
+
+<span style="margin-left:14px" id="charCount">0 characters</span>
+
+<span style="margin-left:14px" id="readingTime">0 min read</span>
+
 </div>
 
 </main>
 
 </div>
 
-<!-- TEXT COLOUR PALETTE -->
+<div id="textColors" class="pop">
 
-<div
-id="textColors"
-class="pop"
->
+<button class="swatch sblack" onclick="setTextColor('#050505')"></button>
 
-<button
-class="swatch sblack"
-onclick="setTextColor('#050505')"
-></button>
+<button class="swatch swhite" onclick="setTextColor('#ffffff')"></button>
 
-<button
-class="swatch swhite"
-onclick="setTextColor('#fff')"
-></button>
+<button class="swatch sred" onclick="setTextColor('#ff453a')"></button>
 
-<button
-class="swatch sred"
-onclick="setTextColor('#ff453a')"
-></button>
+<button class="swatch sorange" onclick="setTextColor('#ff9f0a')"></button>
 
-<button
-class="swatch sorange"
-onclick="setTextColor('#ff9f0a')"
-></button>
+<button class="swatch syellow" onclick="setTextColor('#ffd60a')"></button>
 
-<button
-class="swatch syellow"
-onclick="setTextColor('#ffd60a')"
-></button>
+<button class="swatch sgreen" onclick="setTextColor('#30d158')"></button>
 
-<button
-class="swatch sgreen"
-onclick="setTextColor('#30d158')"
-></button>
+<button class="swatch sblue" onclick="setTextColor('#0a84ff')"></button>
 
-<button
-class="swatch sblue"
-onclick="setTextColor('#0a84ff')"
-></button>
+<button class="swatch spurple" onclick="setTextColor('#bf5af2')"></button>
 
-<button
-class="swatch spurple"
-onclick="setTextColor('#bf5af2')"
-></button>
-
-<button
-class="swatch spink"
-onclick="setTextColor('#ff375f')"
-></button>
+<button class="swatch spink" onclick="setTextColor('#ff375f')"></button>
 
 </div>
 
-<!-- MODAL -->
-
-<div
-id="modal"
-class="modal"
->
+<div id="modal">
 
 <div class="modalBox">
 
 <div class="modalHead">
 
-<h2 id="modalTitle"></h2>
+<div id="modalTitle" class="modalTitle"></div>
 
-<button
-class="close"
-onclick="closeModal()"
->
-×
-</button>
+<button class="modalClose" onclick="closeModal()">×</button>
 
 </div>
 
-<div id="modalBody"></div>
+<div id="modalBody" class="modalBody"></div>
 
 </div>
 
@@ -2701,18 +2230,11 @@ onclick="closeModal()"
 const KEY="studynotes_ultra_v2";
 
 let data={
-
-notes:[],
-
 folders:[],
-
-current:null
-
+notes:[],
+activeFolder:null,
+activeNote:null
 };
-
-let currentFolder="__all__";
-
-let savedRange=null;
 
 let highlighter=false;
 
@@ -2720,17 +2242,15 @@ let drawCanvas=null;
 
 let drawCtx=null;
 
+let drawing=false;
+
 let drawTool="pen";
 
 let drawColor="#050505";
 
-let drawing=false;
-
 let undoStack=[];
 
 let redoStack=[];
-
-/* HELPERS */
 
 function $(id){
 
@@ -2738,161 +2258,97 @@ return document.getElementById(id)
 
 }
 
-function currentNote(){
-
-return data.notes.find(
-
-n=>n.id===data.current
-
-)||null
-
-}
+/* STORAGE */
 
 function save(){
 
-localStorage.setItem(
+localStorage.setItem(KEY,JSON.stringify(data));
 
-KEY,
+$("status").textContent="Saved";
 
-JSON.stringify(data)
+setTimeout(()=>{
 
-)
+$("status").textContent="";
 
-}
-
-function stripHTML(html){
-
-const div=document.createElement("div");
-
-div.innerHTML=html||"";
-
-return div.textContent||""
+},1200)
 
 }
-
-/* LOAD */
 
 function load(){
 
 try{
 
-const saved=
+const saved=localStorage.getItem(KEY);
 
-JSON.parse(
+if(saved){
 
-localStorage.getItem(KEY)
-
-);
-
-if(
-
-saved &&
-
-Array.isArray(saved.notes)
-
-){
-
-data=saved
+data=JSON.parse(saved)
 
 }
 
-}catch(e){}
+}catch(e){
 
-if(
-
-!Array.isArray(data.folders)
-
-){
-
-data.folders=[]
+data={folders:[],notes:[],activeFolder:null,activeNote:null}
 
 }
 
-if(!Array.isArray(data.notes)){
+if(!data.folders)
 
-data.notes=[]
+data.folders=[];
 
-}
+if(!data.notes)
 
-data.notes.forEach(
-
-n=>{
-
-if(n.folder==="__private__"){
-
-n.private=true;
-
-n.folder=null
-
-}
-
-if(typeof n.private!=="boolean"){
-
-n.private=false
-
-}
-
-}
-
-);
+data.notes=[];
 
 if(!data.notes.length){
 
-data.notes=[
+const id=Date.now();
 
-{
+data.notes.push({
 
-id:Date.now(),
+id,
 
-title:"Welcome",
+title:"Welcome to StudyNotes",
 
 html:
 
-"<p>Welcome to <strong>StudyNotes</strong>.</p><p>Everything you write here is saved automatically.</p>",
+"<h1>Welcome</h1><p>This is your writing space.</p><p>Create notes, organise them into folders, use templates, highlight words, format text or open the drawing tools.</p>",
 
 folder:null,
 
-pin:false,
+pinned:false,
 
-private:false,
+created:Date.now(),
+
+updated:Date.now(),
 
 drawing:null
 
-}
+});
 
-]
-
-}
-
-if(
-
-!data.current ||
-
-!currentNote()
-
-){
-
-data.current=
-
-data.notes[0].id
+data.activeNote=id
 
 }
 
-save();
+if(!data.activeNote)
+
+data.activeNote=data.notes[0].id;
 
 render();
 
-setTimeout(
-
-()=>{
+setTimeout(()=>{
 
 $("intro").classList.add("exit")
 
-},
+},3000)
 
-3000
+}
 
-)
+/* CURRENT NOTE */
+
+function currentNote(){
+
+return data.notes.find(n=>n.id===data.activeNote)
 
 }
 
@@ -2904,7 +2360,7 @@ renderFolders();
 
 renderNotes();
 
-loadEditor()
+renderEditor()
 
 }
 
@@ -2912,493 +2368,59 @@ loadEditor()
 
 function renderFolders(){
 
-const box=$("folders");
+const wrap=$("folders");
 
-box.innerHTML="";
+wrap.innerHTML="";
 
-const all=document.createElement("div");
+const all=document.createElement("button");
 
-all.className=
+all.className="folder "+(!data.activeFolder?"active":"");
 
-"folder"+
-
-(
-
-currentFolder==="__all__"
-
-?" active"
-
-:""
-
-);
-
-all.innerHTML=
-
-'<span class="dot"></span><span class="folderName">All notes</span>';
+all.innerHTML='<span class="dot"></span><span class="folderName">All notes</span>';
 
 all.onclick=()=>{
 
-currentFolder="__all__";
+data.activeFolder=null;
 
-renderFolders();
-
-renderNotes()
+render()
 
 };
 
-box.appendChild(all);
+wrap.appendChild(all);
 
-const privateRow=document.createElement("div");
+data.folders.forEach(folder=>{
 
-privateRow.className=
+const b=document.createElement("button");
 
-"folder"+
+b.className="folder "+(data.activeFolder===folder.id?"active":"");
 
-(
+b.innerHTML=
 
-currentFolder==="__private__"
+'<span class="dot"></span>'+
 
-?" active"
+'<span class="folderName">'+escapeHTML(folder.name)+'</span>'+
 
-:""
+'<span class="folderDel">×</span>';
 
-);
+b.onclick=(e)=>{
 
-privateRow.innerHTML=
+if(e.target.classList.contains("folderDel")){
 
-'<span class="dot"></span><span class="folderName">Private</span><span class="folderActions"><button class="folderAction" title="Private">⌘</button></span>';
-
-privateRow.onclick=()=>{
-
-openPrivateFolder()
-
-};
-
-box.appendChild(privateRow);
-
-data.folders.forEach(
-
-f=>{
-
-const row=document.createElement("div");
-
-row.className=
-
-"folder"+
-
-(
-
-currentFolder===f
-
-?" active"
-
-:""
-
-);
-
-row.innerHTML=
-
-'<span class="dot"></span><span class="folderName"></span><span class="folderActions"><button class="folderAction" title="Rename">✎</button><button class="folderAction" title="Delete">×</button></span>';
-
-row.querySelector(
-
-".folderName"
-
-).textContent=f;
-
-const actions=
-
-row.querySelectorAll(
-
-".folderAction"
-
-);
-
-actions[0].onclick=e=>{
-
-e.stopPropagation();
-
-renameFolder(f)
-
-};
-
-actions[1].onclick=e=>{
-
-e.stopPropagation();
-
-deleteFolder(f)
-
-};
-
-row.ondblclick=e=>{
-
-e.stopPropagation();
-
-renameFolder(f)
-
-};
-
-row.onclick=()=>{
-
-currentFolder=f;
-
-renderFolders();
-
-renderNotes()
-
-};
-
-box.appendChild(row)
-
-}
-
-)
-
-}
-
-/* ADD FOLDER */
-
-function addFolder(){
-
-const value=
-
-prompt("Folder name:");
-
-if(!value)return;
-
-const folder=
-
-value.trim();
-
-if(!folder)return;
-
-if(
-
-data.folders.includes(folder)
-
-){
-
-alert(
-
-"That folder already exists."
-
-);
+deleteFolder(folder.id);
 
 return
 
 }
 
-data.folders.push(folder);
-
-currentFolder=folder;
-
-save();
-
-renderFolders();
-
-renderNotes()
-
-}
-
-/* DELETE FOLDER */
-
-function deleteFolder(folder){
-
-if(
-
-!confirm(
-
-'Delete folder "'+
-
-folder+
-
-'"? Notes will stay.'
-
-)
-
-)
-
-return;
-
-data.folders=
-
-data.folders.filter(
-
-f=>f!==folder
-
-);
-
-data.notes.forEach(
-
-n=>{
-
-if(n.folder===folder)
-
-n.folder=null
-
-}
-
-);
-
-if(
-
-currentFolder===folder
-
-){
-
-currentFolder="__all__"
-
-}
-
-save();
+data.activeFolder=folder.id;
 
 render()
 
-}
+};
 
-/* PRIVATE FOLDER */
+wrap.appendChild(b)
 
-function codeHash(value){
-
-let h=2166136261;
-
-for(
-
-let i=0;
-
-i<value.length;
-
-i++
-
-){
-
-h^=
-
-value.charCodeAt(i);
-
-h=
-
-Math.imul(
-
-h,
-
-16777619
-
-)
-
-}
-
-return(
-
-h>>>0
-
-).toString(16)
-
-}
-
-function privateCode(){
-
-return localStorage.getItem(
-
-KEY+"_private_code"
-
-)||""
-
-}
-
-function openPrivateFolder(){
-
-const existing=
-
-privateCode();
-
-const body=
-
-existing
-
-?
-
-'<div class="privateGate"><div><div class="privateIcon">⌘</div><h3>Private</h3><p>Enter your private code.</p><input id="privateCodeInput" class="privateInput" type="password" inputmode="numeric" maxlength="12" placeholder="Code"><br><button class="privateBtn" onclick="unlockPrivate()">Unlock</button></div></div>'
-
-:
-
-'<div class="privateGate"><div><div class="privateIcon">⌘</div><h3>Create your private code</h3><p>Choose a code for your private notes.</p><input id="privateCodeInput" class="privateInput" type="password" inputmode="numeric" maxlength="12" placeholder="New code"><br><button class="privateBtn" onclick="createPrivateCode()">Create code</button></div></div>';
-
-openModal(
-
-"Private",
-
-body
-
-);
-
-setTimeout(
-
-()=>$("privateCodeInput")?.focus(),
-
-80
-
-)
-
-}
-
-function createPrivateCode(){
-
-const input=
-
-$("privateCodeInput");
-
-if(
-
-!input||
-
-!input.value.trim()
-
-){
-
-return alert(
-
-"Enter a code first."
-
-)
-
-}
-
-localStorage.setItem(
-
-KEY+"_private_code",
-
-codeHash(
-
-input.value.trim()
-
-)
-
-);
-
-closeModal();
-
-currentFolder="__private__";
-
-renderFolders();
-
-renderNotes()
-
-}
-
-function unlockPrivate(){
-
-const input=
-
-$("privateCodeInput");
-
-if(!input)return;
-
-if(
-
-codeHash(
-
-input.value.trim()
-
-)!
-
-==
-
-privateCode()
-
-){
-
-input.value="";
-
-return alert(
-
-"Wrong code."
-
-)
-
-}
-
-closeModal();
-
-currentFolder="__private__";
-
-renderFolders();
-
-renderNotes()
-
-}
-
-function renameFolder(folder){
-
-const value=
-
-prompt(
-
-"Rename folder:",
-
-folder
-
-);
-
-if(value===null)return;
-
-const next=
-
-value.trim();
-
-if(!next||next===folder)return;
-
-if(
-
-data.folders.includes(next)
-
-){
-
-return alert(
-
-"That folder already exists."
-
-)
-
-}
-
-data.folders=
-
-data.folders.map(
-
-f=>f===folder
-
-?next
-
-:f
-
-);
-
-data.notes.forEach(
-
-n=>{
-
-if(n.folder===folder)
-
-n.folder=next
-
-}
-
-);
-
-if(
-
-currentFolder===folder
-
-){
-
-currentFolder=next
-
-}
-
-save();
-
-render()
+})
 
 }
 
@@ -3406,185 +2428,95 @@ render()
 
 function renderNotes(){
 
-const box=
+const wrap=$("notes");
 
-$("notes");
+wrap.innerHTML="";
 
-box.innerHTML="";
+const query=$("search").value.trim().toLowerCase();
 
-const query=
+let notes=[...data.notes];
 
-$("search")
+if(data.activeFolder)
 
-.value
+notes=notes.filter(n=>n.folder===data.activeFolder);
 
-.trim()
+if(query)
 
-.toLowerCase();
+notes=notes.filter(n=>
 
-let list=
+(n.title||"").toLowerCase().includes(query)||
 
-data.notes.filter(
-
-n=>
-
-(
-
-currentFolder==="__private__"
-
-?
-
-n.private===true
-
-:
-
-n.private!==true
-
-)
-
-&&
-
-(
-
-currentFolder==="__all__"||
-
-n.folder===currentFolder
-
-)
-
-)
-
-.filter(
-
-n=>
-
-!query||
-
-(n.title||"Untitled")
-
-.toLowerCase()
-
-.includes(query)||
-
-(n.html||"")
-
-.replace(/<[^>]*>/g," ")
-
-.toLowerCase()
-
-.includes(query)
+stripHTML(n.html||"").toLowerCase().includes(query)
 
 );
 
-list.sort(
+notes.sort((a,b)=>{
 
-(a,b)=>
+if(a.pinned!==b.pinned)
 
-Number(b.pin)-
+return a.pinned?-1:1;
 
-Number(a.pin)||
+return b.updated-a.updated
 
-b.id-a.id
+});
 
-);
+notes.forEach(n=>{
 
-if(!list.length){
+const b=document.createElement("button");
 
-box.innerHTML=
+b.className="note "+(n.id===data.activeNote?"active":"");
 
-'<div style="padding:18px 10px;color:#666;font-size:13px">No notes here yet.</div>';
+b.innerHTML=
 
-return
+'<span class="noteName">'+
 
-}
+(n.pinned?"★ ":"")+
 
-list.forEach(
+escapeHTML(n.title||"Untitled")+
 
-n=>{
+'</span>';
 
-const row=
+b.onclick=()=>{
 
-document.createElement("div");
+data.activeNote=n.id;
 
-row.className=
+renderEditor()
 
-"note"+
-
-(
-
-n.id===data.current
-
-?" active"
-
-:""
-
-);
-
-row.innerHTML=
-
-'<span class="noteName"></span>';
-
-row.querySelector(
-
-".noteName"
-
-).textContent=
-
-(
-
-n.pin
-
-?"★ "
-
-:""
-
-)+
-
-(n.title||"Untitled");
-
-row.onclick=()=>{
-
-data.current=n.id;
-
-save();
-
-renderNotes();
-
-loadEditor()
+renderNotes()
 
 };
 
-box.appendChild(row)
+wrap.appendChild(b)
 
-}
-
-)
+})
 
 }
 
 /* EDITOR */
 
-function loadEditor(){
+function renderEditor(){
 
 const n=currentNote();
 
-if(!n)return;
+if(!n)
 
-$("title").value=
+return;
 
-n.title||"";
+$("title").value=n.title||"Untitled";
 
-$("editor").innerHTML=
+$("editor").innerHTML=n.html||"";
 
-n.html||"";
+$("markdownArea").value=htmlToMarkdown(n.html||"");
 
-$("pinState").textContent=
+$("editor").style.display="block";
 
-n.pin
+$("markdownArea").style.display="none";
 
-?"★"
+$("preview").style.display="none";
 
-:"";
+$("previewBtn").classList.remove("active");
+
+$("pinBtn").textContent=n.pinned?"★":"☆";
 
 updateStats()
 
@@ -3596,259 +2528,261 @@ function update(){
 
 const n=currentNote();
 
-if(!n)return;
+if(!n)
 
-n.title=
+return;
 
-$("title").value;
+n.title=$("title").value.trim()||"Untitled";
 
-n.html=
+n.html=$("editor").innerHTML;
 
-$("editor").innerHTML;
-
-$("status").textContent=
-
-"Saved";
+n.updated=Date.now();
 
 save();
 
-updateStats();
+renderNotes();
 
-renderNotes()
-
-}
-
-/* STATS */
-
-function updateStats(){
-
-const text=
-
-stripHTML(
-
-$("editor").innerHTML
-
-);
-
-const words=
-
-text.trim()
-
-?
-
-text.trim().split(/\s+/).length
-
-:
-
-0;
-
-const chars=
-
-text.length;
-
-const mins=
-
-words
-
-?
-
-Math.max(
-
-1,
-
-Math.ceil(words/200)
-
-)
-
-:
-
-0;
-
-$("stats").textContent=
-
-words+
-
-" words · "+
-
-chars+
-
-" characters · "+
-
-mins+
-
-" min read"
+updateStats()
 
 }
 
-/* SELECTION */
+function saveNow(){
 
-function saveSelection(){
-
-const sel=
-
-getSelection();
-
-if(
-
-sel &&
-
-sel.rangeCount
-
-){
-
-savedRange=
-
-sel.getRangeAt(0).cloneRange()
+update()
 
 }
 
-}
+/* NEW NOTE */
 
-function restoreSelection(){
+function newNote(){
 
-const editor=
+const id=Date.now();
 
-$("editor");
+const folder=data.activeFolder||null;
 
-editor.focus();
+data.notes.unshift({
 
-if(!savedRange)return;
+id,
 
-const sel=
+title:"Untitled",
 
-getSelection();
+html:"",
 
-sel.removeAllRanges();
+folder,
 
-sel.addRange(savedRange)
+pinned:false,
 
-}
+created:Date.now(),
 
-/* FORMAT */
+updated:Date.now(),
 
-function format(type){
+drawing:null
 
-saveSelection();
+});
 
-restoreSelection();
+data.activeNote=id;
 
-if(type==="bold"){
+save();
 
-document.execCommand(
+render()
 
-"bold",
+setTimeout(()=>{
 
-false,
+$("title").focus()
 
-null
-
-)
+},50)
 
 }
 
-if(type==="italic"){
+/* DELETE NOTE */
 
-document.execCommand(
+function deleteNote(){
 
-"italic",
+const n=currentNote();
 
-false,
+if(!n)
 
-null
+return;
 
-)
+if(!confirm("Delete this note?"))
 
-}
+return;
 
-if(type==="underline"){
+data.notes=data.notes.filter(x=>x.id!==n.id);
 
-document.execCommand(
+if(!data.notes.length){
 
-"underline",
+newNote();
 
-false,
-
-null
-
-)
+return
 
 }
 
-if(type==="h2"){
+data.activeNote=data.notes[0].id;
 
-document.execCommand(
+save();
 
-"formatBlock",
-
-false,
-
-"h2"
-
-)
+render()
 
 }
 
-if(type==="check"){
+/* DUPLICATE */
 
-document.execCommand(
+function duplicateNote(){
 
-"insertText",
+const n=currentNote();
 
-false,
+if(!n)
 
-"☐ "
+return;
 
-)
+const copy={
+
+...n,
+
+id:Date.now(),
+
+title:(n.title||"Untitled")+" copy",
+
+created:Date.now(),
+
+updated:Date.now()
+
+};
+
+data.notes.unshift(copy);
+
+data.activeNote=copy.id;
+
+save();
+
+render()
 
 }
 
-if(type==="code"){
+/* PIN */
 
-document.execCommand(
+function togglePin(){
 
-"formatBlock",
+const n=currentNote();
 
-false,
+if(!n)
 
-"pre"
+return;
 
-)
+n.pinned=!n.pinned;
+
+n.updated=Date.now();
+
+save();
+
+renderNotes();
+
+$("pinBtn").textContent=n.pinned?"★":"☆"
 
 }
 
-update();
+/* FOLDERS */
 
-saveSelection()
+function addFolder(){
+
+const name=prompt("Folder name:");
+
+if(!name||!name.trim())
+
+return;
+
+const folder={
+
+id:Date.now(),
+
+name:name.trim()
+
+};
+
+data.folders.push(folder);
+
+data.activeFolder=folder.id;
+
+save();
+
+render()
 
 }
 
-/* LINK */
+function deleteFolder(id){
+
+const folder=data.folders.find(f=>f.id===id);
+
+if(!folder)
+
+return;
+
+if(!confirm('Delete folder "'+folder.name+'"? Notes will stay.'))
+
+return;
+
+data.notes.forEach(n=>{
+
+if(n.folder===id)
+
+n.folder=null
+
+});
+
+data.folders=data.folders.filter(f=>f.id!==id);
+
+data.activeFolder=null;
+
+save();
+
+render()
+
+}
+
+/* FORMATTING */
+
+function format(command){
+
+document.execCommand(command,false,null);
+
+update()
+
+}
+
+function formatBlock(tag){
+
+document.execCommand("formatBlock",false,tag);
+
+update()
+
+}
+
+function insertChecklist(){
+
+document.execCommand("insertText",false,"☐ ");
+
+update()
+
+}
 
 function insertLink(){
 
-restoreSelection();
+const url=prompt("Enter link:");
 
-const url=
+if(!url)
 
-prompt(
+return;
 
-"Enter URL:"
+document.execCommand("createLink",false,url);
 
-);
+update()
 
-if(!url)return;
+}
 
-$("editor").focus();
+function clearFormatting(){
 
-document.execCommand(
-
-"createLink",
-
-false,
-
-url
-
-);
+document.execCommand("removeFormat",false,null);
 
 update()
 
@@ -3858,313 +2792,145 @@ update()
 
 function toggleHighlighter(){
 
-highlighter=
+highlighter=!highlighter;
 
-!highlighter;
+$("highlightBtn").classList.toggle("active",highlighter)
 
-$("highlightBtn")
+}
 
-.classList
+function applyHighlightToWord(){
 
-.toggle(
+const sel=window.getSelection();
 
-"active",
+if(!sel||!sel.rangeCount)
 
-highlighter
+return;
 
-);
+const range=sel.getRangeAt(0);
 
-$("editor").style.cursor=
+if(range.collapsed)
 
-highlighter
+return;
 
-?"text"
+const mark=document.createElement("mark");
 
-:"";
+try{
 
-if(highlighter){
+range.surroundContents(mark)
 
-$("textColors")
+}catch(e){
 
-.classList
+const text=range.toString();
 
-.remove("show")
+if(text){
+
+document.execCommand("backColor",false,"#c9c35b")
 
 }
 
 }
-
-/* WORD UNDER TAP */
-
-function wordRangeFromPoint(e){
-
-let range=null;
-
-if(
-
-document.caretRangeFromPoint
-
-){
-
-range=
-
-document.caretRangeFromPoint(
-
-e.clientX,
-
-e.clientY
-
-)
-
-}
-
-else if(
-
-document.caretPositionFromPoint
-
-){
-
-const p=
-
-document.caretPositionFromPoint(
-
-e.clientX,
-
-e.clientY
-
-);
-
-if(p){
-
-range=
-
-document.createRange();
-
-range.setStart(
-
-p.offsetNode,
-
-p.offset
-
-);
-
-range.collapse(true)
-
-}
-
-}
-
-if(
-
-!range||
-
-range.startContainer.nodeType!==3
-
-){
-
-return null
-
-}
-
-const node=
-
-range.startContainer;
-
-const text=
-
-node.textContent;
-
-let start=
-
-range.startOffset;
-
-let end=
-
-start;
-
-while(
-
-start>0&&
-
-!/\s/.test(
-
-text[start-1]
-
-)
-
-){
-
-start--
-
-}
-
-while(
-
-end<text.length&&
-
-!/\s/.test(
-
-text[end]
-
-)
-
-){
-
-end++
-
-}
-
-if(start===end)return null;
-
-const out=
-
-document.createRange();
-
-out.setStart(
-
-node,
-
-start
-
-);
-
-out.setEnd(
-
-node,
-
-end
-
-);
-
-return out
-
-}
-
-/* HIGHLIGHT CLICK */
-
-$("editor")
-
-.addEventListener(
-
-"click",
-
-e=>{
-
-if(!highlighter)return;
-
-const range=
-
-wordRangeFromPoint(e);
-
-if(!range)return;
-
-const selection=
-
-getSelection();
-
-selection.removeAllRanges();
-
-selection.addRange(range);
-
-document.execCommand(
-
-"hiliteColor",
-
-false,
-
-"#c9c35b"
-
-);
-
-document.execCommand(
-
-"backColor",
-
-false,
-
-"#c9c35b"
-
-);
-
-selection.collapseToEnd();
 
 update()
 
 }
 
-);
+$("editor").addEventListener("click",e=>{
 
-/* TEXT COLOUR */
+if(!highlighter)
 
-function openTextColors(){
+return;
 
-saveSelection();
+if(e.target.closest("a"))
 
-const popup=
+return;
 
-$("textColors");
+const sel=window.getSelection();
 
-const button=
+if(sel&&sel.toString().trim()){
 
-$("textColorBtn");
+applyHighlightToWord();
 
-const rect=
+return
 
-button.getBoundingClientRect();
+}
 
-popup.style.left=
+const textNode=e.target.nodeType===3?e.target:e.target.firstChild;
 
-Math.max(
+if(!textNode||textNode.nodeType!==3)
 
-8,
+return;
 
-rect.left
+const text=textNode.textContent;
 
-)+"px";
+let pos=0;
 
-popup.style.top=
+let x=e.clientX;
 
-(
+const range=document.createRange();
 
-rect.bottom+7
+for(let i=0;i<text.length;i++){
 
-)+"px";
+range.setStart(textNode,i);
 
-popup.classList.toggle(
+range.setEnd(textNode,i+1);
 
-"show"
+const r=range.getBoundingClientRect();
 
-)
+if(x>=r.left&&x<=r.right){
+
+let start=i;
+
+let end=i;
+
+while(start>0&&!/\s/.test(text[start-1]))
+
+start--;
+
+while(end<text.length&&!/\s/.test(text[end]))
+
+end++;
+
+range.setStart(textNode,start);
+
+range.setEnd(textNode,end);
+
+const mark=document.createElement("mark");
+
+try{
+
+range.surroundContents(mark)
+
+}catch(err){
+
+return
+
+}
+
+update();
+
+return
+
+}
+
+}
+
+});
+
+/* TEXT COLOURS */
+
+function toggleTextColors(){
+
+$("textColors").classList.toggle("show")
 
 }
 
 function setTextColor(color){
 
-restoreSelection();
+document.execCommand("foreColor",false,color);
 
-$("editor").focus();
+$("textColors").classList.remove("show");
 
-document.execCommand(
-
-"foreColor",
-
-false,
-
-color
-
-);
-
-update();
-
-$("textColors")
-
-.classList
-
-.remove(
-
-"show"
-
-)
+update()
 
 }
 
@@ -4172,165 +2938,153 @@ $("textColors")
 
 function togglePreview(){
 
-const p=
+const e=$("editor");
 
-$("preview");
+const p=$("preview");
 
-const e=
-
-$("editor");
-
-if(
-
-p.style.display==="block"
-
-){
+if(p.style.display==="block"){
 
 p.style.display="none";
 
 e.style.display="block";
 
-$("previewBtn")
-
-.classList
-
-.remove("active");
+$("previewBtn").classList.remove("active")
 
 }else{
 
-p.innerHTML=
+p.innerHTML=e.innerHTML;
 
-e.innerHTML;
+p.style.display="block";
 
-p.style.display=
+e.style.display="none";
 
-"block";
-
-e.style.display=
-
-"none";
-
-$("previewBtn")
-
-.classList
-
-.add("active");
+$("previewBtn").classList.add("active")
 
 }
 
 }
+
+/* SIDEBAR */
+
+function toggleSidebar(){
+
+$("sidebar").classList.toggle("closed")
+
+}
+
+/* STATS */
+
+function updateStats(){
+
+const text=stripHTML($("editor").innerHTML||"").trim();
+
+const words=text?text.split(/\s+/).length:0;
+
+const chars=text.length;
+
+const minutes=words?Math.max(1,Math.ceil(words/200)):0;
+
+$("wordCount").textContent=words+" words";
+
+$("charCount").textContent=chars+" characters";
+
+$("readingTime").textContent=minutes+" min read"
+
+}
+
+/* EDITOR INPUT */
+
+$("editor").addEventListener("input",()=>{
+
+const n=currentNote();
+
+if(!n)
+
+return;
+
+n.html=$("editor").innerHTML;
+
+n.updated=Date.now();
+
+updateStats();
+
+$("status").textContent="Editing…"
+
+});
+
+$("title").addEventListener("input",()=>{
+
+const n=currentNote();
+
+if(!n)
+
+return;
+
+n.title=$("title").value;
+
+n.updated=Date.now();
+
+renderNotes();
+
+$("status").textContent="Editing…"
+
+});
+
+$("editor").addEventListener("blur",update);
+
+$("title").addEventListener("blur",update);
 
 /* DRAWING */
 
 function openDrawing(){
 
-if(drawCanvas)return;
+if(drawCanvas)
 
-drawing=false;
+return;
 
-setDrawTool("pen");
+$("drawOverlay").style.display="block";
 
-$("drawOverlay")
+drawCanvas=$("drawCanvas");
 
-.style.display=
+drawCanvas.width=$("editorWrap").clientWidth;
 
-"block";
+drawCanvas.height=$("editorWrap").clientHeight;
 
-drawCanvas=
+drawCtx=drawCanvas.getContext("2d");
 
-$("drawCanvas");
+drawCtx.lineCap="round";
 
-drawCanvas.width=
-
-$("editorWrap").clientWidth;
-
-drawCanvas.height=
-
-$("editorWrap").clientHeight;
-
-drawCtx=
-
-drawCanvas.getContext("2d");
-
-drawCtx.lineCap=
-
-"round";
-
-drawCtx.lineJoin=
-
-"round";
+drawCtx.lineJoin="round";
 
 undoStack=[];
 
 redoStack=[];
 
-const n=
+const n=currentNote();
 
-currentNote();
+if(n&&n.drawing){
 
-if(
-
-n&&
-
-n.drawing
-
-){
-
-const image=
-
-new Image();
+const image=new Image();
 
 image.onload=()=>{
 
-drawCtx.drawImage(
-
-image,
-
-0,
-
-0
-
-)
+drawCtx.drawImage(image,0,0)
 
 };
 
-image.src=
-
-n.drawing
+image.src=n.drawing
 
 }
 
 saveDrawState();
 
-drawCanvas.addEventListener(
+drawCanvas.addEventListener("pointerdown",drawStart);
 
-"pointerdown",
+drawCanvas.addEventListener("pointermove",drawMove);
 
-drawStart
+window.addEventListener("pointerup",drawEnd);
 
-);
-
-drawCanvas.addEventListener(
-
-"pointermove",
-
-drawMove
-
-);
-
-window.addEventListener(
-
-"pointerup",
-
-drawEnd
-
-);
-
-$("drawBtn")
-
-.classList
-
-.add("active")
+$("drawBtn").classList.add("active")
 
 }
 
@@ -4338,11 +3092,7 @@ $("drawBtn")
 
 function drawStart(e){
 
-if(
-
-drawTool==="ruler"
-
-){
+if(drawTool==="ruler"){
 
 showRuler();
 
@@ -4352,27 +3102,13 @@ return
 
 drawing=true;
 
-drawCanvas
+drawCanvas.setPointerCapture?.(e.pointerId);
 
-.setPointerCapture?.(
-
-e.pointerId
-
-);
-
-const p=
-
-point(e);
+const p=point(e);
 
 drawCtx.beginPath();
 
-drawCtx.moveTo(
-
-p.x,
-
-p.y
-
-)
+drawCtx.moveTo(p.x,p.y)
 
 }
 
@@ -4380,87 +3116,47 @@ p.y
 
 function drawMove(e){
 
-if(!drawing)return;
+if(!drawing)
 
-const p=
+return;
 
-point(e);
+const p=point(e);
 
 drawCtx.globalCompositeOperation=
 
 drawTool==="eraser"
 
-?
+?"destination-out"
 
-"destination-out"
+:"source-over";
 
-:
+let size=Number($("drawSize").value);
 
-"source-over";
+if(drawTool==="pencil"){
 
-let size=
-
-Number(
-
-$("drawSize").value
-
-);
-
-if(
-
-drawTool==="pencil"
-
-){
-
-size=
-
-Math.max(
-
-1,
-
-size*.48
-
-)
+size=Math.max(1,size*.48)
 
 }
 
-if(
-
-drawTool==="marker"
-
-){
+if(drawTool==="marker"){
 
 size*=3
 
 }
 
-drawCtx.lineWidth=
-
-size;
+drawCtx.lineWidth=size;
 
 drawCtx.globalAlpha=
 
 drawTool==="marker"
 
-?
+?.28
 
-.28
+:1;
 
-:
+drawCtx.strokeStyle=drawColor;
 
-1;
-
-drawCtx.strokeStyle=
-
-drawColor;
-
-drawCtx.lineTo(
-
-p.x,
-
-p.y
-
-);
+drawCtx.lineTo(p.x,p.y);
 
 drawCtx.stroke()
 
@@ -4470,15 +3166,15 @@ drawCtx.stroke()
 
 function drawEnd(){
 
-if(!drawing)return;
+if(!drawing)
+
+return;
 
 drawing=false;
 
 drawCtx.globalAlpha=1;
 
-drawCtx.globalCompositeOperation=
-
-"source-over";
+drawCtx.globalCompositeOperation="source-over";
 
 saveDrawState();
 
@@ -4490,11 +3186,7 @@ persistDrawing()
 
 function point(e){
 
-const rect=
-
-drawCanvas
-
-.getBoundingClientRect();
+const rect=drawCanvas.getBoundingClientRect();
 
 return{
 
@@ -4514,15 +3206,9 @@ drawTool=tool;
 
 document
 
-.querySelectorAll(
+.querySelectorAll("[data-draw]")
 
-"[data-draw]"
-
-)
-
-.forEach(
-
-button=>
+.forEach(button=>
 
 button.classList.toggle(
 
@@ -4534,11 +3220,7 @@ button.dataset.draw===tool
 
 );
 
-if(
-
-tool==="ruler"
-
-){
+if(tool==="ruler"){
 
 showRuler()
 
@@ -4552,47 +3234,23 @@ hideRuler()
 
 /* DRAW COLOUR */
 
-function setDrawColor(
-
-color,
-
-button
-
-){
+function setDrawColor(color,button){
 
 drawColor=color;
 
 document
 
-.querySelectorAll(
+.querySelectorAll(".drawColor")
 
-".drawColor"
+.forEach(b=>
 
-)
-
-.forEach(
-
-b=>
-
-b.classList.remove(
-
-"selected"
-
-)
+b.classList.remove("selected")
 
 );
 
-button.classList.add(
+button.classList.add("selected");
 
-"selected"
-
-);
-
-if(
-
-drawTool==="eraser"
-
-){
+if(drawTool==="eraser"){
 
 setDrawTool("pen")
 
@@ -4604,19 +3262,13 @@ setDrawTool("pen")
 
 function saveDrawState(){
 
-if(!drawCanvas)return;
+if(!drawCanvas)
 
-undoStack.push(
+return;
 
-drawCanvas.toDataURL()
+undoStack.push(drawCanvas.toDataURL());
 
-);
-
-if(
-
-undoStack.length>35
-
-){
+if(undoStack.length>35){
 
 undoStack.shift()
 
@@ -4628,9 +3280,7 @@ redoStack=[]
 
 function restoreDraw(src){
 
-const image=
-
-new Image();
+const image=new Image();
 
 image.onload=()=>{
 
@@ -4666,17 +3316,11 @@ image.src=src
 
 function undoDraw(){
 
-if(
+if(undoStack.length<2)
 
-undoStack.length<2
+return;
 
-)return;
-
-redoStack.push(
-
-undoStack.pop()
-
-);
+redoStack.push(undoStack.pop());
 
 restoreDraw(
 
@@ -4692,11 +3336,11 @@ undoStack.length-1
 
 function redoDraw(){
 
-if(!redoStack.length)return;
+if(!redoStack.length)
 
-const state=
+return;
 
-redoStack.pop();
+const state=redoStack.pop();
 
 undoStack.push(state);
 
@@ -4706,15 +3350,9 @@ restoreDraw(state)
 
 function clearDraw(){
 
-if(
+if(!confirm("Clear the drawing?"))
 
-!confirm(
-
-"Clear the drawing?"
-
-)
-
-)return;
+return;
 
 drawCtx.clearRect(
 
@@ -4738,17 +3376,9 @@ function persistDrawing(){
 
 const n=currentNote();
 
-if(
+if(n&&drawCanvas){
 
-n&&
-
-drawCanvas
-
-){
-
-n.drawing=
-
-drawCanvas.toDataURL();
+n.drawing=drawCanvas.toDataURL();
 
 save()
 
@@ -4758,27 +3388,15 @@ save()
 
 function closeDrawing(){
 
-if(!drawCanvas)return;
-
 persistDrawing();
 
-$("drawOverlay")
+$("drawOverlay").style.display="none";
 
-.style.display=
-
-"none";
-
-$("drawBtn")
-
-.classList
-
-.remove("active");
+$("drawBtn").classList.remove("active");
 
 drawCanvas=null;
 
 drawCtx=null;
-
-drawing=false;
 
 hideRuler()
 
@@ -4788,21 +3406,13 @@ hideRuler()
 
 function showRuler(){
 
-$("ruler")
-
-.classList
-
-.add("show")
+$("ruler").classList.add("show")
 
 }
 
 function hideRuler(){
 
-$("ruler")
-
-.classList
-
-.remove("show")
+$("ruler").classList.remove("show")
 
 }
 
@@ -4812,253 +3422,37 @@ let rx=0;
 
 let ry=0;
 
-const ruler=
+const ruler=$("ruler");
 
-$("ruler");
-
-ruler.addEventListener(
-
-"pointerdown",
-
-e=>{
+ruler.addEventListener("pointerdown",e=>{
 
 rulerDrag=true;
 
-rx=
+rx=e.clientX-ruler.offsetLeft;
 
-e.clientX-
+ry=e.clientY-ruler.offsetTop;
 
-ruler.offsetLeft;
+ruler.setPointerCapture?.(e.pointerId)
 
-ry=
+});
 
-e.clientY-
+ruler.addEventListener("pointermove",e=>{
 
-ruler.offsetTop;
+if(!rulerDrag)
 
-ruler
+return;
 
-.setPointerCapture?.(
+ruler.style.left=(e.clientX-rx)+"px";
 
-e.pointerId
+ruler.style.top=(e.clientY-ry)+"px"
 
-)
+});
 
-}
-
-);
-
-ruler.addEventListener(
-
-"pointermove",
-
-e=>{
-
-if(!rulerDrag)return;
-
-ruler.style.left=
-
-(
-
-e.clientX-rx
-
-)+"px";
-
-ruler.style.top=
-
-(
-
-e.clientY-ry
-
-)+"px"
-
-}
-
-);
-
-ruler.addEventListener(
-
-"pointerup",
-
-()=>{
+ruler.addEventListener("pointerup",()=>{
 
 rulerDrag=false
 
-}
-
-);
-
-/* SIDEBAR */
-
-function toggleSidebar(){
-
-$("sidebar")
-
-.classList
-
-.toggle("closed")
-
-}
-
-/* PIN */
-
-function pinNote(){
-
-const n=currentNote();
-
-if(!n)return;
-
-n.pin=!n.pin;
-
-save();
-
-render()
-
-}
-
-/* DUPLICATE */
-
-function duplicateNote(){
-
-const n=currentNote();
-
-if(!n)return;
-
-const copy={
-
-...n,
-
-id:Date.now(),
-
-title:(n.title||"Untitled")+" copy"
-
-};
-
-data.notes.unshift(copy);
-
-data.current=copy.id;
-
-save();
-
-render()
-
-}
-
-/* NEW NOTE */
-
-function newNote(){
-
-const n={
-
-id:Date.now(),
-
-title:"Untitled note",
-
-html:"",
-
-folder:
-
-currentFolder==="__all__"||
-
-currentFolder==="__private__"
-
-?
-
-null
-
-:
-
-currentFolder,
-
-private:
-
-currentFolder==="__private__",
-
-pin:false,
-
-drawing:null
-
-};
-
-data.notes.unshift(n);
-
-data.current=n.id;
-
-save();
-
-render();
-
-setTimeout(
-
-()=>$("title").focus(),
-
-30
-
-)
-
-}
-
-/* DELETE */
-
-function deleteNote(){
-
-const n=currentNote();
-
-if(
-
-!n||
-
-!confirm(
-
-'Delete "'+
-
-(n.title||"Untitled")+
-
-'"?'
-
-)
-
-)return;
-
-data.notes=
-
-data.notes.filter(
-
-x=>x.id!==n.id
-
-);
-
-if(!data.notes.length){
-
-data.notes.push({
-
-id:Date.now(),
-
-title:"Untitled note",
-
-html:"",
-
-folder:null,
-
-private:false,
-
-pin:false,
-
-drawing:null
-
-})
-
-}
-
-data.current=
-
-data.notes[0].id;
-
-save();
-
-render()
-
-}
+});
 
 /* TEMPLATES */
 
@@ -5066,97 +3460,61 @@ const templatesData={
 
 "Daily Study":{
 
-desc:
+desc:"A calm daily page for goals, notes and review.",
 
-"A calm daily page for goals, notes and review.",
+shape:"shapeDaily",
 
-shape:
-
-"shapeDaily",
-
-html:
-
-"<h1>Today</h1><h2>Focus</h2><p>What matters most today?</p><h2>Notes</h2><p></p><h2>Key takeaway</h2><p></p><h2>Tomorrow</h2><p>What should I remember?</p>"
+html:"<h1>Today</h1><h2>Focus</h2><p>What matters most today?</p><h2>Notes</h2><p></p><h2>Key takeaway</h2><p></p><h2>Tomorrow</h2><p>What should I remember?</p>"
 
 },
 
 "Cornell Notes":{
 
-desc:
+desc:"Classic cue, notes and summary layout.",
 
-"Classic cue, notes and summary layout.",
+shape:"shapeCornell",
 
-shape:
-
-"shapeCornell",
-
-html:
-
-"<h1>Topic</h1><table><tr><td><strong>Cues / Questions</strong></td><td><strong>Notes</strong></td></tr><tr><td><p></p></td><td><p></p></td></tr><tr><td colspan=\"2\"><strong>Summary</strong><p></p></td></tr></table>"
+html:"<h1>Topic</h1><table><tr><td><strong>Cues / Questions</strong></td><td><strong>Notes</strong></td></tr><tr><td><p></p></td><td><p></p></td></tr><tr><td colspan=\"2\"><strong>Summary</strong><p></p></td></tr></table>"
 
 },
 
 "Exam Revision":{
 
-desc:
+desc:"Organise topics, weak areas and final review.",
 
-"Organise topics, weak areas and final review.",
+shape:"shapeExam",
 
-shape:
-
-"shapeExam",
-
-html:
-
-"<h1>Exam Revision</h1><h2>Topics</h2><p>☐ Topic 1<br>☐ Topic 2<br>☐ Topic 3<br>☐ Topic 4</p><h2>Key concepts</h2><p></p><h2>Weak areas</h2><p></p><h2>Final review</h2><p></p>"
+html:"<h1>Exam Revision</h1><h2>Topics</h2><p>☐ Topic 1<br>☐ Topic 2<br>☐ Topic 3<br>☐ Topic 4</p><h2>Key concepts</h2><p></p><h2>Weak areas</h2><p></p><h2>Final review</h2><p></p>"
 
 },
 
 "Essay Planner":{
 
-desc:
+desc:"Build an essay from question to conclusion.",
 
-"Build an essay from question to conclusion.",
+shape:"shapeEssay",
 
-shape:
-
-"shapeEssay",
-
-html:
-
-"<h1>Essay Planner</h1><h2>Question</h2><p></p><h2>Thesis</h2><p></p><h2>Argument 1</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Argument 2</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Counterargument</h2><p></p><h2>Conclusion</h2><p></p>"
+html:"<h1>Essay Planner</h1><h2>Question</h2><p></p><h2>Thesis</h2><p></p><h2>Argument 1</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Argument 2</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Counterargument</h2><p></p><h2>Conclusion</h2><p></p>"
 
 },
 
 "Project Planner":{
 
-desc:
+desc:"Plan outcomes, milestones, tasks and next actions.",
 
-"Plan outcomes, milestones, tasks and next actions.",
+shape:"shapeProject",
 
-shape:
-
-"shapeProject",
-
-html:
-
-"<h1>Project</h1><h2>Outcome</h2><p></p><h2>Milestones</h2><p>☐ Milestone 1<br>☐ Milestone 2<br>☐ Milestone 3</p><h2>Tasks</h2><p>☐ Task 1<br>☐ Task 2<br>☐ Task 3</p><h2>Next action</h2><p></p>"
+html:"<h1>Project</h1><h2>Outcome</h2><p></p><h2>Milestones</h2><p>☐ Milestone 1<br>☐ Milestone 2<br>☐ Milestone 3</p><h2>Tasks</h2><p>☐ Task 1<br>☐ Task 2<br>☐ Task 3</p><h2>Next action</h2><p></p>"
 
 },
 
 "Flashcards":{
 
-desc:
+desc:"Turn a lesson into compact question and answer cards.",
 
-"Turn a lesson into compact question and answer cards.",
+shape:"shapeFlash",
 
-shape:
-
-"shapeFlash",
-
-html:
-
-"<h1>Flashcards</h1><h2>Card 1</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 2</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 3</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p>"
+html:"<h1>Flashcards</h1><h2>Card 1</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 2</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 3</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p>"
 
 }
 
@@ -5166,27 +3524,15 @@ html:
 
 function templates(){
 
-let html=
+let html='<div class="templateGrid">';
 
-'<div class="templateGrid">';
-
-Object.entries(
-
-templatesData
-
-)
-
-.forEach(
-
-([name,t])=>{
+Object.entries(templatesData).forEach(([name,t])=>{
 
 html+=
 
 '<button class="templateCard" onclick="useTemplate('+JSON.stringify(name)+')">'+
 
 '<div class="templatePreview '+t.shape+'">'+
-
-'<span></span>'+
 
 '<span></span>'+
 
@@ -5212,21 +3558,11 @@ t.desc+
 
 '</button>'
 
-}
+});
 
-);
+html+='</div>';
 
-html+=
-
-'</div>';
-
-openModal(
-
-"Templates",
-
-html
-
-)
+openModal("Templates",html)
 
 }
 
@@ -5236,13 +3572,13 @@ function useTemplate(name){
 
 const n=currentNote();
 
-if(!n)return;
+if(!n)
+
+return;
 
 n.title=name;
 
-n.html=
-
-templatesData[name].html;
+n.html=templatesData[name].html;
 
 save();
 
@@ -5284,77 +3620,37 @@ openModal(
 
 function changePrivateCode(){
 
-const old=
+const old=privateCode();
 
-privateCode();
+if(!old)
 
-if(!old){
+return openPrivateFolder();
 
-return openPrivateFolder()
+const cur=prompt("Current private code:");
 
-}
+if(cur===null)
 
-const current=
+return;
 
-prompt(
+if(codeHash(cur.trim())!==old)
 
-"Current private code:"
+return alert("Wrong current code.");
 
-);
+const next=prompt("New private code:");
 
-if(current===null)return;
+if(next===null||!next.trim())
 
-if(
-
-codeHash(
-
-current.trim()
-
-)!==old
-
-){
-
-return alert(
-
-"Wrong current code."
-
-)
-
-}
-
-const next=
-
-prompt(
-
-"New private code:"
-
-);
-
-if(
-
-next===null||
-
-!next.trim()
-
-)return;
+return;
 
 localStorage.setItem(
 
 KEY+"_private_code",
 
-codeHash(
-
-next.trim()
-
-)
+codeHash(next.trim())
 
 );
 
-alert(
-
-"Private code changed."
-
-)
+alert("Private code changed.")
 
 }
 
@@ -5362,23 +3658,9 @@ alert(
 
 function exportData(){
 
-const blob=
+const blob=new Blob(
 
-new Blob(
-
-[
-
-JSON.stringify(
-
-data,
-
-null,
-
-2
-
-)
-
-],
+[JSON.stringify(data,null,2)],
 
 {
 
@@ -5388,33 +3670,15 @@ type:"application/json"
 
 );
 
-const a=
+const a=document.createElement("a");
 
-document.createElement("a");
+a.href=URL.createObjectURL(blob);
 
-a.href=
-
-URL.createObjectURL(blob);
-
-a.download=
-
-"StudyNotes-backup.json";
+a.download="StudyNotes-backup.json";
 
 a.click();
 
-setTimeout(
-
-()=>
-
-URL.revokeObjectURL(
-
-a.href
-
-),
-
-1000
-
-)
+setTimeout(()=>URL.revokeObjectURL(a.href),1000)
 
 }
 
@@ -5422,19 +3686,9 @@ a.href
 
 function resetData(){
 
-if(
-
-confirm(
-
-"Delete all notes and folders?"
-
-)
-
-){
+if(confirm("Delete all notes and folders?")){
 
 localStorage.removeItem(KEY);
-
-localStorage.removeItem(KEY+"_private_code");
 
 location.reload()
 
@@ -5454,13 +3708,9 @@ openModal(
 
 '<p><b>☰</b> hides the left panel so the writing area becomes full width.</p>'+
 
-'<p><b>Highlighter:</b> turn it on, then tap a word. The exact word under your finger is highlighted bright yellow.</p>'+
+'<p><b>Highlighter:</b> turn it on, then tap the exact word you want highlighted. It does not draw over the page.</p>'+
 
-'<p><b>Drawing:</b> the floating bubbles contain Pen, Pencil, Marker, Ruler and Eraser. Use the X or Done button to completely leave drawing mode. Press Escape too.</p>'+
-
-'<p><b>Private:</b> the first time you open Private, create a code. Private notes are kept separate from normal notes.</p>'+
-
-'<p><b>Folders:</b> double-click a folder or use its pencil button to rename it.</p>'+
+'<p><b>Drawing:</b> use Pen, Pencil, Marker, Ruler and Eraser. Choose a colour and thickness.</p>'+
 
 '<p><b>Templates:</b> choose a complete study layout and start filling it in.</p>'+
 
@@ -5474,139 +3724,33 @@ openModal(
 
 /* MODAL */
 
-function openModal(
+function openModal(title,body){
 
-title,
+$("modalTitle").textContent=title;
 
-body
+$("modalBody").innerHTML=body;
 
-){
-
-$("modalTitle")
-
-.textContent=
-
-title;
-
-$("modalBody")
-
-.innerHTML=
-
-body;
-
-$("modal")
-
-.classList
-
-.add("show")
+$("modal").classList.add("show")
 
 }
 
 function closeModal(){
 
-$("modal")
-
-.classList
-
-.remove("show")
+$("modal").classList.remove("show")
 
 }
 
-/* INPUTS */
+/* SEARCH */
 
-$("title")
-
-.addEventListener(
-
-"input",
-
-update
-
-);
-
-$("editor")
-
-.addEventListener(
-
-"input",
-
-()=>{
-
-if(!highlighter)update()
-
-}
-
-);
-
-$("editor")
-
-.addEventListener(
-
-"keyup",
-
-saveSelection
-
-);
-
-$("editor")
-
-.addEventListener(
-
-"mouseup",
-
-saveSelection
-
-);
-
-$("search")
-
-.addEventListener(
-
-"input",
-
-renderNotes
-
-);
-
-/* MODAL CLICK OUTSIDE */
-
-$("modal")
-
-.addEventListener(
-
-"click",
-
-e=>{
-
-if(e.target===$("modal")){
-
-closeModal()
-
-}
-
-});
+$("search").addEventListener("input",renderNotes);
 
 /* KEYBOARD */
 
-document.addEventListener(
+document.addEventListener("keydown",e=>{
 
-"keydown",
+const modifier=e.metaKey||e.ctrlKey;
 
-e=>{
-
-const modifier=
-
-e.metaKey||
-
-e.ctrlKey;
-
-if(
-
-modifier &&
-
-e.key.toLowerCase()==="n"
-
-){
+if(modifier&&e.key.toLowerCase()==="n"){
 
 e.preventDefault();
 
@@ -5614,13 +3758,7 @@ newNote()
 
 }
 
-if(
-
-modifier &&
-
-e.key.toLowerCase()==="s"
-
-){
+if(modifier&&e.key.toLowerCase()==="s"){
 
 e.preventDefault();
 
@@ -5628,15 +3766,7 @@ update()
 
 }
 
-if(
-
-modifier &&
-
-e.key.toLowerCase()==="f"
-
-){
-
-e.preventDefault();
+if(modifier&&e.key.toLowerCase()==="f"){
 
 e.preventDefault();
 
@@ -5644,47 +3774,103 @@ $("search").focus()
 
 }
 
-if(
-
-e.key==="Escape"
-
-){
-
-if(drawCanvas){
-
-closeDrawing();
-
-return
-
-}
+if(e.key==="Escape"){
 
 closeModal();
 
-$("textColors")
-
-.classList
-
-.remove("show");
+$("textColors").classList.remove("show");
 
 if(highlighter){
 
 highlighter=false;
 
-$("highlightBtn")
-
-.classList
-
-.remove("active");
-
-$("editor").style.cursor=""
+$("highlightBtn").classList.remove("active")
 
 }
 
 }
 
+});
+
+/* HELPERS */
+
+function stripHTML(html){
+
+const div=document.createElement("div");
+
+div.innerHTML=html;
+
+return div.textContent||div.innerText||""
+
 }
+
+function escapeHTML(str){
+
+return String(str)
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;")
+
+}
+
+function htmlToMarkdown(html){
+
+const div=document.createElement("div");
+
+div.innerHTML=html;
+
+return div.innerText||""
+
+}
+
+function codeHash(str){
+
+let h=0;
+
+for(let i=0;i<str.length;i++){
+
+h=((h<<5)-h)+str.charCodeAt(i);
+
+h|=0
+
+}
+
+return String(h)
+
+}
+
+function privateCode(){
+
+return localStorage.getItem(KEY+"_private_code")
+
+}
+
+function openPrivateFolder(){
+
+const code=prompt("Create a private folder code:");
+
+if(code===null||!code.trim())
+
+return;
+
+localStorage.setItem(
+
+KEY+"_private_code",
+
+codeHash(code.trim())
 
 );
+
+alert("Private folder code created.")
+
+}
 
 /* START */
 
