@@ -1,1645 +1,966 @@
 <!doctype html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
 <meta name="theme-color" content="#070707">
-
 <title>StudyNotes</title>
 
 <style>
-
 :root{
-
 --bg:#070707;
-
 --surface:#0d0d0d;
-
 --surface2:#141414;
-
 --surface3:#1b1b1b;
-
 --line:#262626;
-
 --text:#f3f3f3;
-
 --muted:#737373;
-
 --soft:#aaa;
-
 --highlight:#c9c35b;
-
 --ease:cubic-bezier(.2,.8,.2,1)
-
 }
 
 *{box-sizing:border-box}
 
 html,body{
-
 margin:0;
-
 width:100%;
-
 height:100%;
-
 background:var(--bg);
-
 color:var(--text);
-
 font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,Arial,sans-serif;
-
 overflow:hidden
-
 }
 
 button,input,select{font:inherit}
-
 button{border:0;cursor:pointer;color:inherit}
 
 button:focus-visible,
-
 input:focus-visible,
-
 [contenteditable]:focus-visible{
-
 outline:2px solid #686868;
-
 outline-offset:2px
-
 }
 
 /* INTRO */
 
 #intro{
-
 position:fixed;
-
 inset:0;
-
 z-index:9999;
-
 display:grid;
-
 place-items:center;
-
 background:#070707;
-
-overflow:hidden
-
+overflow:hidden;
+animation:introAutoExit 1.15s var(--ease) 3.1s forwards
 }
 
 #intro:before,
-
 #intro:after{
-
 content:"";
-
 position:absolute;
-
 border:1px solid #252525;
-
 border-radius:50%;
-
 width:240px;
-
 height:240px;
-
 opacity:0;
-
 animation:orbitGlow 2.4s var(--ease) .1s forwards
-
 }
 
 #intro:after{
-
 width:420px;
-
 height:420px;
-
 animation-delay:.25s
-
 }
 
 .introCore{
-
 position:relative;
-
 z-index:2;
-
 display:flex;
-
 flex-direction:column;
-
 align-items:center;
-
 gap:18px;
-
 animation:introCore 1.25s var(--ease) forwards
-
 }
 
 .introLogo{
-
 width:132px;
-
 height:132px;
-
 filter:drop-shadow(0 0 28px #fff1)
-
 }
 
 .introName{
-
 font-size:29px;
-
 font-weight:650;
-
 letter-spacing:-.8px
-
 }
 
 .introRule{
-
 width:0;
-
 height:1px;
-
 background:#666;
-
 animation:introRule 1s ease .55s forwards
-
-}
-
-#intro.exit{
-
-animation:introExit 1.15s var(--ease) forwards
-
 }
 
 @keyframes introCore{
-
 from{
-
 opacity:0;
-
 transform:scale(.72) translateY(18px);
-
 filter:blur(9px)
-
 }
-
 to{
-
 opacity:1;
-
 transform:none;
-
 filter:none
-
 }
-
 }
 
 @keyframes introRule{
-
 to{width:115px}
-
 }
 
 @keyframes orbitGlow{
-
 from{
-
 opacity:0;
-
 transform:scale(.55)
-
 }
-
 60%{opacity:.7}
-
 to{
-
 opacity:0;
-
 transform:scale(1.35)
-
+}
 }
 
+@keyframes introAutoExit{
+0%{
+opacity:1;
+transform:scale(1);
+visibility:visible
+}
+100%{
+opacity:0;
+transform:scale(1.13);
+visibility:hidden;
+pointer-events:none
+}
 }
 
 @keyframes introExit{
-
 0%{
-
 opacity:1;
-
 transform:scale(1)
-
 }
-
 35%{
-
 opacity:1;
-
 transform:scale(1.035)
-
 }
-
 100%{
-
 opacity:0;
-
 transform:scale(1.13);
-
 visibility:hidden;
-
 pointer-events:none
-
 }
-
 }
 
 /* APP */
 
 #app{
-
 height:100%;
-
 display:flex;
-
 background:var(--bg)
-
 }
 
 /* SIDEBAR */
 
 #sidebar{
-
 width:300px;
-
 min-width:300px;
-
 background:linear-gradient(180deg,#101010,#0b0b0b);
-
 border-right:1px solid var(--line);
-
 display:flex;
-
 flex-direction:column;
-
 overflow:hidden;
-
 transition:
-
 width .38s var(--ease),
-
 min-width .38s var(--ease),
-
 transform .38s var(--ease),
-
 opacity .25s
-
 }
 
 #sidebar.closed{
-
 width:0;
-
 min-width:0;
-
 border-right:0;
-
 opacity:.2
-
 }
 
 .sideTop{
-
 padding:20px 17px 12px
-
 }
 
 .brand{
-
 display:flex;
-
 align-items:center;
-
 gap:10px;
-
 font-size:19px;
-
 font-weight:650;
-
 margin-bottom:19px
-
 }
 
 .brand svg{
-
 width:27px;
-
 height:27px;
-
 flex:none
-
 }
 
 .searchWrap{
-
 position:relative
-
 }
 
 .searchIcon{
-
 position:absolute;
-
 left:13px;
-
 top:10px;
-
 color:#686868;
-
 pointer-events:none
-
 }
 
 .search{
-
 width:100%;
-
 height:42px;
-
 border:1px solid #292929;
-
 background:#151515;
-
 color:#eee;
-
 border-radius:12px;
-
 padding:0 12px 0 36px;
-
 outline:0;
-
 transition:border-color .2s,box-shadow .2s
-
 }
 
 .search:focus{
-
 border-color:#4b4b4b;
-
 box-shadow:0 0 0 4px #fff08
-
 }
 
 .search::placeholder{
-
 color:#5c5c5c
-
 }
 
 .sideTitle{
-
 padding:15px 17px 7px;
-
 color:#626262;
-
 font-size:10px;
-
 font-weight:700;
-
 letter-spacing:1.2px;
-
 text-transform:uppercase
-
 }
 
 .folders{
-
 max-height:230px;
-
 overflow:auto;
-
 padding:0 8px
-
 }
 
 .notes{
-
 flex:1;
-
 overflow:auto;
-
 padding:0 8px 10px
-
 }
 
 .folder,
-
 .note{
-
 display:flex;
-
 align-items:center;
-
 min-height:40px;
-
 padding:0 10px;
-
 border-radius:9px;
-
 margin:2px 0;
-
 color:#a9a9a9;
-
 font-size:14px;
-
 transition:
-
 background .18s,
-
 color .18s,
-
 transform .18s
-
 }
 
 .folder:hover,
-
 .note:hover{
-
 background:#181818;
-
 color:#eee;
-
 transform:translateX(1px)
-
 }
 
 .folder.active,
-
 .note.active{
-
 background:#232323;
-
 color:#fff
-
 }
 
 .dot{
-
 width:7px;
-
 height:7px;
-
 border:1px solid #888;
-
 border-radius:50%;
-
 margin-right:9px;
-
 flex:none
-
 }
 
 .folderName,
-
 .noteName{
-
 flex:1;
-
 overflow:hidden;
-
 text-overflow:ellipsis;
-
 white-space:nowrap
-
 }
 
 .folderDel{
-
 opacity:0;
-
 background:none;
-
 color:#555;
-
 padding:4px 5px
-
 }
 
 .folder:hover .folderDel{
-
 opacity:1
-
 }
 
 .addFolder,
-
 .sideButton{
-
 width:100%;
-
 background:none;
-
 color:#777;
-
 text-align:left;
-
 padding:9px 10px;
-
 border-radius:8px;
-
 transition:
-
 background .18s,
-
 color .18s
-
 }
 
 .addFolder:hover,
-
 .sideButton:hover{
-
 background:#181818;
-
 color:#eee
-
 }
 
 .sideBottom{
-
 border-top:1px solid var(--line);
-
 padding:8px
-
 }
 
 /* MAIN */
 
 #main{
-
 min-width:0;
-
 flex:1;
-
 height:100%;
-
 display:flex;
-
 flex-direction:column
-
 }
 
 .topbar{
-
 height:58px;
-
 min-height:58px;
-
 border-bottom:1px solid var(--line);
-
 display:flex;
-
 align-items:center;
-
 gap:3px;
-
 padding:0 12px
-
 }
 
 .icon{
-
 width:37px;
-
 height:37px;
-
 background:none;
-
 border-radius:10px;
-
 color:#999;
-
 display:grid;
-
 place-items:center;
-
 transition:
-
 background .18s,
-
 color .18s,
-
 transform .18s
-
 }
 
 .icon:hover{
-
 background:#191919;
-
 color:#fff;
-
 transform:translateY(-1px)
-
 }
 
 .icon.active{
-
 background:#252525;
-
 color:#fff
-
 }
 
 .status{
-
 margin-left:auto;
-
 color:#5d5d5d;
-
 font-size:11px;
-
 padding-right:5px
-
 }
 
 /* TITLE */
 
 .noteHeader{
-
 display:flex;
-
 align-items:center;
-
 padding:34px 8% 15px
-
 }
 
 .title{
-
 flex:1;
-
 min-width:0;
-
 border:0;
-
 outline:0;
-
 background:transparent;
-
 color:#f4f4f4;
-
 font-size:40px;
-
 font-weight:680;
-
 letter-spacing:-1.5px
-
 }
 
 .title::placeholder{
-
 color:#4e4e4e
-
 }
 
 .pin{
-
 color:#777;
-
 margin-left:10px
-
 }
 
 /* TOOLBAR */
 
 .toolbar{
-
 margin:0 8%;
-
 height:49px;
-
 border-top:1px solid var(--line);
-
 border-bottom:1px solid var(--line);
-
 display:flex;
-
 align-items:center;
-
 gap:2px;
-
 overflow-x:auto
-
 }
 
 .tool{
-
 height:34px;
-
 min-width:34px;
-
 padding:0 9px;
-
 background:none;
-
 border-radius:8px;
-
 color:#999;
-
 display:grid;
-
 place-items:center;
-
 transition:
-
 background .18s,
-
 color .18s,
-
 transform .18s
-
 }
 
 .tool:hover{
-
 background:#191919;
-
 color:#fff;
-
 transform:translateY(-1px)
-
 }
 
 .tool.active{
-
 background:#eee;
-
 color:#111
-
 }
 
 .sep{
-
 width:1px;
-
 height:22px;
-
 background:#292929;
-
 margin:0 5px;
-
 flex:none
-
 }
 
 /* EDITOR */
 
 .editorWrap{
-
 position:relative;
-
 flex:1;
-
 min-height:0;
-
 overflow:auto;
-
 padding:28px 8% 75px
-
 }
 
 .editor{
-
 min-height:520px;
-
 outline:0;
-
 color:#e8e8e8;
-
 font-size:17px;
-
 line-height:1.76;
-
 caret-color:#fff;
-
 transition:opacity .2s
-
 }
 
 .editor:empty:before{
-
 content:"Start writing here...";
-
 color:#4d4d4d
-
 }
 
 .editor h1{
-
 font-size:33px;
-
 line-height:1.18
-
 }
 
 .editor h2{
-
 font-size:25px;
-
 line-height:1.25
-
 }
 
 .editor h3{
-
 font-size:20px
-
 }
 
 .editor pre{
-
 background:#121212;
-
 border:1px solid #292929;
-
 border-radius:11px;
-
 padding:15px;
-
 white-space:pre-wrap
-
 }
 
 .editor blockquote{
-
 border-left:3px solid #626262;
-
 padding-left:15px;
-
 color:#aaa
-
 }
 
 .editor a{
-
 color:#eee
-
 }
 
 .editor mark{
-
 background:var(--highlight);
-
 color:#111;
-
 padding:0 2px;
-
 border-radius:3px
-
 }
 
 .editor table{
-
 border-collapse:collapse;
-
 width:100%
-
 }
 
 .editor td{
-
 border:1px solid #333;
-
 padding:12px;
-
 vertical-align:top
-
 }
 
 .stats{
-
 height:34px;
-
 min-height:34px;
-
 border-top:1px solid var(--line);
-
 display:flex;
-
 align-items:center;
-
 padding:0 8%;
-
 font-size:11px;
-
 color:#606060
-
 }
 
 /* TEXT COLOUR */
 
 .pop{
-
 position:fixed;
-
 z-index:500;
-
 display:none;
-
 background:rgba(23,23,23,.96);
-
 border:1px solid #3a3a3a;
-
 border-radius:14px;
-
 padding:9px;
-
 box-shadow:0 20px 60px #000b;
-
 backdrop-filter:blur(20px);
-
 gap:7px;
-
 flex-wrap:wrap;
-
 animation:popIn .18s var(--ease)
-
 }
 
 .pop.show{
-
 display:flex
-
 }
 
 @keyframes popIn{
-
 from{
-
 opacity:0;
-
 transform:translateY(-5px) scale(.96)
-
 }
-
 to{
-
 opacity:1;
-
 transform:none
-
 }
-
 }
 
 .swatch{
-
 width:28px;
-
 height:28px;
-
 border-radius:50%;
-
 border:2px solid #555
-
 }
 
 .sblack{background:#050505}
-
 .swhite{background:#fff}
-
 .sred{background:#ff453a}
-
 .sorange{background:#ff9f0a}
-
 .syellow{background:#ffd60a}
-
 .sgreen{background:#30d158}
-
 .sblue{background:#0a84ff}
-
 .spurple{background:#bf5af2}
-
 .spink{background:#ff375f}
 
 /* DRAWING */
 
 #drawOverlay{
-
 position:absolute;
-
 inset:0;
-
 z-index:200;
-
 display:none;
-
 background:rgba(7,7,7,.08);
-
 backdrop-filter:blur(1px)
-
 }
 
 .drawCanvas{
-
 position:absolute;
-
 inset:0;
-
 width:100%;
-
 height:100%;
-
 touch-action:none
-
 }
 
 .drawTop{
-
 position:absolute;
-
 top:14px;
-
 left:50%;
-
 transform:translateX(-50%);
-
 display:flex;
-
 align-items:center;
-
 gap:5px;
-
 padding:7px;
-
 background:rgba(26,26,26,.92);
-
 border:1px solid #393939;
-
 border-radius:14px;
-
 box-shadow:0 15px 45px #0009;
-
 backdrop-filter:blur(22px);
-
 max-width:94%;
-
 overflow:auto
-
 }
 
 .drawBottom{
-
 position:absolute;
-
 bottom:17px;
-
 left:50%;
-
 transform:translateX(-50%);
-
 display:flex;
-
 align-items:center;
-
 gap:5px;
-
 padding:7px;
-
 background:rgba(26,26,26,.92);
-
 border:1px solid #393939;
-
 border-radius:15px;
-
 box-shadow:0 18px 55px #0009;
-
 backdrop-filter:blur(22px);
-
 max-width:96%;
-
 overflow:auto
-
 }
 
 .drawTool{
-
 height:36px;
-
 padding:0 11px;
-
 border-radius:9px;
-
 background:#232323;
-
 color:#aaa;
-
 font-size:12px;
-
 white-space:nowrap;
-
 transition:.18s
-
 }
 
 .drawTool:hover{
-
 background:#333;
-
 color:#fff
-
 }
 
 .drawTool.active{
-
 background:#f0f0f0;
-
 color:#111
-
 }
 
 .drawColor{
-
 width:25px;
-
 height:25px;
-
 border-radius:50%;
-
 border:2px solid #555;
-
 flex:none
-
 }
 
 .drawColor.selected{
-
 border-color:#fff;
-
 box-shadow:0 0 0 2px #111 inset
-
 }
 
 .cBlack{background:#050505}
-
 .cWhite{background:#fff}
-
 .cRed{background:#ff453a}
-
 .cOrange{background:#ff9f0a}
-
 .cYellow{background:#ffd60a}
-
 .cGreen{background:#30d158}
-
 .cBlue{background:#0a84ff}
-
 .cPurple{background:#bf5af2}
-
 .cPink{background:#ff375f}
 
 .size{
-
 height:36px;
-
 background:#232323;
-
 border:0;
-
 color:#aaa;
-
 border-radius:9px;
-
 padding:0 7px
-
 }
 
 .ruler{
-
 position:absolute;
-
 z-index:3;
-
 left:20%;
-
 top:30%;
-
 width:360px;
-
 height:48px;
-
 border-radius:9px;
-
 background:linear-gradient(#4b4b4b,#292929);
-
 border:1px solid #777;
-
 box-shadow:0 12px 35px #000b;
-
 display:none;
-
 align-items:flex-end;
-
 justify-content:space-around;
-
 padding:0 10px 7px;
-
 color:#bbb;
-
 font-size:9px;
-
 cursor:grab;
-
 touch-action:none
-
 }
 
 .ruler.show{
-
 display:flex
-
 }
 
 .ruler:before{
-
 content:"";
-
 position:absolute;
-
 left:10px;
-
 right:10px;
-
 top:9px;
-
 height:1px;
-
 background:#777;
-
 box-shadow:
-
 0 8px #666,
-
 0 16px #666,
-
 0 24px #666
-
 }
 
 .ruler:active{
-
 cursor:grabbing
-
 }
 
 .drawClose{
-
 background:#eee;
-
 color:#111
-
 }
 
 /* MODALS */
 
 .modal{
-
 position:fixed;
-
 inset:0;
-
 z-index:800;
-
 background:#000b;
-
 display:none;
-
 align-items:center;
-
 justify-content:center;
-
 padding:20px;
-
 opacity:0
-
 }
 
 .modal.show{
-
 display:flex;
-
 animation:modalBg .22s ease forwards
-
 }
 
 .modalBox{
-
 width:min(780px,100%);
-
 max-height:88%;
-
 overflow:auto;
-
 background:#111;
-
 border:1px solid #363636;
-
 border-radius:19px;
-
 padding:22px;
-
 box-shadow:0 30px 100px #000d;
-
 animation:modalBox .28s var(--ease)
-
 }
 
 @keyframes modalBg{
-
 to{opacity:1}
-
 }
 
 @keyframes modalBox{
-
 from{
-
 transform:translateY(14px) scale(.97);
-
 opacity:0
-
 }
-
 to{
-
 transform:none;
-
 opacity:1
-
 }
-
 }
 
 .modalHead{
-
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
-
 margin-bottom:18px
-
 }
 
 .modalHead h2{
-
 margin:0;
-
 font-size:21px
-
 }
 
 .close{
-
 width:34px;
-
 height:34px;
-
 background:#222;
-
 border-radius:9px
-
 }
 
 /* TEMPLATES */
 
 .templateGrid{
-
 display:grid;
-
 grid-template-columns:repeat(3,1fr);
-
 gap:11px
-
 }
 
 .templateCard{
-
 min-height:170px;
-
 background:#171717;
-
 border:1px solid #292929;
-
 border-radius:14px;
-
 padding:14px;
-
 text-align:left;
-
 transition:
-
 transform .22s var(--ease),
-
 background .22s,
-
 border-color .22s
-
 }
 
 .templateCard:hover{
-
 transform:translateY(-4px);
-
 background:#1d1d1d;
-
 border-color:#484848
-
 }
 
 .templatePreview{
-
 height:72px;
-
 border:1px solid #454545;
-
 border-radius:8px;
-
 margin-bottom:13px;
-
 padding:8px;
-
 display:flex;
-
 gap:6px;
-
 overflow:hidden
-
 }
 
 .templatePreview span{
-
 display:block;
-
 background:#5d5d5d;
-
 border-radius:4px;
-
 height:4px
-
 }
 
 .shapeDaily{
-
 flex-direction:column
-
 }
 
 .shapeCornell{
-
 display:grid;
-
 grid-template-columns:32% 1fr;
-
 grid-template-rows:1fr 15px
-
 }
 
 .shapeCornell span{
-
 height:auto
-
 }
 
 .shapeCornell span:nth-child(3){
-
 grid-column:1/3
-
 }
 
 .shapeExam{
-
 display:grid;
-
 grid-template-columns:1fr 1fr;
-
 grid-template-rows:10px 1fr 1fr
-
 }
 
 .shapeExam span:first-child{
-
 grid-column:1/3
-
 }
 
 .shapeEssay{
-
 flex-direction:column
-
 }
 
 .shapeEssay span:first-child{
-
 width:55%;
-
 height:7px
-
 }
 
 .shapeProject{
-
 display:grid;
-
 grid-template-columns:1fr 1fr
-
 }
 
 .shapeProject span{
-
 height:12px
-
 }
 
 .shapeFlash{
-
 display:grid;
-
 grid-template-columns:1fr 1fr
-
 }
 
 .shapeFlash span{
-
 height:100%
-
 }
 
 .templateName{
-
 font-weight:600;
-
 font-size:14px
-
 }
 
 .templateDesc{
-
 font-size:11px;
-
 color:#777;
-
 margin-top:4px;
-
 line-height:1.4
-
 }
 
 .settingRow{
-
 padding:14px 0;
-
 border-bottom:1px solid #282828;
-
 color:#aaa
-
 }
 
 .settingRow button{
-
 background:#222;
-
 border-radius:8px;
-
 padding:8px 11px;
-
 margin-left:8px
-
 }
 
 .helpText{
-
 color:#aaa;
-
 line-height:1.65;
-
 font-size:14px
-
 }
 
 /* RESPONSIVE */
@@ -1647,81 +968,51 @@ font-size:14px
 @media(max-width:800px){
 
 #sidebar{
-
 position:fixed;
-
 left:0;
-
 top:0;
-
 bottom:0;
-
 z-index:100;
-
 box-shadow:20px 0 50px #0009
-
 }
 
 #sidebar.closed{
-
 width:300px;
-
 min-width:300px;
-
 transform:translateX(-100%)
-
 }
 
 .noteHeader{
-
 padding-left:5%;
-
 padding-right:5%
-
 }
 
 .title{
-
 font-size:30px
-
 }
 
 .toolbar{
-
 margin-left:5%;
-
 margin-right:5%
-
 }
 
 .editorWrap{
-
 padding-left:5%;
-
 padding-right:5%
-
 }
 
 .stats{
-
 padding-left:5%;
-
 padding-right:5%
-
 }
 
 .templateGrid{
-
 grid-template-columns:1fr 1fr
-
 }
 
 .drawTop,
-
 .drawBottom{
-
 max-width:95%
-
 }
 
 }
@@ -1729,33 +1020,24 @@ max-width:95%
 @media(max-width:500px){
 
 .templateGrid{
-
 grid-template-columns:1fr
-
 }
 
 .noteHeader{
-
 padding-top:24px
-
 }
 
 .title{
-
 font-size:28px
-
 }
 
 .editor{
-
 font-size:16px
-
 }
 
 }
 
 </style>
-
 </head>
 
 <body>
@@ -1763,107 +1045,40 @@ font-size:16px
 <!-- INTRO -->
 
 <div id="intro">
-
 <div class="introCore">
 
 <svg class="introLogo" viewBox="0 0 120 120">
-
 <ellipse
-
 cx="60"
-
 cy="60"
-
 rx="49"
-
 ry="20"
-
 fill="none"
-
 stroke="#707070"
-
 stroke-width="1.4"
-
 transform="rotate(45 60 60)"
-
 />
-
-<ellipse
-
-cx="60"
-
-cy="60"
-
-rx="49"
-
-ry="20"
-
-fill="none"
-
-stroke="#707070"
-
-stroke-width="1.4"
-
-transform="rotate(-45 60 60)"
-
-/>
-
-<ellipse
-
-cx="60"
-
-cy="60"
-
-rx="49"
-
-ry="20"
-
-fill="none"
-
-stroke="#707070"
-
-stroke-width="1.4"
-
-transform="rotate(90 60 60)"
-
-/>
-
 <circle
-
 cx="60"
-
 cy="60"
-
 r="16"
-
 fill="#202020"
-
 />
-
 <circle
-
 cx="60"
-
 cy="60"
-
 r="10"
-
 fill="#f4f4f4"
-
 />
-
 </svg>
 
 <div class="introName">
-
 StudyNotes
-
 </div>
 
 <div class="introRule"></div>
 
 </div>
-
 </div>
 
 <!-- APP -->
@@ -1877,73 +1092,21 @@ StudyNotes
 <div class="brand">
 
 <svg viewBox="0 0 40 40">
-
 <ellipse
-
 cx="20"
-
 cy="20"
-
 rx="16"
-
 ry="7"
-
 fill="none"
-
 stroke="#777"
-
 transform="rotate(45 20 20)"
-
 />
-
-<ellipse
-
-cx="20"
-
-cy="20"
-
-rx="16"
-
-ry="7"
-
-fill="none"
-
-stroke="#777"
-
-transform="rotate(-45 20 20)"
-
-/>
-
-<ellipse
-
-cx="20"
-
-cy="20"
-
-rx="16"
-
-ry="7"
-
-fill="none"
-
-stroke="#777"
-
-transform="rotate(90 20 20)"
-
-/>
-
 <circle
-
 cx="20"
-
 cy="20"
-
 r="5"
-
 fill="#eee"
-
 />
-
 </svg>
 
 <span>studynotes</span>
@@ -1952,22 +1115,13 @@ fill="#eee"
 
 <div class="searchWrap">
 
-<span class="searchIcon">
-
-⌕
-
-</span>
+<span class="searchIcon">⌕</span>
 
 <input
-
 id="search"
-
 class="search"
-
 placeholder="Search your notes"
-
 autocomplete="off"
-
 />
 
 </div>
@@ -1975,81 +1129,33 @@ autocomplete="off"
 </div>
 
 <div class="sideTitle">
-
 Your space
-
 </div>
 
-<div
+<div id="folders" class="folders"></div>
 
-id="folders"
-
-class="folders"
-
-></div>
-
-<button
-
-class="addFolder"
-
-onclick="addFolder()"
-
->
-
+<button class="addFolder" onclick="addFolder()">
 ＋ Add folder
-
 </button>
 
 <div class="sideTitle">
-
 Notes
-
 </div>
 
-<div
-
-id="notes"
-
-class="notes"
-
-></div>
+<div id="notes" class="notes"></div>
 
 <div class="sideBottom">
 
-<button
-
-class="sideButton"
-
-onclick="templates()"
-
->
-
+<button class="sideButton" onclick="templates()">
 Templates
-
 </button>
 
-<button
-
-class="sideButton"
-
-onclick="settings()"
-
->
-
+<button class="sideButton" onclick="settings()">
 Settings
-
 </button>
 
-<button
-
-class="sideButton"
-
-onclick="help()"
-
->
-
+<button class="sideButton" onclick="help()">
 ? Help
-
 </button>
 
 </div>
@@ -2061,87 +1167,48 @@ onclick="help()"
 <div class="topbar">
 
 <button
-
 class="icon"
-
 onclick="toggleSidebar()"
-
 title="Sidebar"
-
 >
-
 ☰
-
 </button>
 
 <button
-
 id="previewBtn"
-
 class="icon"
-
 onclick="togglePreview()"
-
 title="Preview"
-
 >
-
 ◌
-
 </button>
 
 <button
-
 class="icon"
-
 onclick="pinNote()"
-
 title="Pin"
-
 >
-
 ☆
-
 </button>
 
 <button
-
 class="icon"
-
 onclick="duplicateNote()"
-
 title="Duplicate"
-
 >
-
 ⧉
-
 </button>
 
 <button
-
 class="icon"
-
 onclick="deleteNote()"
-
 title="Delete"
-
 >
-
 ×
-
 </button>
 
-<div
-
-id="status"
-
-class="status"
-
->
-
+<div id="status" class="status">
 Saved
-
 </div>
 
 </div>
@@ -2149,247 +1216,111 @@ Saved
 <div class="noteHeader">
 
 <input
-
 id="title"
-
 class="title"
-
 placeholder="Note title"
-
 />
 
-<span
-
-id="pinState"
-
-class="pin"
-
-></span>
+<span id="pinState" class="pin"></span>
 
 </div>
 
 <div class="toolbar">
 
-<button
-
-class="tool"
-
-onclick="format('bold')"
-
-title="Bold"
-
->
-
+<button class="tool" onclick="format('bold')" title="Bold">
 <b>B</b>
-
 </button>
 
-<button
-
-class="tool"
-
-onclick="format('italic')"
-
-title="Italic"
-
->
-
+<button class="tool" onclick="format('italic')" title="Italic">
 <i>I</i>
-
 </button>
 
-<button
-
-class="tool"
-
-onclick="format('underline')"
-
-title="Underline"
-
->
-
+<button class="tool" onclick="format('underline')" title="Underline">
 <u>U</u>
-
 </button>
 
-<button
-
-class="tool"
-
-onclick="format('h2')"
-
-title="Heading"
-
->
-
+<button class="tool" onclick="format('h2')" title="Heading">
 H2
-
 </button>
 
-<button
-
-class="tool"
-
-onclick="format('check')"
-
-title="Checklist"
-
->
-
+<button class="tool" onclick="format('check')" title="Checklist">
 ☑
-
 </button>
 
-<button
-
-class="tool"
-
-onclick="format('code')"
-
-title="Code"
-
->
-
+<button class="tool" onclick="format('code')" title="Code">
 &lt;/&gt;
-
 </button>
 
-<button
-
-class="tool"
-
-onclick="insertLink()"
-
-title="Link"
-
->
-
+<button class="tool" onclick="insertLink()" title="Link">
 Link
-
 </button>
 
 <span class="sep"></span>
 
 <button
-
 id="highlightBtn"
-
 class="tool"
-
 onclick="toggleHighlighter()"
-
 title="Highlighter"
-
 >
-
 ▰
-
 </button>
 
 <button
-
 id="textColorBtn"
-
 class="tool"
-
 onclick="openTextColors()"
-
 title="Text colour"
-
 >
-
 A
-
 </button>
 
 <button
-
 id="drawBtn"
-
 class="tool"
-
 onclick="openDrawing()"
-
 title="Drawing"
-
 >
-
 ✎
-
 </button>
 
 </div>
 
-<div
-
-id="editorWrap"
-
-class="editorWrap"
-
->
+<div id="editorWrap" class="editorWrap">
 
 <div
-
 id="editor"
-
 class="editor"
-
 contenteditable="true"
-
 spellcheck="true"
-
 ></div>
 
 <div
-
 id="preview"
-
 class="editor"
-
+style="display:none"
 ></div>
 
 <!-- DRAWING -->
 
-<div
-
-id="drawOverlay"
-
->
+<div id="drawOverlay">
 
 <canvas
-
 id="drawCanvas"
-
 class="drawCanvas"
-
 ></canvas>
 
-<div
-
-id="ruler"
-
-class="ruler"
-
->
+<div id="ruler" class="ruler">
 
 <span>0</span>
-
 <span>1</span>
-
 <span>2</span>
-
 <span>3</span>
-
 <span>4</span>
-
 <span>5</span>
-
 <span>6</span>
-
 <span>7</span>
-
 <span>8</span>
-
 <span>9</span>
 
 </div>
@@ -2397,231 +1328,119 @@ class="ruler"
 <div class="drawTop">
 
 <button
-
 class="drawTool active"
-
 data-draw="pen"
-
 onclick="setDrawTool('pen')"
-
 >
-
 Pen
-
 </button>
 
 <button
-
 class="drawTool"
-
 data-draw="pencil"
-
 onclick="setDrawTool('pencil')"
-
 >
-
 Pencil
-
 </button>
 
 <button
-
 class="drawTool"
-
 data-draw="marker"
-
 onclick="setDrawTool('marker')"
-
 >
-
 Marker
-
 </button>
 
 <button
-
 class="drawTool"
-
 data-draw="ruler"
-
 onclick="setDrawTool('ruler')"
-
 >
-
 Ruler
-
 </button>
 
 <button
-
 class="drawTool"
-
 data-draw="eraser"
-
 onclick="setDrawTool('eraser')"
-
 >
-
 Eraser
-
 </button>
 
 </div>
 
 <div class="drawBottom">
 
-<button
+<button class="drawColor cBlack selected"
+onclick="setDrawColor('#050505',this)">
+</button>
 
-class="drawColor cBlack selected"
+<button class="drawColor cWhite"
+onclick="setDrawColor('#fff',this)">
+</button>
 
-onclick="setDrawColor('#050505',this)"
+<button class="drawColor cRed"
+onclick="setDrawColor('#ff453a',this)">
+</button>
 
-></button>
+<button class="drawColor cOrange"
+onclick="setDrawColor('#ff9f0a',this)">
+</button>
 
-<button
+<button class="drawColor cYellow"
+onclick="setDrawColor('#ffd60a',this)">
+</button>
 
-class="drawColor cWhite"
+<button class="drawColor cGreen"
+onclick="setDrawColor('#30d158',this)">
+</button>
 
-onclick="setDrawColor('#fff',this)"
+<button class="drawColor cBlue"
+onclick="setDrawColor('#0a84ff',this)">
+</button>
 
-></button>
+<button class="drawColor cPurple"
+onclick="setDrawColor('#bf5af2',this)">
+</button>
 
-<button
+<button class="drawColor cPink"
+onclick="setDrawColor('#ff375f',this)">
+</button>
 
-class="drawColor cRed"
-
-onclick="setDrawColor('#ff453a',this)"
-
-></button>
-
-<button
-
-class="drawColor cOrange"
-
-onclick="setDrawColor('#ff9f0a',this)"
-
-></button>
-
-<button
-
-class="drawColor cYellow"
-
-onclick="setDrawColor('#ffd60a',this)"
-
-></button>
-
-<button
-
-class="drawColor cGreen"
-
-onclick="setDrawColor('#30d158',this)"
-
-></button>
-
-<button
-
-class="drawColor cBlue"
-
-onclick="setDrawColor('#0a84ff',this)"
-
-></button>
-
-<button
-
-class="drawColor cPurple"
-
-onclick="setDrawColor('#bf5af2',this)"
-
-></button>
-
-<button
-
-class="drawColor cPink"
-
-onclick="setDrawColor('#ff375f',this)"
-
-></button>
-
-<select
-
-id="drawSize"
-
-class="size"
-
->
+<select id="drawSize" class="size">
 
 <option value="2">
-
 Thin
-
 </option>
 
 <option value="4" selected>
-
 Medium
-
 </option>
 
 <option value="8">
-
 Thick
-
 </option>
 
 <option value="14">
-
 Wide
-
 </option>
 
 </select>
 
-<button
-
-class="drawTool"
-
-onclick="undoDraw()"
-
->
-
+<button class="drawTool" onclick="undoDraw()">
 ↶
-
 </button>
 
-<button
-
-class="drawTool"
-
-onclick="redoDraw()"
-
->
-
+<button class="drawTool" onclick="redoDraw()">
 ↷
-
 </button>
 
-<button
-
-class="drawTool"
-
-onclick="clearDraw()"
-
->
-
+<button class="drawTool" onclick="clearDraw()">
 Clear
-
 </button>
 
-<button
-
-class="drawTool drawClose"
-
-onclick="closeDrawing()"
-
->
-
+<button class="drawTool drawClose" onclick="closeDrawing()">
 Done
-
 </button>
 
 </div>
@@ -2630,16 +1449,8 @@ Done
 
 </div>
 
-<div
-
-id="stats"
-
-class="stats"
-
->
-
+<div id="stats" class="stats">
 0 words · 0 characters · 0 min read
-
 </div>
 
 </main>
@@ -2648,97 +1459,23 @@ class="stats"
 
 <!-- TEXT COLOUR PALETTE -->
 
-<div
+<div id="textColors" class="pop">
 
-id="textColors"
-
-class="pop"
-
->
-
-<button
-
-class="swatch sblack"
-
-onclick="setTextColor('#050505')"
-
-></button>
-
-<button
-
-class="swatch swhite"
-
-onclick="setTextColor('#fff')"
-
-></button>
-
-<button
-
-class="swatch sred"
-
-onclick="setTextColor('#ff453a')"
-
-></button>
-
-<button
-
-class="swatch sorange"
-
-onclick="setTextColor('#ff9f0a')"
-
-></button>
-
-<button
-
-class="swatch syellow"
-
-onclick="setTextColor('#ffd60a')"
-
-></button>
-
-<button
-
-class="swatch sgreen"
-
-onclick="setTextColor('#30d158')"
-
-></button>
-
-<button
-
-class="swatch sblue"
-
-onclick="setTextColor('#0a84ff')"
-
-></button>
-
-<button
-
-class="swatch spurple"
-
-onclick="setTextColor('#bf5af2')"
-
-></button>
-
-<button
-
-class="swatch spink"
-
-onclick="setTextColor('#ff375f')"
-
-></button>
+<button class="swatch sblack" onclick="setTextColor('#050505')"></button>
+<button class="swatch swhite" onclick="setTextColor('#fff')"></button>
+<button class="swatch sred" onclick="setTextColor('#ff453a')"></button>
+<button class="swatch sorange" onclick="setTextColor('#ff9f0a')"></button>
+<button class="swatch syellow" onclick="setTextColor('#ffd60a')"></button>
+<button class="swatch sgreen" onclick="setTextColor('#30d158')"></button>
+<button class="swatch sblue" onclick="setTextColor('#0a84ff')"></button>
+<button class="swatch spurple" onclick="setTextColor('#bf5af2')"></button>
+<button class="swatch spink" onclick="setTextColor('#ff375f')"></button>
 
 </div>
 
 <!-- MODAL -->
 
-<div
-
-id="modal"
-
-class="modal"
-
->
+<div id="modal" class="modal">
 
 <div class="modalBox">
 
@@ -2746,16 +1483,8 @@ class="modal"
 
 <h2 id="modalTitle"></h2>
 
-<button
-
-class="close"
-
-onclick="closeModal()"
-
->
-
+<button class="close" onclick="closeModal()">
 ×
-
 </button>
 
 </div>
@@ -2771,63 +1500,39 @@ onclick="closeModal()"
 const KEY="studynotes_ultra_v2";
 
 let data={
-
 notes:[],
-
 folders:[],
-
 current:null
-
 };
 
 let currentFolder="__all__";
-
 let savedRange=null;
-
 let highlighter=false;
-
 let drawCanvas=null;
-
 let drawCtx=null;
-
 let drawTool="pen";
-
 let drawColor="#050505";
-
 let drawing=false;
-
 let undoStack=[];
-
 let redoStack=[];
 
 /* HELPERS */
 
 function $(id){
-
 return document.getElementById(id)
-
 }
 
 function currentNote(){
-
 return data.notes.find(
-
 n=>n.id===data.current
-
 )||null
-
 }
 
 function save(){
-
 localStorage.setItem(
-
 KEY,
-
 JSON.stringify(data)
-
 )
-
 }
 
 /* LOAD */
@@ -2837,19 +1542,13 @@ function load(){
 try{
 
 const saved=
-
 JSON.parse(
-
 localStorage.getItem(KEY)
-
 );
 
 if(
-
 saved &&
-
 Array.isArray(saved.notes)
-
 ){
 
 data=saved
@@ -2859,9 +1558,7 @@ data=saved
 }catch(e){}
 
 if(
-
 !Array.isArray(data.folders)
-
 ){
 
 data.folders=[]
@@ -2873,21 +1570,12 @@ if(!data.notes.length){
 data.notes=[
 
 {
-
 id:Date.now(),
-
 title:"Welcome",
-
-html:
-
-"<p>Welcome to <strong>StudyNotes</strong>.</p><p>Everything you write here is saved automatically.</p>",
-
+html:"<p>Welcome to <strong>StudyNotes</strong>.</p><p>Everything you write here is saved automatically.</p>",
 folder:null,
-
 pin:false,
-
 drawing:null
-
 }
 
 ]
@@ -2895,33 +1583,23 @@ drawing:null
 }
 
 if(
-
 !data.current ||
-
 !currentNote()
-
 ){
 
 data.current=
-
 data.notes[0].id
 
 }
 
 save();
-
 render();
 
 setTimeout(
-
 ()=>{
-
 $("intro").classList.add("exit")
-
 },
-
-2600
-
+3000
 )
 
 }
@@ -2929,13 +1607,9 @@ $("intro").classList.add("exit")
 /* RENDER */
 
 function render(){
-
 renderFolders();
-
 renderNotes();
-
 loadEditor()
-
 }
 
 /* FOLDERS */
@@ -2947,103 +1621,67 @@ const box=$("folders");
 box.innerHTML="";
 
 const all=
-
 document.createElement("div");
 
 all.className=
-
 "folder"+
-
 (
-
 currentFolder==="__all__"
-
 ?" active"
-
 :""
-
 );
 
 all.innerHTML=
-
 '<span class="dot"></span>'+
-
 '<span class="folderName">All notes</span>';
 
 all.onclick=()=>{
-
 currentFolder="__all__";
-
 renderFolders();
-
 renderNotes()
-
 };
 
 box.appendChild(all);
 
 data.folders.forEach(
-
 f=>{
 
 const row=
-
 document.createElement("div");
 
 row.className=
-
 "folder"+
-
 (
-
 currentFolder===f
-
 ?" active"
-
 :""
-
 );
 
 row.innerHTML=
-
 '<span class="dot"></span>'+
-
 '<span class="folderName"></span>'+
-
 '<button class="folderDel">×</button>';
 
 row.querySelector(
-
 ".folderName"
-
 ).textContent=f;
 
 row.querySelector(
-
 ".folderDel"
-
 ).onclick=e=>{
-
 e.stopPropagation();
-
 deleteFolder(f)
-
 };
 
 row.onclick=()=>{
-
 currentFolder=f;
-
 renderFolders();
-
 renderNotes()
-
 };
 
 box.appendChild(row)
 
 }
-
 )
 
 }
@@ -3053,27 +1691,21 @@ box.appendChild(row)
 function addFolder(){
 
 const value=
-
 prompt("Folder name:");
 
 if(!value)return;
 
 const folder=
-
 value.trim();
 
 if(!folder)return;
 
 if(
-
 data.folders.includes(folder)
-
 ){
 
 alert(
-
 "That folder already exists."
-
 );
 
 return
@@ -3081,13 +1713,10 @@ return
 }
 
 data.folders.push(folder);
-
 currentFolder=folder;
 
 save();
-
 renderFolders();
-
 renderNotes()
 
 }
@@ -3097,45 +1726,28 @@ renderNotes()
 function deleteFolder(folder){
 
 if(
-
 !confirm(
-
 'Delete folder "'+
-
 folder+
-
 '"? Notes will stay.'
-
 )
-
 )
-
 return;
 
 data.folders=
-
 data.folders.filter(
-
 f=>f!==folder
-
 );
 
 data.notes.forEach(
-
 n=>{
-
 if(n.folder===folder)
-
 n.folder=null
-
 }
-
 );
 
 if(
-
 currentFolder===folder
-
 ){
 
 currentFolder="__all__"
@@ -3143,7 +1755,6 @@ currentFolder="__all__"
 }
 
 save();
-
 render()
 
 }
@@ -3157,67 +1768,40 @@ const box=$("notes");
 box.innerHTML="";
 
 const query=
-
 $("search")
-
 .value
-
 .trim()
-
 .toLowerCase();
 
 let list=
-
 data.notes
-
 .filter(
-
 n=>
-
 currentFolder==="__all__"||
-
 n.folder===currentFolder
-
 )
-
 .filter(
-
 n=>
-
 !query||
-
 n.title
-
 .toLowerCase()
-
 .includes(query)||
-
 (n.html||"")
-
 .replace(/<[^>]*>/g," ")
-
 .toLowerCase()
-
 .includes(query)
-
 );
 
 list.sort(
-
 (a,b)=>
-
 Number(b.pin)-
-
 Number(a.pin)||
-
 b.id-a.id
-
 );
 
 if(!list.length){
 
 box.innerHTML=
-
 '<div style="padding:18px 10px;color:#666;font-size:13px">No notes here yet.</div>';
 
 return
@@ -3225,65 +1809,42 @@ return
 }
 
 list.forEach(
-
 n=>{
 
 const row=
-
 document.createElement("div");
 
 row.className=
-
 "note"+
-
 (
-
 n.id===data.current
-
 ?" active"
-
 :""
-
 );
 
 row.innerHTML=
-
 '<span class="noteName"></span>';
 
 row.querySelector(
-
 ".noteName"
-
 ).textContent=
-
 (
-
 n.pin
-
 ?"★ "
-
 :""
-
 )+
-
 (n.title||"Untitled");
 
 row.onclick=()=>{
-
 data.current=n.id;
-
 save();
-
 renderNotes();
-
 loadEditor()
-
 };
 
 box.appendChild(row)
 
 }
-
 )
 
 }
@@ -3297,37 +1858,27 @@ const n=currentNote();
 if(!n)return;
 
 $("title").value=
-
 n.title||"";
 
 $("editor").innerHTML=
-
 n.html||"";
 
 $("pinState").textContent=
-
 n.pin
-
 ?"★"
-
 :"";
 
 $("status").textContent=
-
 "Saved";
 
 $("editor").style.display=
-
 "block";
 
 $("preview").style.display=
-
 "none";
 
 $("previewBtn")
-
 .classList
-
 .remove("active");
 
 updateStats()
@@ -3347,11 +1898,8 @@ title:"Untitled note",
 html:"",
 
 folder:
-
 currentFolder==="__all__"
-
 ?null
-
 :currentFolder,
 
 pin:false,
@@ -3361,19 +1909,14 @@ drawing:null
 };
 
 data.notes.unshift(n);
-
 data.current=n.id;
 
 save();
-
 render();
 
 setTimeout(
-
 ()=>$("title").focus(),
-
 30
-
 )
 
 }
@@ -3385,25 +1928,16 @@ function deleteNote(){
 const n=currentNote();
 
 if(
-
 !n||
-
 !confirm(
-
 "Delete this note?"
-
 )
-
 )
-
 return;
 
 data.notes=
-
 data.notes.filter(
-
 x=>x.id!==n.id
-
 );
 
 if(!data.notes.length){
@@ -3427,11 +1961,9 @@ drawing:null
 }
 
 data.current=
-
 data.notes[0].id;
 
 save();
-
 render()
 
 }
@@ -3445,27 +1977,18 @@ const n=currentNote();
 if(!n)return;
 
 const copy={
-
 ...n,
-
 id:Date.now(),
-
 title:
-
 (n.title||"Untitled")+
-
 " copy",
-
 pin:false
-
 };
 
 data.notes.unshift(copy);
-
 data.current=copy.id;
 
 save();
-
 render()
 
 }
@@ -3483,11 +2006,8 @@ n.pin=!n.pin;
 save();
 
 $("pinState").textContent=
-
 n.pin
-
 ?"★"
-
 :"";
 
 renderNotes()
@@ -3499,9 +2019,7 @@ renderNotes()
 function toggleSidebar(){
 
 $("sidebar")
-
 .classList
-
 .toggle("closed")
 
 }
@@ -3515,23 +2033,18 @@ const n=currentNote();
 if(!n)return;
 
 n.title=
-
 $("title").value||
-
 "Untitled";
 
 n.html=
-
 $("editor").innerHTML;
 
 save();
 
 $("status").textContent=
-
 "Saved";
 
 renderNotes();
-
 updateStats()
 
 }
@@ -3543,23 +2056,15 @@ function saveSelection(){
 const s=getSelection();
 
 if(
-
 s &&
-
 s.rangeCount &&
-
 $("editor").contains(
-
 s.anchorNode
-
 )
-
 ){
 
 savedRange=
-
 s.getRangeAt(0)
-
 .cloneRange()
 
 }
@@ -3569,7 +2074,6 @@ s.getRangeAt(0)
 function restoreSelection(){
 
 if(!savedRange)
-
 return;
 
 const s=getSelection();
@@ -3581,33 +2085,21 @@ s.addRange(savedRange)
 }
 
 $("editor")
-
 .addEventListener(
-
 "mouseup",
-
 saveSelection
-
 );
 
 $("editor")
-
 .addEventListener(
-
 "keyup",
-
 saveSelection
-
 );
 
 $("editor")
-
 .addEventListener(
-
 "touchend",
-
 saveSelection
-
 );
 
 /* FORMATTING */
@@ -3621,9 +2113,7 @@ $("editor").focus();
 if(command==="bold"){
 
 document.execCommand(
-
 "bold"
-
 )
 
 }
@@ -3631,9 +2121,7 @@ document.execCommand(
 if(command==="italic"){
 
 document.execCommand(
-
 "italic"
-
 )
 
 }
@@ -3641,9 +2129,7 @@ document.execCommand(
 if(command==="underline"){
 
 document.execCommand(
-
 "underline"
-
 )
 
 }
@@ -3651,13 +2137,9 @@ document.execCommand(
 if(command==="h2"){
 
 document.execCommand(
-
 "formatBlock",
-
 false,
-
 "h2"
-
 )
 
 }
@@ -3665,13 +2147,9 @@ false,
 if(command==="code"){
 
 document.execCommand(
-
 "formatBlock",
-
 false,
-
 "pre"
-
 )
 
 }
@@ -3679,19 +2157,14 @@ false,
 if(command==="check"){
 
 document.execCommand(
-
 "insertText",
-
 false,
-
 "☐ "
-
 )
 
 }
 
 update();
-
 saveSelection()
 
 }
@@ -3703,23 +2176,17 @@ function insertLink(){
 restoreSelection();
 
 const url=
-
 prompt("Enter URL:");
 
 if(!url)
-
 return;
 
 $("editor").focus();
 
 document.execCommand(
-
 "createLink",
-
 false,
-
 url
-
 );
 
 update()
@@ -3731,27 +2198,18 @@ update()
 function toggleHighlighter(){
 
 highlighter=
-
 !highlighter;
 
 $("highlightBtn")
-
 .classList
-
 .toggle(
-
 "active",
-
 highlighter
-
 );
 
 $("editor").style.cursor=
-
 highlighter
-
 ?"text"
-
 :""
 
 }
@@ -3761,25 +2219,18 @@ highlighter
 function wordRange(){
 
 const selection=
-
 getSelection();
 
 if(
-
 !selection ||
-
 !selection.rangeCount
-
 )
-
 return null;
 
 let node=
-
 selection.anchorNode;
 
 if(!node)
-
 return null;
 
 if(node.nodeType!==3){
@@ -3789,37 +2240,25 @@ node=node.firstChild
 }
 
 if(
-
 !node ||
-
 node.nodeType!==3
-
 )
-
 return null;
 
 const text=
-
 node.textContent;
 
 let start=
-
 selection.anchorOffset;
 
 let end=
-
 selection.anchorOffset;
 
 while(
-
 start>0 &&
-
 !/\s/.test(
-
 text[start-1]
-
 )
-
 ){
 
 start--
@@ -3827,15 +2266,10 @@ start--
 }
 
 while(
-
 end<text.length &&
-
 !/\s/.test(
-
 text[end]
-
 )
-
 ){
 
 end++
@@ -3843,27 +2277,19 @@ end++
 }
 
 if(start===end)
-
 return null;
 
 const range=
-
 document.createRange();
 
 range.setStart(
-
 node,
-
 start
-
 );
 
 range.setEnd(
-
 node,
-
 end
-
 );
 
 return range
@@ -3873,27 +2299,20 @@ return range
 /* HIGHLIGHT CLICK */
 
 $("editor")
-
 .addEventListener(
-
 "click",
-
 e=>{
 
 if(!highlighter)
-
 return;
 
 const range=
-
 wordRange();
 
 if(!range)
-
 return;
 
 const selection=
-
 getSelection();
 
 selection.removeAllRanges();
@@ -3901,41 +2320,27 @@ selection.removeAllRanges();
 selection.addRange(range);
 
 document.execCommand(
-
 "hiliteColor",
-
 false,
-
 "#c9c35b"
-
 );
 
 document.execCommand(
-
 "backColor",
-
 false,
-
 "#c9c35b"
-
 );
 
 update();
 
 setTimeout(
-
 ()=>{
-
 selection.collapseToEnd()
-
 },
-
 0
-
 )
 
 }
-
 );
 
 /* TEXT COLOUR */
@@ -3945,39 +2350,27 @@ function openTextColors(){
 saveSelection();
 
 const popup=
-
 $("textColors");
 
 const button=
-
 $("textColorBtn");
 
 const rect=
-
 button.getBoundingClientRect();
 
 popup.style.left=
-
 Math.max(
-
 8,
-
 rect.left
-
 )+"px";
 
 popup.style.top=
-
 (
-
 rect.bottom+7
-
 )+"px";
 
 popup.classList.toggle(
-
 "show"
-
 )
 
 }
@@ -3989,25 +2382,17 @@ restoreSelection();
 $("editor").focus();
 
 document.execCommand(
-
 "foreColor",
-
 false,
-
 color
-
 );
 
 update();
 
 $("textColors")
-
 .classList
-
 .remove(
-
 "show"
-
 )
 
 }
@@ -4017,17 +2402,13 @@ $("textColors")
 function togglePreview(){
 
 const p=
-
 $("preview");
 
 const e=
-
 $("editor");
 
 if(
-
 p.style.display==="block"
-
 ){
 
 p.style.display="none";
@@ -4035,29 +2416,22 @@ p.style.display="none";
 e.style.display="block";
 
 $("previewBtn")
-
 .classList
-
 .remove("active");
 
 }else{
 
 p.innerHTML=
-
 e.innerHTML;
 
 p.style.display=
-
 "block";
 
 e.style.display=
-
 "none";
 
 $("previewBtn")
-
 .classList
-
 .add("active");
 
 }
@@ -4069,75 +2443,53 @@ $("previewBtn")
 function openDrawing(){
 
 if(drawCanvas)
-
 return;
 
 $("drawOverlay")
-
 .style.display=
-
 "block";
 
 drawCanvas=
-
 $("drawCanvas");
 
 drawCanvas.width=
-
 $("editorWrap").clientWidth;
 
 drawCanvas.height=
-
 $("editorWrap").clientHeight;
 
 drawCtx=
-
 drawCanvas.getContext("2d");
 
 drawCtx.lineCap=
-
 "round";
 
 drawCtx.lineJoin=
-
 "round";
 
 undoStack=[];
-
 redoStack=[];
 
 const n=
-
 currentNote();
 
 if(
-
 n &&
-
 n.drawing
-
 ){
 
 const image=
-
 new Image();
 
 image.onload=()=>{
-
 drawCtx.drawImage(
-
 image,
-
 0,
-
 0
-
 )
-
 };
 
 image.src=
-
 n.drawing
 
 }
@@ -4145,33 +2497,22 @@ n.drawing
 saveDrawState();
 
 drawCanvas.addEventListener(
-
 "pointerdown",
-
 drawStart
-
 );
 
 drawCanvas.addEventListener(
-
 "pointermove",
-
 drawMove
-
 );
 
 window.addEventListener(
-
 "pointerup",
-
 drawEnd
-
 );
 
 $("drawBtn")
-
 .classList
-
 .add("active")
 
 }
@@ -4181,9 +2522,7 @@ $("drawBtn")
 function drawStart(e){
 
 if(
-
 drawTool==="ruler"
-
 ){
 
 showRuler();
@@ -4195,25 +2534,18 @@ return
 drawing=true;
 
 drawCanvas
-
 .setPointerCapture?.(
-
 e.pointerId
-
 );
 
 const p=
-
 point(e);
 
 drawCtx.beginPath();
 
 drawCtx.moveTo(
-
 p.x,
-
 p.y
-
 )
 
 }
@@ -4223,51 +2555,35 @@ p.y
 function drawMove(e){
 
 if(!drawing)
-
 return;
 
 const p=
-
 point(e);
 
 drawCtx.globalCompositeOperation=
-
 drawTool==="eraser"
-
 ?"destination-out"
-
 :"source-over";
 
 let size=
-
 Number(
-
 $("drawSize").value
-
 );
 
 if(
-
 drawTool==="pencil"
-
 ){
 
 size=
-
 Math.max(
-
 1,
-
 size*.48
-
 )
 
 }
 
 if(
-
 drawTool==="marker"
-
 ){
 
 size*=3
@@ -4275,27 +2591,19 @@ size*=3
 }
 
 drawCtx.lineWidth=
-
 size;
 
 drawCtx.globalAlpha=
-
 drawTool==="marker"
-
 ?.28
-
 :1;
 
 drawCtx.strokeStyle=
-
 drawColor;
 
 drawCtx.lineTo(
-
 p.x,
-
 p.y
-
 );
 
 drawCtx.stroke()
@@ -4307,7 +2615,6 @@ drawCtx.stroke()
 function drawEnd(){
 
 if(!drawing)
-
 return;
 
 drawing=false;
@@ -4315,7 +2622,6 @@ drawing=false;
 drawCtx.globalAlpha=1;
 
 drawCtx.globalCompositeOperation=
-
 "source-over";
 
 saveDrawState();
@@ -4329,17 +2635,12 @@ persistDrawing()
 function point(e){
 
 const rect=
-
 drawCanvas
-
 .getBoundingClientRect();
 
 return{
-
 x:e.clientX-rect.left,
-
 y:e.clientY-rect.top
-
 }
 
 }
@@ -4351,31 +2652,19 @@ function setDrawTool(tool){
 drawTool=tool;
 
 document
-
 .querySelectorAll(
-
 "[data-draw]"
-
 )
-
 .forEach(
-
 button=>
-
 button.classList.toggle(
-
 "active",
-
 button.dataset.draw===tool
-
 )
-
 );
 
 if(
-
 tool==="ruler"
-
 ){
 
 showRuler()
@@ -4391,45 +2680,29 @@ hideRuler()
 /* DRAW COLOUR */
 
 function setDrawColor(
-
 color,
-
 button
-
 ){
 
 drawColor=color;
 
 document
-
 .querySelectorAll(
-
 ".drawColor"
-
 )
-
 .forEach(
-
 b=>
-
 b.classList.remove(
-
 "selected"
-
 )
-
 );
 
 button.classList.add(
-
 "selected"
-
 );
 
 if(
-
 drawTool==="eraser"
-
 ){
 
 setDrawTool("pen")
@@ -4443,19 +2716,14 @@ setDrawTool("pen")
 function saveDrawState(){
 
 if(!drawCanvas)
-
 return;
 
 undoStack.push(
-
 drawCanvas.toDataURL()
-
 );
 
 if(
-
 undoStack.length>35
-
 ){
 
 undoStack.shift()
@@ -4469,31 +2737,21 @@ redoStack=[]
 function restoreDraw(src){
 
 const image=
-
 new Image();
 
 image.onload=()=>{
 
 drawCtx.clearRect(
-
 0,
-
 0,
-
 drawCanvas.width,
-
 drawCanvas.height
-
 );
 
 drawCtx.drawImage(
-
 image,
-
 0,
-
 0
-
 );
 
 persistDrawing()
@@ -4507,27 +2765,18 @@ image.src=src
 function undoDraw(){
 
 if(
-
 undoStack.length<2
-
 )
-
 return;
 
 redoStack.push(
-
 undoStack.pop()
-
 );
 
 restoreDraw(
-
 undoStack[
-
 undoStack.length-1
-
 ]
-
 )
 
 }
@@ -4535,11 +2784,9 @@ undoStack.length-1
 function redoDraw(){
 
 if(!redoStack.length)
-
 return;
 
 const state=
-
 redoStack.pop();
 
 undoStack.push(state);
@@ -4551,27 +2798,17 @@ restoreDraw(state)
 function clearDraw(){
 
 if(
-
 !confirm(
-
 "Clear the drawing?"
-
 )
-
 )
-
 return;
 
 drawCtx.clearRect(
-
 0,
-
 0,
-
 drawCanvas.width,
-
 drawCanvas.height
-
 );
 
 saveDrawState();
@@ -4582,25 +2819,15 @@ persistDrawing()
 
 function persistDrawing(){
 
-const n=
+const n=currentNote();
 
-currentNote();
-
-if(
-
-n &&
-
-drawCanvas
-
-){
+if(!n||!drawCanvas)
+return;
 
 n.drawing=
-
 drawCanvas.toDataURL();
 
 save()
-
-}
 
 }
 
@@ -4609,33 +2836,25 @@ function closeDrawing(){
 persistDrawing();
 
 $("drawOverlay")
-
 .style.display=
-
 "none";
 
 $("drawBtn")
-
 .classList
-
 .remove("active");
 
 drawCanvas=null;
-
 drawCtx=null;
+drawing=false;
 
 hideRuler()
 
 }
 
-/* RULER */
-
 function showRuler(){
 
 $("ruler")
-
 .classList
-
 .add("show")
 
 }
@@ -4643,288 +2862,393 @@ $("ruler")
 function hideRuler(){
 
 $("ruler")
-
 .classList
-
 .remove("show")
 
 }
 
-let rulerDrag=false;
+/* RULER DRAG */
 
-let rx=0;
-
-let ry=0;
+(function(){
 
 const ruler=
-
 $("ruler");
 
-ruler.addEventListener(
+let dragging=false;
+let ox=0;
+let oy=0;
 
-"pointerdown",
+function start(e){
 
-e=>{
+dragging=true;
 
-rulerDrag=true;
+const r=
+ruler.getBoundingClientRect();
 
-rx=
+ox=e.clientX-r.left;
+oy=e.clientY-r.top;
 
-e.clientX-
-
-ruler.offsetLeft;
-
-ry=
-
-e.clientY-
-
-ruler.offsetTop;
-
-ruler
-
-.setPointerCapture?.(
-
+ruler.setPointerCapture?.(
 e.pointerId
-
 )
 
 }
 
-);
+function move(e){
 
-ruler.addEventListener(
-
-"pointermove",
-
-e=>{
-
-if(!rulerDrag)
-
+if(!dragging)
 return;
 
+const parent=
+$("drawOverlay")
+.getBoundingClientRect();
+
 ruler.style.left=
-
 (
-
-e.clientX-rx
-
+e.clientX-parent.left-ox
 )+"px";
 
 ruler.style.top=
-
 (
-
-e.clientY-ry
-
-)+"px"
+e.clientY-parent.top-oy
+)+"px";
 
 }
 
+function end(){
+
+dragging=false
+
+}
+
+ruler.addEventListener(
+"pointerdown",
+start
 );
 
 ruler.addEventListener(
+"pointermove",
+move
+);
 
+ruler.addEventListener(
 "pointerup",
+end
+);
 
-()=>{
+})();
 
-rulerDrag=false
+/* STATS */
+
+function updateStats(){
+
+const text=
+$("editor")
+.innerText
+.trim();
+
+const words=
+text
+?text.split(/\s+/).length
+:0;
+
+const chars=
+text.length;
+
+const minutes=
+Math.max(
+0,
+Math.ceil(words/200)
+);
+
+$("stats").textContent=
+`${words} words · ${chars} characters · ${minutes} min read`
 
 }
 
+/* SEARCH */
+
+$("search")
+.addEventListener(
+"input",
+renderNotes
 );
+
+/* TITLE */
+
+$("title")
+.addEventListener(
+"input",
+update
+);
+
+/* EDITOR */
+
+$("editor")
+.addEventListener(
+"input",
+update
+);
+
+/* MODALS */
+
+function closeModal(){
+
+$("modal")
+.classList
+.remove("show")
+
+}
+
+function openModal(title,html){
+
+$("modalTitle").textContent=
+title;
+
+$("modalBody").innerHTML=
+html;
+
+$("modal")
+.classList
+.add("show")
+
+}
 
 /* TEMPLATES */
 
-const templatesData={
+function templates(){
 
-"Daily Study":{
+openModal(
+"Templates",
+`
 
-desc:
+<div class="templateGrid">
 
-"A calm daily page for goals, notes and review.",
+<button class="templateCard" onclick="useTemplate('daily')">
 
-shape:
+<div class="templatePreview shapeDaily">
+<span style="width:45%"></span>
+<span style="width:90%"></span>
+<span style="width:75%"></span>
+<span style="width:85%"></span>
+<span style="width:60%"></span>
+</div>
 
-"shapeDaily",
+<div class="templateName">Daily Study</div>
+<div class="templateDesc">Simple daily study structure with priorities and notes.</div>
 
-html:
+</button>
 
-"<h1>Today</h1><h2>Focus</h2><p>What matters most today?</p><h2>Notes</h2><p></p><h2>Key takeaway</h2><p></p><h2>Tomorrow</h2><p>What should I remember?</p>"
+<button class="templateCard" onclick="useTemplate('cornell')">
 
+<div class="templatePreview shapeCornell">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="templateName">Cornell Notes</div>
+<div class="templateDesc">Questions, main notes and a summary area.</div>
+
+</button>
+
+<button class="templateCard" onclick="useTemplate('exam')">
+
+<div class="templatePreview shapeExam">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="templateName">Exam Revision</div>
+<div class="templateDesc">Topics, key facts, questions and confidence.</div>
+
+</button>
+
+<button class="templateCard" onclick="useTemplate('essay')">
+
+<div class="templatePreview shapeEssay">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="templateName">Essay Planner</div>
+<div class="templateDesc">Thesis, arguments, evidence and conclusion.</div>
+
+</button>
+
+<button class="templateCard" onclick="useTemplate('project')">
+
+<div class="templatePreview shapeProject">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="templateName">Project Planner</div>
+<div class="templateDesc">Goals, tasks, resources and next steps.</div>
+
+</button>
+
+<button class="templateCard" onclick="useTemplate('flash')">
+
+<div class="templatePreview shapeFlash">
+<span></span>
+<span></span>
+</div>
+
+<div class="templateName">Flashcards</div>
+<div class="templateDesc">Quick question-and-answer revision cards.</div>
+
+</button>
+
+</div>
+`
+)
+
+}
+
+function useTemplate(type){
+
+const n=currentNote();
+
+if(!n)
+return;
+
+const templates={
+
+daily:{
+title:"Daily Study",
+html:`
+<h2>Today's focus</h2>
+<p>What do I need to understand today?</p>
+<h2>Top priorities</h2>
+<p>☐ Priority 1</p>
+<p>☐ Priority 2</p>
+<p>☐ Priority 3</p>
+<h2>Notes</h2>
+<p></p>
+<h2>What I learned</h2>
+<p></p>
+`
 },
 
-"Cornell Notes":{
-
-desc:
-
-"Classic cue, notes and summary layout.",
-
-shape:
-
-"shapeCornell",
-
-html:
-
-"<h1>Topic</h1><table><tr><td><strong>Cues / Questions</strong></td><td><strong>Notes</strong></td></tr><tr><td><p></p></td><td><p></p></td></tr><tr><td colspan=\"2\"><strong>Summary</strong><p></p></td></tr></table>"
-
+cornell:{
+title:"Cornell Notes",
+html:`
+<h2>Topic</h2>
+<p></p>
+<table>
+<tr>
+<td><strong>Questions / Keywords</strong></td>
+<td><strong>Main Notes</strong></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</table>
+<h2>Summary</h2>
+<p></p>
+`
 },
 
-"Exam Revision":{
-
-desc:
-
-"Organise topics, weak areas and final review.",
-
-shape:
-
-"shapeExam",
-
-html:
-
-"<h1>Exam Revision</h1><h2>Topics</h2><p>☐ Topic 1<br>☐ Topic 2<br>☐ Topic 3<br>☐ Topic 4</p><h2>Key concepts</h2><p></p><h2>Weak areas</h2><p></p><h2>Final review</h2><p></p>"
-
+exam:{
+title:"Exam Revision",
+html:`
+<h2>Exam topic</h2>
+<p></p>
+<h2>Key facts</h2>
+<p>• </p>
+<p>• </p>
+<p>• </p>
+<h2>Questions I should be able to answer</h2>
+<p>☐ </p>
+<p>☐ </p>
+<h2>Confidence</h2>
+<p>1 — 2 — 3 — 4 — 5</p>
+`
 },
 
-"Essay Planner":{
-
-desc:
-
-"Build an essay from question to conclusion.",
-
-shape:
-
-"shapeEssay",
-
-html:
-
-"<h1>Essay Planner</h1><h2>Question</h2><p></p><h2>Thesis</h2><p></p><h2>Argument 1</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Argument 2</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Counterargument</h2><p></p><h2>Conclusion</h2><p></p>"
-
+essay:{
+title:"Essay Planner",
+html:`
+<h2>Essay question</h2>
+<p></p>
+<h2>Thesis</h2>
+<p></p>
+<h2>Argument 1</h2>
+<p><strong>Claim:</strong></p>
+<p><strong>Evidence:</strong></p>
+<p><strong>Explanation:</strong></p>
+<h2>Argument 2</h2>
+<p><strong>Claim:</strong></p>
+<p><strong>Evidence:</strong></p>
+<p><strong>Explanation:</strong></p>
+<h2>Conclusion</h2>
+<p></p>
+`
 },
 
-"Project Planner":{
-
-desc:
-
-"Plan outcomes, milestones, tasks and next actions.",
-
-shape:
-
-"shapeProject",
-
-html:
-
-"<h1>Project</h1><h2>Outcome</h2><p></p><h2>Milestones</h2><p>☐ Milestone 1<br>☐ Milestone 2<br>☐ Milestone 3</p><h2>Tasks</h2><p>☐ Task 1<br>☐ Task 2<br>☐ Task 3</p><h2>Next action</h2><p></p>"
-
+project:{
+title:"Project Planner",
+html:`
+<h2>Project</h2>
+<p></p>
+<h2>Goal</h2>
+<p></p>
+<h2>Tasks</h2>
+<p>☐ </p>
+<p>☐ </p>
+<p>☐ </p>
+<h2>Resources</h2>
+<p></p>
+<h2>Next step</h2>
+<p></p>
+`
 },
 
-"Flashcards":{
-
-desc:
-
-"Turn a lesson into compact question and answer cards.",
-
-shape:
-
-"shapeFlash",
-
-html:
-
-"<h1>Flashcards</h1><h2>Card 1</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 2</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 3</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p>"
-
+flash:{
+title:"Flashcards",
+html:`
+<h2>Flashcards</h2>
+<h3>Card 1</h3>
+<p><strong>Question:</strong></p>
+<p><strong>Answer:</strong></p>
+<h3>Card 2</h3>
+<p><strong>Question:</strong></p>
+<p><strong>Answer:</strong></p>
+<h3>Card 3</h3>
+<p><strong>Question:</strong></p>
+<p><strong>Answer:</strong></p>
+`
 }
 
 };
 
-/* TEMPLATE WINDOW */
+const t=
+templates[type];
 
-function templates(){
-
-let html=
-
-'<div class="templateGrid">';
-
-Object.entries(
-
-templatesData
-
-)
-
-.forEach(
-
-([name,t])=>{
-
-html+=
-
-'<button class="templateCard" onclick="useTemplate('+JSON.stringify(name)+')">'+
-
-'<div class="templatePreview '+t.shape+'">'+
-
-'<span></span>'+
-
-'<span></span>'+
-
-'<span></span>'+
-
-'<span></span>'+
-
-'</div>'+
-
-'<div class="templateName">'+
-
-name+
-
-'</div>'+
-
-'<div class="templateDesc">'+
-
-t.desc+
-
-'</div>'+
-
-'</button>'
-
-}
-
-);
-
-html+=
-
-'</div>';
-
-openModal(
-
-"Templates",
-
-html
-
-)
-
-}
-
-/* USE TEMPLATE */
-
-function useTemplate(name){
-
-const n=
-
-currentNote();
-
-if(!n)
-
+if(!t)
 return;
 
-n.title=name;
-
-n.html=
-
-templatesData[name].html;
+n.title=t.title;
+n.html=t.html;
 
 save();
-
 closeModal();
-
-render()
+loadEditor();
+renderNotes()
 
 }
 
@@ -4933,112 +3257,66 @@ render()
 function settings(){
 
 openModal(
-
 "Settings",
+`
 
-'<div class="settingRow">'+
+<div class="settingRow">
+<strong>Appearance</strong><br>
+Minimal dark interface
+</div>
 
-'Your notes are saved locally in this browser.'+
+<div class="settingRow">
+<strong>Storage</strong><br>
+Your notes are saved locally in this browser.
+</div>
 
-'<button onclick="exportData()">Export backup</button>'+
-
-'</div>'+
-
-'<div class="settingRow">'+
-
-'Reset your local StudyNotes data.'+
-
-'<button onclick="resetData()">Reset all</button>'+
-
-'</div>'
-
+<div class="settingRow">
+<button onclick="exportNotes()">Export notes</button>
+<button onclick="resetNotes()">Reset all</button>
+</div>
+`
 )
 
 }
 
-/* EXPORT */
-
-function exportData(){
+function exportNotes(){
 
 const blob=
-
 new Blob(
-
 [
-
-JSON.stringify(
-
-data,
-
-null,
-
-2
-
-)
-
+JSON.stringify(data,null,2)
 ],
-
 {
-
 type:"application/json"
-
 }
-
 );
 
-const a=
-
-document.createElement("a");
-
-a.href=
-
+const url=
 URL.createObjectURL(blob);
 
-a.download=
+const a=
+document.createElement("a");
 
-"StudyNotes-backup.json";
-
+a.href=url;
+a.download="studynotes-backup.json";
 a.click();
 
-setTimeout(
-
-()=>
-
-URL.revokeObjectURL(
-
-a.href
-
-),
-
-1000
-
-)
+URL.revokeObjectURL(url)
 
 }
 
-/* RESET */
-
-function resetData(){
+function resetNotes(){
 
 if(
-
-confirm(
-
+!confirm(
 "Delete all notes and folders?"
-
 )
+)
+return;
 
-){
-
-localStorage.removeItem(
-
-KEY
-
-);
+localStorage.removeItem(KEY);
 
 location.reload()
-
-}
 
 }
 
@@ -5047,165 +3325,85 @@ location.reload()
 function help(){
 
 openModal(
+"StudyNotes Help",
+`
 
-"StudyNotes",
+<div class="helpText">
 
-'<div class="helpText">'+
+<p><strong>Writing</strong><br>
+Use the toolbar for bold, italic, underline, headings, checklists, code and links.</p>
 
-'<p><b>☰</b> hides the left panel so the writing area becomes full width.</p>'+
+<p><strong>Highlighter</strong><br>
+Turn on the highlighter, then tap a word to highlight it.</p>
 
-'<p><b>Highlighter:</b> turn it on, then tap the exact word you want highlighted. It does not draw over the page.</p>'+
+<p><strong>Drawing</strong><br>
+Open Drawing to use pen, pencil, marker, eraser, colours and ruler.</p>
 
-'<p><b>Drawing:</b> use Pen, Pencil, Marker, Ruler and Eraser. Choose a colour and thickness.</p>'+
+<p><strong>Notes</strong><br>
+Create folders, search notes, pin important notes or duplicate them.</p>
 
-'<p><b>Templates:</b> choose a complete study layout and start filling it in.</p>'+
+<p><strong>Keyboard</strong><br>
+Use standard browser shortcuts such as ⌘/Ctrl+B, ⌘/Ctrl+I and ⌘/Ctrl+U.</p>
 
-'<p><b>⌘/Ctrl + N</b> new note · <b>⌘/Ctrl + S</b> save · <b>⌘/Ctrl + F</b> search.</p>'+
-
-'</div>'
-
+</div>
+`
 )
 
 }
 
-/* MODAL */
-
-function openModal(
-
-title,
-
-body
-
-){
-
-$("modalTitle")
-
-.textContent=
-
-title;
-
-$("modalBody")
-
-.innerHTML=
-
-body;
-
-$("modal")
-
-.classList
-
-.add("show")
-
-}
-
-function closeModal(){
-
-$("modal")
-
-.classList
-
-.remove("show")
-
-}
-
-/* SEARCH */
-
-$("search")
-
-.addEventListener(
-
-"input",
-
-renderNotes
-
-);
-
 /* KEYBOARD */
 
 document.addEventListener(
-
 "keydown",
-
 e=>{
 
-const modifier=
-
-e.metaKey||
-
-e.ctrlKey;
-
 if(
-
-modifier &&
-
+(e.metaKey||e.ctrlKey)&&
 e.key.toLowerCase()==="n"
-
 ){
 
 e.preventDefault();
-
 newNote()
 
 }
 
 if(
-
-modifier &&
-
-e.key.toLowerCase()==="s"
-
-){
-
-e.preventDefault();
-
-update()
-
-}
-
-if(
-
-modifier &&
-
-e.key.toLowerCase()==="f"
-
-){
-
-e.preventDefault();
-
-$("search").focus()
-
-}
-
-if(
-
 e.key==="Escape"
-
 ){
 
 closeModal();
 
-$("textColors")
-
-.classList
-
-.remove("show");
-
-if(highlighter){
-
-highlighter=false;
-
-$("highlightBtn")
-
-.classList
-
-.remove("active")
+if(drawCanvas)
+closeDrawing()
 
 }
 
 }
+);
+
+/* CLOSE POPUP */
+
+document.addEventListener(
+"click",
+e=>{
+
+const popup=
+$("textColors");
+
+const button=
+$("textColorBtn");
+
+if(
+popup.classList.contains("show") &&
+!popup.contains(e.target) &&
+e.target!==button
+){
+
+popup.classList.remove("show")
 
 }
 
+}
 );
 
 /* START */
@@ -5215,5 +3413,4 @@ load();
 </script>
 
 </body>
-
 </html>
