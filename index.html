@@ -1,1 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>StudyNotes</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#111;background:#fff;height:100vh;overflow:hidden}
+button,input{font:inherit}
+button{cursor:pointer}
+#intro{position:fixed;inset:0;background:#fff;z-index:99;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:hide 1s ease 2.5s forwards}
+.intrologo{width:110px;height:110px;position:relative}
+.intrologo:before,.intrologo:after{content:"";position:absolute;inset:15px;border:3px solid #111;border-radius:50%;transform:rotate(45deg)}
+.intrologo:after{transform:rotate(-45deg)}
+.introdot{position:absolute;width:25px;height:25px;border:3px solid #111;border-radius:50%;left:42px;top:42px}
+.introtitle{font-size:30px;font-weight:700;margin-top:25px}
+@keyframes hide{to{opacity:0;visibility:hidden;pointer-events:none}}
+#app{height:100vh;display:flex}
+#sidebar{width:285px;min-width:285px;background:#f5f5f5;border-right:1px solid #ddd;display:flex;flex-direction:column;transition:.25s;overflow:hidden}
+#sidebar.closed{width:0;min-width:0}
+.brand{font-size:21px;font-weight:700;padding:20px}
+.search{margin:0 15px 10px;padding:11px;border:1px solid #d5d5d5;border-radius:9px;outline:none;background:#fff}
+.new{margin:0 15px 15px;padding:11px;border:0;border-radius:9px;background:#111;color:#fff;font-weight:600}
+.label{font-size:11px;color:#777;text-transform:uppercase;letter-spacing:1px;padding:10px 15px 5px}
+.folder,.note{padding:10px 15px;margin:2px 8px;border-radius:8px;font-size:14px}
+.folder:hover,.note:hover{background:#e5e5e5}
+.note.active{background:#ddd;font-weight:600}
+.notes{overflow:auto;flex:1}
+.bottom{border-top:1px solid #ddd;padding:10px}
+.bottom button{display:block;width:100%;border:0;background:none;text-align:left;padding:9px;border-radius:7px}
+.bottom button:hover{background:#e5e5e5}
+#main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{height:58px;border-bottom:1px solid #ddd;display:flex;align-items:center;padding:0 12px;gap:4px}
+.icon{border:0;background:none;width:38px;height:38px;border-radius:8px;font-size:19px}
+.icon:hover,.tool:hover{background:#eee}
+.status{margin-left:auto;color:#777;font-size:12px}
+.title{border:0;outline:0;font-size:38px;font-weight:700;padding:38px 8% 18px}
+.toolbar{margin:0 8%;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:7px 0;display:flex;gap:3px;flex-wrap:wrap}
+.tool{border:0;background:none;border-radius:6px;padding:7px 10px}
+.area{flex:1;overflow:auto;padding:25px 8% 60px}
+#editor{min-height:500px;outline:0;font-size:17px;line-height:1.7;white-space:pre-wrap}
+#editor:empty:before{content:"Start writing here...";color:#aaa}
+#preview{display:none;font-size:17px;line-height:1.7}
+#preview pre{background:#111;color:#fff;padding:15px;border-radius:8px;overflow:auto}
+#preview blockquote{border-left:3px solid #111;padding-left:15px;color:#666}
+.stats{border-top:1px solid #ddd;padding:9px 8%;font-size:12px;color:#777}
+.modal{display:none;position:fixed;inset:0;background:#0005;z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.box{background:#fff;border-radius:14px;padding:22px;width:min(500px,100%);max-height:90vh;overflow:auto}
+.box h2{margin-top:0}
+.box button{padding:9px 12px;margin:4px;border:1px solid #111;background:#fff;border-radius:7px}
+#canvas{width:100%;height:400px;border:1px solid #ddd;touch-action:none}
+@media(max-width:800px){
+#sidebar{position:fixed;z-index:50;top:0;bottom:0;left:0;box-shadow:4px 0 20px #0001}
+#sidebar.closed{transform:translateX(-100%);width:285px;min-width:285px}
+.title{font-size:30px;padding-left:5%;padding-right:5%}
+.toolbar,.area{margin-left:5%;margin-right:5%;padding-left:0;padding-right:0}
+.stats{padding-left:5%;padding-right:5%}
+}
+</style>
+</head>
 
+<body>
+
+<div id="intro">
+<div class="intrologo"><div class="introdot"></div></div>
+<div class="introtitle">StudyNotes</div>
+</div>
+
+<div id="app">
+
+<aside id="sidebar">
+<div class="brand">◉ StudyNotes</div>
+
+<input id="search" class="search" placeholder="Search notes...">
+
+<button class="new" onclick="newNote()">+ New note</button>
+
+<div class="label">Folders</div>
+
+<div class="folder" onclick="setFolder('General')">○ General</div>
+<div class="folder" onclick="setFolder('Biology')">○ Biology</div>
+<div class="folder" onclick="setFolder('Math')">○ Math</div>
+<div class="folder" onclick="setFolder('History')">○ History</div>
+<div class="folder" onclick="setFolder('Private')">○ Private</div>
+
+<div class="label">Notes</div>
+<div id="notes" class="notes"></div>
+
+<div class="bottom">
+<button onclick="templates()">Templates</button>
+<button onclick="drawing()">Drawing</button>
+<button onclick="settings()">Settings</button>
+<button onclick="help()">? Help</button>
+</div>
+</aside>
+
+<main id="main">
+
+<div class="top">
+<button class="icon" onclick="toggleSidebar()">☰</button>
+<button class="icon" onclick="preview()">◉</button>
+<button class="icon" onclick="pinNote()">☆</button>
+<button class="icon" onclick="duplicateNote()">⧉</button>
+<button class="icon" onclick="deleteNote()">×</button>
+<div id="status" class="status">Saved</div>
+</div>
+
+<input id="title" class="title" placeholder="Note title">
+
+<div class="toolbar">
+<button class="tool" onclick="format('bold')"><b>B</b></button>
+<button class="tool" onclick="format('italic')"><i>I</i></button>
+<button class="tool" onclick="format('heading')">H2</button>
+<button class="tool" onclick="format('check')">☑</button>
+<button class="tool" onclick="format('code')">&lt;/&gt;</button>
+<button class="tool" onclick="format('link')">Link</button>
+<button class="tool" onclick="format('quote')">❝</button>
+<button class="tool" onclick="format('bullet')">• List</button>
+</div>
+
+<div class="area">
+<div id="editor" contenteditable="true"></div>
+<div id="preview"></div>
+</div>
+
+<div id="stats" class="stats">0 words · 0 characters · 0 min read</div>
+
+</main>
+</div>
+
+<div id="modal" class="modal">
+<div class="box">
+<h2 id="modalTitle"></h2>
+<div id="modalBody"></div>
+<br>
+<button onclick="closeModal()">Close</button>
+</div>
+</div>
+
+<script>
+const KEY="StudyNotesData";
+let data;
+let currentFolder="General";
+let currentId=null;
+
+function load(){
+try{data=JSON.parse(localStorage.getItem(KEY))}catch(e){data=null}
+if(!data||!Array.isArray(data.notes)){
+data={notes:[
+{id:1,title:"Welcome",content:"Welcome to StudyNotes.\\n\\nStart writing here...",folder:"General",pin:false},
+{id:2,title:"Biology revision",content:"Cell structure\\n\\n• Cell membrane\\n• Cytoplasm\\n• Nucleus",folder:"Biology",pin:false},
+{id:3,title:"Exam notes",content:"Important topics for the next exam.",folder:"General",pin:true}
+]};
+}
+currentId=data.notes[0].id;
+save();
+render();
+}
+
+function save(){
+localStorage.setItem(KEY,JSON.stringify(data));
+}
+
+function current(){
+return data.notes.find(n=>n.id===currentId);
+}
+
+function render(){
+renderNotes();
+renderEditor();
+}
+
+function renderNotes(){
+const box=document.getElementById("notes");
+const search=document.getElementById("search").value.toLowerCase();
+box.innerHTML="";
+
+data.notes
+.filter(n=>(currentFolder==="All"||n.folder===currentFolder))
+.filter(n=>(!search||n.title.toLowerCase().includes(search)||n.content.toLowerCase().includes(search)))
+.sort((a,b)=>(b.pin-a.pin)||((b.id||0)-(a.id||0)))
+.forEach(n=>{
+const d=document.createElement("div");
+d.className="note"+(n.id===currentId?" active":"");
+d.textContent=(n.pin?"★ ":"")+n.title;
+d.onclick=()=>{
+currentId=n.id;
+render();
+};
+box.appendChild(d);
+});
+}
+
+function renderEditor(){
+const n=current();
+if(!n)return;
+document.getElementById("title").value=n.title;
+document.getElementById("editor").innerText=n.content;
+updateStats();
+}
+
+function newNote(){
+const n={
+id:Date.now(),
+title:"Untitled note",
+content:"",
+folder:currentFolder==="All"?"General":currentFolder,
+pin:false
+};
+data.notes.unshift(n);
+currentId=n.id;
+save();
+render();
+document.getElementById("title").focus();
+}
+
+function deleteNote(){
+const n=current();
+if(!n)return;
+if(!confirm("Delete this note?"))return;
+data.notes=data.notes.filter(x=>x.id!==n.id);
+if(!data.notes.length){
+newNote();
+return;
+}
+currentId=data.notes[0].id;
+save();
+render();
+}
+
+function duplicateNote(){
+const n=current();
+if(!n)return;
+const copy={
+...n,
+id:Date.now(),
+title:n.title+" copy",
+pin:false
+};
+data.notes.unshift(copy);
+currentId=copy.id;
+save();
+render();
+}
+
+function pinNote(){
+const n=current();
+if(!n)return;
+n.pin=!n.pin;
+save();
+renderNotes();
+}
+
+function setFolder(folder){
+currentFolder=folder;
+renderNotes();
+}
+
+function toggleSidebar(){
+document.getElementById("sidebar").classList.toggle("closed");
+}
+
+function update(){
+const n=current();
+if(!n)return;
+n.title=document.getElementById("title").value||"Untitled note";
+n.content=document.getElementById("editor").innerText;
+save();
+document.getElementById("status").textContent="Saved";
+renderNotes();
+updateStats();
+}
+
+document.getElementById("title").addEventListener("input",update);
+document.getElementById("editor").addEventListener("input",update);
+document.getElementById("search").addEventListener("input",renderNotes);
+
+function updateStats(){
+const t=document.getElementById("editor").innerText.trim();
+const words=t?t.split(/\s+/).length:0;
+const chars=t.length;
+const mins=Math.max(0,Math.ceil(words/200));
+document.getElementById("stats").textContent=
+words+" words · "+chars+" characters · "+mins+" min read";
+}
+
+function format(type){
+const e=document.getElementById("editor");
+e.focus();
+const s=window.getSelection().toString();
+let x="";
+if(type==="bold")x="**"+(s||"bold text")+"**";
+if(type==="italic")x="*"+(s||"italic text")+"*";
+if(type==="heading")x="## "+(s||"Heading");
+if(type==="check")x="- [ ] "+(s||"Task");
+if(type==="code")x="```\\n"+(s||"code")+"\\n```";
+if(type==="link")x="["+(s||"Link text")+"](https://example.com)";
+if(type==="quote")x="> "+(s||"Quote");
+if(type==="bullet")x="• "+(s||"List item");
+document.execCommand("insertText",false,x);
+update();
+}
+
+function preview(){
+const e=document.getElementById("editor");
+const p=document.getElementById("preview");
+if(p.style.display==="block"){
+p.style.display="none";
+e.style.display="block";
+return;
+}
+p.innerHTML=markdown(e.innerText);
+e.style.display="none";
+p.style.display="block";
+}
+
+function markdown(t){
+let h=escape(t);
+h=h.replace(/```([\s\S]*?)```/g,"<pre>$1</pre>");
+h=h.replace(/^### (.*)$/gm,"<h3>$1</h3>");
+h=h.replace(/^## (.*)$/gm,"<h2>$1</h2>");
+h=h.replace(/^# (.*)$/gm,"<h1>$1</h1>");
+h=h.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
+h=h.replace(/\*(.*?)\*/g,"<em>$1</em>");
+h=h.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+h=h.replace(/^> (.*)$/gm,"<blockquote>$1</blockquote>");
+h=h.replace(/^- \[ \] (.*)$/gm,"☐ $1");
+h=h.replace(/^• (.*)$/gm,"• $1");
+return h.replace(/\n/g,"<br>");
+}
+
+function escape(t){
+return String(t)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+function openModal(title,body){
+document.getElementById("modalTitle").textContent=title;
+document.getElementById("modalBody").innerHTML=body;
+document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+document.getElementById("modal").classList.remove("show");
+}
+
+function templates(){
+openModal("Templates",`
+<button onclick="template('Cornell Notes')">Cornell Notes</button>
+<button onclick="template('Exam Revision')">Exam Revision</button>
+<button onclick="template('Lecture Notes')">Lecture Notes</button>
+<button onclick="template('Essay Plan')">Essay Plan</button>
+`);
+}
+
+function template(name){
+const templates={
+"Cornell Notes":"# Topic\\n\\n## Questions\\n\\n## Notes\\n\\n## Summary",
+"Exam Revision":"# Exam Revision\\n\\n## Key concepts\\n\\n## Important facts\\n\\n## Questions\\n\\n## Summary",
+"Lecture Notes":"# Lecture\\n\\n## Main ideas\\n\\n## Details\\n\\n## Questions\\n\\n## Summary",
+"Essay Plan":"# Essay\\n\\n## Thesis\\n\\n## Argument 1\\n\\n## Argument 2\\n\\n## Conclusion"
+};
+const n=current();
+n.title=name;
+n.content=templates[name];
+save();
+closeModal();
+render();
+}
+
+function settings(){
+openModal("Settings",`
+<p><b>StudyNotes</b></p>
+<button onclick="exportNotes()">Export notes</button>
+<button onclick="resetNotes()">Reset all notes</button>
+<p style="color:#777">Your notes are saved locally in this browser.</p>
+`);
+}
+
+function exportNotes(){
+const blob=new Blob([JSON.stringify(data.notes,null,2)],{type:"application/json"});
+const a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="studynotes-backup.json";
+a.click();
+URL.revokeObjectURL(a.href);
+}
+
+function resetNotes(){
+if(confirm("Delete all notes?")){
+localStorage.removeItem(KEY);
+location.reload();
+}
+}
+
+function help(){
+openModal("Help",`
+<p><b>☰</b> Hide/show the left panel</p>
+<p><b>New note</b> Create a note</p>
+<p><b>☆</b> Pin a note</p>
+<p><b>⧉</b> Duplicate a note</p>
+<p><b>×</b> Delete a note</p>
+<p><b>◉</b> Markdown preview</p>
+<p><b>Ctrl/Cmd + N</b> New note</p>
+<p><b>Ctrl/Cmd + S</b> Save</p>
+<p><b>Ctrl/Cmd + F</b> Search</p>
+`);
+}
+
+function drawing(){
+openModal("Drawing",`
+<canvas id="canvas"></canvas>
+<br>
+<button onclick="clearCanvas()">Clear</button>
+<button onclick="saveDrawing()">Save drawing</button>
+`);
+setTimeout(initCanvas,100);
+}
+
+function initCanvas(){
+const c=document.getElementById("canvas");
+if(!c)return;
+const ctx=c.getContext("2d");
+const r=c.getBoundingClientRect();
+c.width=r.width*2;
+c.height=r.height*2;
+ctx.scale(2,2);
+let down=false;
+function pos(e){
+const q=e.touches?e.touches[0]:e;
+return{x:q.clientX-r.left,y:q.clientY-r.top};
+}
+function start(e){
+down=true;
+const p=pos(e);
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+}
+function move(e){
+if(!down)return;
+const p=pos(e);
+ctx.lineWidth=3;
+ctx.lineCap="round";
+ctx.strokeStyle="#111";
+ctx.lineTo(p.x,p.y);
+ctx.stroke();
+}
+c.addEventListener("mousedown",start);
+c.addEventListener("mousemove",move);
+c.addEventListener("mouseup",()=>down=false);
+c.addEventListener("mouseleave",()=>down=false);
+c.addEventListener("touchstart",start);
+c.addEventListener("touchmove",move);
+c.addEventListener("touchend",()=>down=false);
+}
+
+function clearCanvas(){
+const c=document.getElementById("canvas");
+if(c)c.getContext("2d").clearRect(0,0,c.width,c.height);
+}
+
+function saveDrawing(){
+const c=document.getElementById("canvas");
+if(!c)return;
+const a=document.createElement("a");
+a.href=c.toDataURL("image/png");
+a.download="studynotes-drawing.png";
+a.click();
+}
+
+document.addEventListener("keydown",e=>{
+const m=e.ctrlKey||e.metaKey;
+if(m&&e.key.toLowerCase()==="n"){e.preventDefault();newNote()}
+if(m&&e.key.toLowerCase()==="s"){e.preventDefault();update()}
+if(m&&e.key.toLowerCase()==="f"){
+e.preventDefault();
+document.getElementById("search").focus();
+}
+if(m&&e.key.toLowerCase()==="b"){e.preventDefault();format("bold")}
+if(m&&e.key.toLowerCase()==="i"){e.preventDefault();format("italic")}
+if(e.key==="Escape")closeModal();
+});
+
+load();
+</script>
+
+</body>
+</html>
