@@ -1,2131 +1,909 @@
 <!doctype html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
 <meta name="theme-color" content="#070707">
-
 <title>StudyNotes</title>
-
 <style>
-
 :root{
-
 --bg:#070707;
-
 --surface:#0d0d0d;
-
 --surface2:#141414;
-
 --surface3:#1b1b1b;
-
 --line:#262626;
-
 --text:#f3f3f3;
-
 --muted:#737373;
-
 --soft:#aaa;
-
 --highlight:#c9c35b;
-
 --ease:cubic-bezier(.2,.8,.2,1)
-
 }
-
 *{box-sizing:border-box}
-
 html,body{
-
 margin:0;
-
 width:100%;
-
 height:100%;
-
 background:var(--bg);
-
 color:var(--text);
-
 font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,Arial,sans-serif;
-
 overflow:hidden
-
 }
-
 button,input,select{font:inherit}
-
 button{border:0;cursor:pointer;color:inherit}
-
 button:focus-visible,
-
 input:focus-visible,
-
 [contenteditable]:focus-visible{
-
 outline:2px solid #686868;
-
 outline-offset:2px
-
 }
 
 /* INTRO */
-
 #intro{
-
 position:fixed;
-
 inset:0;
-
 z-index:9999;
-
 display:grid;
-
 place-items:center;
-
 background:#070707;
-
 overflow:hidden;
-
 animation:introAutoExit 1.15s var(--ease) 3.1s forwards
-
 }
-
 #intro:before,
-
 #intro:after{
-
 content:"";
-
 position:absolute;
-
 border:1px solid #252525;
-
 border-radius:50%;
-
 width:240px;
-
 height:240px;
-
 opacity:0;
-
 animation:orbitGlow 2.4s var(--ease) .1s forwards
-
 }
-
 #intro:after{
-
 width:420px;
-
 height:420px;
-
 animation-delay:.25s
-
 }
-
 .introCore{
-
 position:relative;
-
 z-index:2;
-
 display:flex;
-
 flex-direction:column;
-
 align-items:center;
-
 gap:18px;
-
 animation:introCore 1.25s var(--ease) forwards
-
 }
-
 .introLogo{
-
 width:132px;
-
 height:132px;
-
 filter:drop-shadow(0 0 28px #fff1)
-
 }
-
 .introName{
-
 font-size:29px;
-
 font-weight:650;
-
 letter-spacing:-.8px
-
 }
-
 .introRule{
-
 width:0;
-
 height:1px;
-
 background:#666;
-
 animation:introRule 1s ease .55s forwards
-
 }
-
 #intro.exit{
-
 animation:introExit 1.15s var(--ease) forwards
-
 }
-
 @keyframes introCore{
-
 from{
-
 opacity:0;
-
 transform:scale(.72) translateY(18px);
-
 filter:blur(9px)
-
 }
-
 to{
-
 opacity:1;
-
 transform:none;
-
 filter:none
-
 }
-
 }
-
 @keyframes introRule{
-
 to{width:115px}
-
 }
-
 @keyframes orbitGlow{
-
 from{
-
 opacity:0;
-
 transform:scale(.55)
-
 }
-
 60%{opacity:.7}
-
 to{
-
 opacity:0;
-
 transform:scale(1.35)
-
 }
-
 }
-
 @keyframes introAutoExit{
-
-0%{
-
-opacity:1;
-
-transform:scale(1);
-
-visibility:visible
-
+0%{opacity:1;transform:scale(1);visibility:visible}
+100%{opacity:0;transform:scale(1.13);visibility:hidden;pointer-events:none}
 }
-
-100%{
-
-opacity:0;
-
-transform:scale(1.13);
-
-visibility:hidden;
-
-pointer-events:none
-
-}
-
-}
-
 @keyframes introExit{
-
 0%{
-
 opacity:1;
-
 transform:scale(1)
-
 }
-
 35%{
-
 opacity:1;
-
 transform:scale(1.035)
-
 }
-
 100%{
-
 opacity:0;
-
 transform:scale(1.13);
-
 visibility:hidden;
-
 pointer-events:none
-
 }
-
 }
 
 /* APP */
-
 #app{
-
 height:100%;
-
 display:flex;
-
 background:var(--bg)
-
 }
 
 /* SIDEBAR */
-
 #sidebar{
-
 width:300px;
-
 min-width:300px;
-
 background:linear-gradient(180deg,#101010,#0b0b0b);
-
 border-right:1px solid var(--line);
-
 display:flex;
-
 flex-direction:column;
-
 overflow:hidden;
-
 transition:
-
 width .38s var(--ease),
-
 min-width .38s var(--ease),
-
 transform .38s var(--ease),
-
 opacity .25s
-
 }
-
 #sidebar.closed{
-
 width:0;
-
 min-width:0;
-
 border-right:0;
-
 opacity:.2
-
 }
-
 .sideTop{
-
 padding:20px 17px 12px
-
 }
-
 .brand{
-
 display:flex;
-
 align-items:center;
-
 gap:10px;
-
 font-size:19px;
-
 font-weight:650;
-
 margin-bottom:19px
-
 }
-
 .brand svg{
-
 width:27px;
-
 height:27px;
-
 flex:none
-
 }
-
 .searchWrap{
-
 position:relative
-
 }
-
 .searchIcon{
-
 position:absolute;
-
 left:13px;
-
 top:10px;
-
 color:#686868;
-
 pointer-events:none
-
 }
-
 .search{
-
 width:100%;
-
 height:42px;
-
 border:1px solid #292929;
-
 background:#151515;
-
 color:#eee;
-
 border-radius:12px;
-
 padding:0 12px 0 36px;
-
 outline:0;
-
 transition:border-color .2s,box-shadow .2s
-
 }
-
 .search:focus{
-
 border-color:#4b4b4b;
-
 box-shadow:0 0 0 4px #fff08
-
 }
-
 .search::placeholder{
-
 color:#5c5c5c
-
 }
-
 .sideTitle{
-
 padding:15px 17px 7px;
-
 color:#626262;
-
 font-size:10px;
-
 font-weight:700;
-
 letter-spacing:1.2px;
-
 text-transform:uppercase
-
 }
-
 .folders{
-
 max-height:230px;
-
 overflow:auto;
-
 padding:0 8px
-
 }
-
 .notes{
-
 flex:1;
-
 overflow:auto;
-
 padding:0 8px 10px
-
 }
-
 .folder,
-
 .note{
-
 display:flex;
-
 align-items:center;
-
 min-height:40px;
-
 padding:0 10px;
-
 border-radius:9px;
-
 margin:2px 0;
-
 color:#a9a9a9;
-
 font-size:14px;
-
 transition:
-
 background .18s,
-
 color .18s,
-
 transform .18s
-
 }
-
 .folder:hover,
-
 .note:hover{
-
 background:#181818;
-
 color:#eee;
-
 transform:translateX(1px)
-
 }
-
 .folder.active,
-
 .note.active{
-
 background:#232323;
-
 color:#fff
-
 }
-
 .dot{
-
 width:7px;
-
 height:7px;
-
 border:1px solid #888;
-
 border-radius:50%;
-
 margin-right:9px;
-
 flex:none
-
 }
-
 .folderName,
-
 .noteName{
-
 flex:1;
-
 overflow:hidden;
-
 text-overflow:ellipsis;
-
 white-space:nowrap
-
 }
-
 .folderDel{
-
 opacity:0;
-
 background:none;
-
 color:#555;
-
 padding:4px 5px
-
 }
-
 .folder:hover .folderDel{
-
 opacity:1
-
 }
-
 .addFolder,
-
 .sideButton{
-
 width:100%;
-
 background:none;
-
 color:#777;
-
 text-align:left;
-
 padding:9px 10px;
-
 border-radius:8px;
-
 transition:
-
 background .18s,
-
 color .18s
-
 }
-
 .addFolder:hover,
-
 .sideButton:hover{
-
 background:#181818;
-
 color:#eee
-
 }
-
 .sideBottom{
-
 border-top:1px solid var(--line);
-
 padding:8px
-
 }
 
 /* MAIN */
-
 #main{
-
 min-width:0;
-
 flex:1;
-
 height:100%;
-
 display:flex;
-
 flex-direction:column
-
 }
-
 .topbar{
-
 height:58px;
-
 min-height:58px;
-
 border-bottom:1px solid var(--line);
-
 display:flex;
-
 align-items:center;
-
 gap:3px;
-
 padding:0 12px
-
 }
-
 .icon{
-
 width:37px;
-
 height:37px;
-
 background:none;
-
 border-radius:10px;
-
 color:#999;
-
 display:grid;
-
 place-items:center;
-
 transition:
-
 background .18s,
-
 color .18s,
-
 transform .18s
-
 }
-
 .icon:hover{
-
 background:#191919;
-
 color:#fff;
-
 transform:translateY(-1px)
-
 }
-
 .icon.active{
-
 background:#252525;
-
 color:#fff
-
 }
-
 .status{
-
 margin-left:auto;
-
 color:#5d5d5d;
-
 font-size:11px;
-
 padding-right:5px
-
 }
 
 /* TITLE */
-
 .noteHeader{
-
 display:flex;
-
 align-items:center;
-
 padding:34px 8% 15px
-
 }
-
 .title{
-
 flex:1;
-
 min-width:0;
-
 border:0;
-
 outline:0;
-
 background:transparent;
-
 color:#f4f4f4;
-
 font-size:40px;
-
 font-weight:680;
-
 letter-spacing:-1.5px
-
 }
-
 .title::placeholder{
-
 color:#4e4e4e
-
 }
-
 .pin{
-
 color:#777;
-
 margin-left:10px
-
 }
 
 /* TOOLBAR */
-
 .toolbar{
-
 margin:0 8%;
-
 height:49px;
-
 border-top:1px solid var(--line);
-
 border-bottom:1px solid var(--line);
-
 display:flex;
-
 align-items:center;
-
 gap:2px;
-
 overflow-x:auto
-
 }
-
 .tool{
-
 height:34px;
-
 min-width:34px;
-
 padding:0 9px;
-
 background:none;
-
 border-radius:8px;
-
 color:#999;
-
 display:grid;
-
 place-items:center;
-
 transition:
-
 background .18s,
-
 color .18s,
-
 transform .18s
-
 }
-
 .tool:hover{
-
 background:#191919;
-
 color:#fff;
-
 transform:translateY(-1px)
-
 }
-
 .tool.active{
-
 background:#eee;
-
 color:#111
-
 }
-
 .sep{
-
 width:1px;
-
 height:22px;
-
 background:#292929;
-
 margin:0 5px;
-
 flex:none
-
 }
 
 /* EDITOR */
-
 .editorWrap{
-
 position:relative;
-
 flex:1;
-
 min-height:0;
-
 overflow:auto;
-
 padding:28px 8% 75px
-
 }
-
 .editor{
-
 min-height:520px;
-
 outline:0;
-
 color:#e8e8e8;
-
 font-size:17px;
-
 line-height:1.76;
-
 caret-color:#fff;
-
 transition:opacity .2s
-
 }
-
 .editor:empty:before{
-
 content:"Start writing here...";
-
 color:#4d4d4d
-
 }
-
 .editor h1{
-
 font-size:33px;
-
 line-height:1.18
-
 }
-
 .editor h2{
-
 font-size:25px;
-
 line-height:1.25
-
 }
-
 .editor h3{
-
 font-size:20px
-
 }
-
 .editor pre{
-
 background:#121212;
-
 border:1px solid #292929;
-
 border-radius:11px;
-
 padding:15px;
-
 white-space:pre-wrap
-
 }
-
 .editor blockquote{
-
 border-left:3px solid #626262;
-
 padding-left:15px;
-
 color:#aaa
-
 }
-
 .editor a{
-
 color:#eee
-
 }
-
 .editor mark{
-
 background:var(--highlight);
-
 color:#111;
-
 padding:0 2px;
-
 border-radius:3px
-
 }
-
 .editor table{
-
 border-collapse:collapse;
-
 width:100%
-
 }
-
 .editor td{
-
 border:1px solid #333;
-
 padding:12px;
-
 vertical-align:top
-
 }
-
 .stats{
-
 height:34px;
-
 min-height:34px;
-
 border-top:1px solid var(--line);
-
 display:flex;
-
 align-items:center;
-
 padding:0 8%;
-
 font-size:11px;
-
 color:#606060
-
 }
 
 /* TEXT COLOUR */
-
 .pop{
-
 position:fixed;
-
 z-index:500;
-
 display:none;
-
 background:rgba(23,23,23,.96);
-
 border:1px solid #3a3a3a;
-
 border-radius:14px;
-
 padding:9px;
-
 box-shadow:0 20px 60px #000b;
-
 backdrop-filter:blur(20px);
-
 gap:7px;
-
 flex-wrap:wrap;
-
 animation:popIn .18s var(--ease)
-
 }
-
 .pop.show{
-
 display:flex
-
 }
-
 @keyframes popIn{
-
 from{
-
 opacity:0;
-
 transform:translateY(-5px) scale(.96)
-
 }
-
 to{
-
 opacity:1;
-
 transform:none
-
 }
-
 }
-
 .swatch{
-
 width:28px;
-
 height:28px;
-
 border-radius:50%;
-
 border:2px solid #555
-
 }
-
 .sblack{background:#050505}
-
 .swhite{background:#fff}
-
 .sred{background:#ff453a}
-
 .sorange{background:#ff9f0a}
-
 .syellow{background:#ffd60a}
-
 .sgreen{background:#30d158}
-
 .sblue{background:#0a84ff}
-
 .spurple{background:#bf5af2}
-
 .spink{background:#ff375f}
 
 /* DRAWING */
-
 #drawOverlay{
-
 position:absolute;
-
 inset:0;
-
 z-index:200;
-
 display:none;
-
 background:rgba(7,7,7,.08);
-
 backdrop-filter:blur(1px)
-
 }
-
-.drawCanvas{
-
-position:absolute;
-
-inset:0;
-
-width:100%;
-
-height:100%;
-
-touch-action:none
-
-}
-
-.drawTop{
-
-position:absolute;
-
-top:16px;
-
-left:16px;
-
-right:16px;
-
-transform:none;
-
-display:flex;
-
-align-items:center;
-
-justify-content:flex-end;
-
-gap:5px;
-
-padding:8px;
-
-background:rgba(28,28,30,.72);
-
-border:1px solid rgba(255,255,255,.12);
-
-border-radius:22px;
-
-box-shadow:0 18px 55px rgba(0,0,0,.45);
-
-backdrop-filter:blur(28px);
-
--webkit-backdrop-filter:blur(28px);
-
-max-width:95%;
-
-overflow:visible;
-
-animation:topPaletteIn .28s var(--ease)
-
-}
-
-.drawBottom{
-
-position:absolute;
-
-bottom:18px;
-
-left:50%;
-
-transform:translateX(-50%);
-
-display:flex;
-
-align-items:center;
-
-gap:8px;
-
-padding:8px 10px;
-
-background:rgba(28,28,30,.82);
-
-border:1px solid rgba(255,255,255,.13);
-
-border-radius:26px;
-
-box-shadow:0 22px 70px rgba(0,0,0,.55);
-
-backdrop-filter:blur(30px);
-
--webkit-backdrop-filter:blur(30px);
-
-max-width:96%;
-
-overflow:visible;
-
-animation:paletteIn .32s var(--ease)
-
-}
-
-@keyframes topPaletteIn{
-
-from{
-
-opacity:0;
-
-transform:translateY(-8px) scale(.97)
-
-}
-
-to{
-
-opacity:1;
-
-transform:none
-
-}
-
-}
-
-@keyframes paletteIn{
-
-from{
-
-opacity:0;
-
-transform:translate(-50%,10px) scale(.97)
-
-}
-
-to{
-
-opacity:1;
-
-transform:translate(-50%,0) scale(1)
-
-}
-
-}
-
-.drawTool{
-
-height:46px;
-
-min-width:46px;
-
-padding:0 11px;
-
-border-radius:50%;
-
-background:rgba(255,255,255,.08);
-
-color:#bdbdbd;
-
-font-size:15px;
-
-display:grid;
-
-place-items:center;
-
-transition:
-
-transform .22s var(--ease),
-
-background .22s,
-
-color .22s,
-
-box-shadow .22s
-
-}
-
-.drawTool:hover{
-
-background:rgba(255,255,255,.15);
-
-color:#fff;
-
-transform:translateY(-2px) scale(1.04)
-
-}
-
-.drawTool.active{
-
-background:#f5f5f5;
-
-color:#111;
-
-box-shadow:0 4px 16px rgba(255,255,255,.13);
-
-transform:scale(1.06)
-
-}
-
-.drawTool[data-draw]{
-
-font-size:0
-
-}
-
-.drawTool[data-draw="pen"]::before{
-
-content:"✒"
-
-}
-
-.drawTool[data-draw="pencil"]::before{
-
-content:"✎"
-
-}
-
-.drawTool[data-draw="marker"]::before{
-
-content:"▰"
-
-}
-
-.drawTool[data-draw="ruler"]::before{
-
-content:"╱"
-
-}
-
-.drawTool[data-draw="eraser"]::before{
-
-content:"▱"
-
-}
-
-.drawClose{
-
-background:#eee;
-
-color:#111
-
-}
-
-.drawSeparator{
-
-width:1px;
-
-height:22px;
-
-background:#444;
-
-margin:0 4px;
-
-flex:none
-
-}
-
-#drawHighlighter{
-
-background:#292929;
-
-color:#c9c35b
-
-}
-
-#drawHighlighter.active{
-
-background:#c9c35b;
-
-color:#111
-
-}
-
 #drawOverlay.highlighterMode{
-
-pointer-events:none
-
+pointer-events:none;
+background:transparent!important;
+backdrop-filter:none!important;
+-webkit-backdrop-filter:none!important
 }
-
 #drawOverlay.highlighterMode .drawTop,
-
 #drawOverlay.highlighterMode .drawBottom,
-
 #drawOverlay.highlighterMode #ruler{
-
 pointer-events:auto
-
 }
-
-.drawColor{
-
-width:25px;
-
-height:25px;
-
-border-radius:50%;
-
-border:2px solid #555;
-
-flex:none
-
+#drawOverlay.highlighterMode .drawBottom{
+display:none
 }
-
-.drawColor.selected{
-
-border-color:#fff;
-
-box-shadow:0 0 0 2px #111 inset
-
-}
-
-.cBlack{background:#050505}
-
-.cWhite{background:#fff}
-
-.cRed{background:#ff453a}
-
-.cOrange{background:#ff9f0a}
-
-.cYellow{background:#ffd60a}
-
-.cGreen{background:#30d158}
-
-.cBlue{background:#0a84ff}
-
-.cPurple{background:#bf5af2}
-
-.cPink{background:#ff375f}
-
-.size{
-
-height:36px;
-
-background:#232323;
-
-color:#bbb;
-
-border:0;
-
-border-radius:9px;
-
-padding:0 8px
-
-}
-
-#ruler{
-
+.drawCanvas{
 position:absolute;
-
-display:none;
-
-z-index:210;
-
-width:330px;
-
-height:38px;
-
-background:rgba(35,35,35,.95);
-
-border:1px solid #555;
-
-border-radius:7px;
-
-box-shadow:0 15px 40px #0009;
-
-cursor:grab;
-
-touch-action:none
-
-}
-
-#ruler.show{
-
-display:block
-
-}
-
-.rulerTicks{
-
-position:absolute;
-
-left:12px;
-
-right:12px;
-
-top:5px;
-
-height:26px;
-
-background:
-
-repeating-linear-gradient(
-
-90deg,
-
-#aaa 0,
-
-#aaa 1px,
-
-transparent 1px,
-
-transparent 10px
-
-);
-
-opacity:.65
-
-}
-
-.rulerCenter{
-
-position:absolute;
-
-left:50%;
-
-top:0;
-
-height:100%;
-
-width:1px;
-
-background:#fff
-
-}
-
-/* MODAL */
-
-#modal{
-
-position:fixed;
-
 inset:0;
-
-z-index:800;
-
-display:none;
-
-place-items:center;
-
-background:#0008;
-
-backdrop-filter:blur(10px);
-
-padding:20px
-
+width:100%;
+height:100%;
+touch-action:none
 }
-
-#modal.show{
-
-display:grid;
-
-animation:modalIn .22s var(--ease)
-
-}
-
-@keyframes modalIn{
-
-from{opacity:0}
-
-to{opacity:1}
-
-}
-
-.modalBox{
-
-width:min(720px,94vw);
-
-max-height:86vh;
-
-overflow:auto;
-
-background:#111;
-
-border:1px solid #303030;
-
-border-radius:18px;
-
-box-shadow:0 30px 90px #000c;
-
-animation:modalBoxIn .25s var(--ease)
-
-}
-
-@keyframes modalBoxIn{
-
-from{
-
-opacity:0;
-
-transform:translateY(14px) scale(.97)
-
-}
-
-to{
-
-opacity:1;
-
-transform:none
-
-}
-
-}
-
-.modalHead{
-
-height:58px;
-
+.drawTop{
+position:absolute;
+top:10px;
+right:16px;
+left:auto;
+transform:none;
 display:flex;
-
 align-items:center;
-
-padding:0 17px;
-
-border-bottom:1px solid #292929
-
+gap:5px;
+padding:7px;
+background:rgba(26,26,26,.92);
+border:1px solid #393939;
+border-radius:14px;
+box-shadow:0 15px 45px #0009;
+backdrop-filter:blur(22px);
+max-width:94%;
+overflow:auto
 }
-
-.modalTitle{
-
-font-size:17px;
-
-font-weight:650;
-
-flex:1
-
+.drawBottom{
+position:absolute;
+bottom:17px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+align-items:center;
+gap:5px;
+padding:7px;
+background:rgba(26,26,26,.92);
+border:1px solid #393939;
+border-radius:15px;
+box-shadow:0 18px 55px #0009;
+backdrop-filter:blur(22px);
+max-width:96%;
+overflow:auto
 }
-
-.modalClose{
-
-width:34px;
-
-height:34px;
-
+.drawTool{
+height:36px;
+padding:0 11px;
 border-radius:9px;
-
-background:none;
-
-color:#777;
-
-font-size:20px
-
-}
-
-.modalClose:hover{
-
-background:#202020;
-
-color:#fff
-
-}
-
-.modalBody{
-
-padding:18px
-
-}
-
-.helpText{
-
+background:#232323;
 color:#aaa;
-
-line-height:1.65
-
+font-size:12px;
+white-space:nowrap;
+transition:.18s
 }
-
-.helpText p{
-
-margin:0 0 14px
-
+.drawTool:hover{
+background:#333;
+color:#fff
+}
+.drawTool.active{
+background:#f0f0f0;
+color:#111
+}
+.drawColor{
+width:25px;
+height:25px;
+border-radius:50%;
+border:2px solid #555;
+flex:none
+}
+.drawColor.selected{
+border-color:#fff;
+box-shadow:0 0 0 2px #111 inset
+}
+.cBlack{background:#050505}
+.cWhite{background:#fff}
+.cRed{background:#ff453a}
+.cOrange{background:#ff9f0a}
+.cYellow{background:#ffd60a}
+.cGreen{background:#30d158}
+.cBlue{background:#0a84ff}
+.cPurple{background:#bf5af2}
+.cPink{background:#ff375f}
+.size{
+height:36px;
+background:#232323;
+border:0;
+color:#aaa;
+border-radius:9px;
+padding:0 7px
+}
+.ruler{
+position:absolute;
+z-index:3;
+left:20%;
+top:30%;
+width:360px;
+height:48px;
+border-radius:9px;
+background:linear-gradient(#4b4b4b,#292929);
+border:1px solid #777;
+box-shadow:0 12px 35px #000b;
+display:none;
+align-items:flex-end;
+justify-content:space-around;
+padding:0 10px 7px;
+color:#bbb;
+font-size:9px;
+cursor:grab;
+touch-action:none
+}
+.ruler.show{
+display:flex
+}
+.ruler:before{
+content:"";
+position:absolute;
+left:10px;
+right:10px;
+top:9px;
+height:1px;
+background:#777;
+box-shadow:
+0 8px #666,
+0 16px #666,
+0 24px #666
+}
+.ruler:active{
+cursor:grabbing
 }
 
 /* TEMPLATES */
-
 .templateGrid{
-
 display:grid;
-
 grid-template-columns:repeat(2,minmax(0,1fr));
-
 gap:12px
-
 }
-
 .templateCard{
-
-background:#171717;
-
+background:#151515;
 border:1px solid #292929;
-
 border-radius:14px;
-
 padding:12px;
-
 text-align:left;
-
-transition:.22s var(--ease)
-
+transition:.2s
 }
-
 .templateCard:hover{
-
-background:#202020;
-
+background:#1d1d1d;
 border-color:#444;
-
 transform:translateY(-2px)
-
 }
-
 .templatePreview{
-
-height:120px;
-
-border:1px solid #303030;
-
+height:100px;
+border-radius:9px;
 background:#0c0c0c;
-
-border-radius:9px;
-
-margin-bottom:11px;
-
-padding:10px;
-
-display:grid;
-
-gap:7px
-
-}
-
-.templatePreview span{
-
-display:block;
-
-height:8px;
-
-background:#454545;
-
-border-radius:4px
-
-}
-
-.templatePreview span:nth-child(2){
-
-width:72%
-
-}
-
-.templatePreview span:nth-child(3){
-
-width:90%
-
-}
-
-.templatePreview span:nth-child(4){
-
-width:55%
-
-}
-
-.shapeCornell{
-
-grid-template-columns:30% 1fr
-
-}
-
-.shapeCornell span:nth-child(3){
-
-grid-column:1/3
-
-}
-
-.shapeCornell span:nth-child(4){
-
-grid-column:1/3
-
-}
-
-.shapeExam{
-
-grid-template-columns:1fr 1fr
-
-}
-
-.shapeExam span:nth-child(3){
-
-width:100%
-
-}
-
-.shapeExam span:nth-child(4){
-
-width:100%
-
-}
-
-.shapeEssay{
-
-grid-template-columns:1fr
-
-}
-
-.shapeEssay span:nth-child(2){
-
-width:60%
-
-}
-
-.shapeEssay span:nth-child(3){
-
-width:85%
-
-}
-
-.shapeProject{
-
-grid-template-columns:repeat(3,1fr)
-
-}
-
-.shapeProject span{
-
-width:100%!important
-
-}
-
-.shapeFlash{
-
-grid-template-columns:1fr 1fr
-
-}
-
-.shapeFlash span{
-
-width:100%!important
-
-}
-
-.templateName{
-
-font-weight:650;
-
-font-size:14px;
-
-margin-bottom:4px
-
-}
-
-.templateDesc{
-
-font-size:11px;
-
-color:#777;
-
-line-height:1.45
-
-}
-
-/* SETTINGS */
-
-.settingRow{
-
-padding:13px 0;
-
-border-bottom:1px solid #292929;
-
-color:#aaa;
-
-display:flex;
-
-align-items:center;
-
-gap:12px
-
-}
-
-.settingRow:last-child{
-
-border-bottom:0
-
-}
-
-.settingRow button{
-
-margin-left:auto;
-
-background:#242424;
-
-border-radius:9px;
-
-padding:8px 11px;
-
-color:#ddd
-
-}
-
-.settingRow button:hover{
-
-background:#333
-
-}
-
-/* RESPONSIVE */
-
-@media(max-width:800px){
-
-#sidebar{
-
-width:270px;
-
-min-width:270px
-
-}
-
-.noteHeader{
-
-padding-left:5%;
-
-padding-right:5%
-
-}
-
-.toolbar{
-
-margin-left:5%;
-
-margin-right:5%
-
-}
-
-.editorWrap{
-
-padding-left:5%;
-
-padding-right:5%
-
-}
-
-.stats{
-
-padding-left:5%;
-
-padding-right:5%
-
-}
-
-.title{
-
-font-size:34px
-
-}
-
-}
-
-@media(max-width:600px){
-
-#sidebar{
-
-position:absolute;
-
-z-index:300;
-
-height:100%;
-
-box-shadow:20px 0 50px #0008
-
-}
-
-#sidebar.closed{
-
-transform:translateX(-100%);
-
-width:270px;
-
-min-width:270px;
-
-opacity:1
-
-}
-
-.templateGrid{
-
-grid-template-columns:1fr
-
-}
-
-.title{
-
-font-size:29px
-
-}
-
-.editor{
-
-font-size:16px
-
-}
-
-.drawTop{
-
-left:8px;
-
-right:8px;
-
-justify-content:flex-start;
-
-overflow-x:auto
-
-}
-
-.drawBottom{
-
-max-width:96%;
-
-overflow-x:auto
-
-}
-
-}
-
-/* MARKDOWN PREVIEW */
-
-#preview{
-
-display:none;
-
-flex:1;
-
-min-height:0;
-
-overflow:auto;
-
-padding:28px 8% 75px;
-
-color:#e8e8e8;
-
-font-size:17px;
-
-line-height:1.76
-
-}
-
-#preview h1{
-
-font-size:33px
-
-}
-
-#preview h2{
-
-font-size:25px
-
-}
-
-#preview h3{
-
-font-size:20px
-
-}
-
-#preview pre{
-
-background:#121212;
-
 border:1px solid #292929;
-
-border-radius:11px;
-
-padding:15px;
-
-white-space:pre-wrap
-
+padding:10px;
+display:grid;
+gap:7px;
+margin-bottom:10px
+}
+.templatePreview span{
+display:block;
+height:7px;
+background:#333;
+border-radius:4px
+}
+.shapeDaily{
+grid-template-columns:1fr
+}
+.shapeDaily span:nth-child(1){width:55%;height:12px}
+.shapeDaily span:nth-child(2){width:85%}
+.shapeDaily span:nth-child(3){width:72%}
+.shapeDaily span:nth-child(4){width:90%}
+.shapeCornell{
+grid-template-columns:35% 65%;
+grid-template-rows:1fr 20px
+}
+.shapeCornell span:nth-child(3){
+grid-column:1/3
+}
+.shapeExam{
+grid-template-columns:1fr 1fr
+}
+.shapeExam span:nth-child(1),
+.shapeExam span:nth-child(4){
+height:13px
+}
+.shapeEssay{
+grid-template-columns:1fr
+}
+.shapeEssay span:nth-child(2){
+width:75%
+}
+.shapeEssay span:nth-child(3){
+width:90%
+}
+.shapeProject{
+grid-template-columns:1fr 1fr
+}
+.shapeFlash{
+grid-template-columns:1fr 1fr 1fr
+}
+.templateName{
+font-size:14px;
+font-weight:650;
+margin-bottom:4px
+}
+.templateDesc{
+font-size:11px;
+line-height:1.45;
+color:#777
 }
 
-#preview blockquote{
-
-border-left:3px solid #626262;
-
-padding-left:15px;
-
-color:#aaa
-
-}
-
-/* MARKDOWN */
-
-.markdownArea{
-
+/* MODAL */
+#modal{
+position:fixed;
+inset:0;
+z-index:1000;
 display:none;
-
-width:100%;
-
-height:100%;
-
-resize:none;
-
-border:0;
-
-outline:0;
-
-background:transparent;
-
-color:#e8e8e8;
-
-font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-
-font-size:16px;
-
-line-height:1.7
-
+place-items:center;
+background:rgba(0,0,0,.55);
+backdrop-filter:blur(8px)
+}
+#modal.show{
+display:grid;
+animation:modalIn .2s ease
+}
+.modalBox{
+width:min(620px,92vw);
+max-height:82vh;
+overflow:auto;
+background:#111;
+border:1px solid #333;
+border-radius:18px;
+box-shadow:0 30px 100px #000c;
+padding:20px
+}
+.modalHeader{
+display:flex;
+align-items:center;
+margin-bottom:18px
+}
+.modalTitle{
+font-size:22px;
+font-weight:650;
+flex:1
+}
+.modalClose{
+width:34px;
+height:34px;
+border-radius:9px;
+background:#1b1b1b;
+color:#aaa
+}
+.modalClose:hover{
+background:#292929;
+color:#fff
+}
+.settingRow{
+display:flex;
+align-items:center;
+gap:12px;
+padding:15px 0;
+border-bottom:1px solid #252525;
+color:#aaa;
+font-size:13px
+}
+.settingRow button{
+margin-left:auto;
+background:#242424;
+padding:8px 11px;
+border-radius:8px;
+color:#ddd
+}
+.settingRow button:hover{
+background:#333
+}
+.helpText{
+font-size:14px;
+line-height:1.7;
+color:#aaa
+}
+@keyframes modalIn{
+from{
+opacity:0;
+transform:scale(.96) translateY(8px)
+}
+to{
+opacity:1;
+transform:none
+}
 }
 
+/* MOBILE */
+@media(max-width:700px){
+#sidebar{
+width:260px;
+min-width:260px
+}
+.noteHeader{
+padding-left:5%;
+padding-right:5%
+}
+.toolbar{
+margin-left:5%;
+margin-right:5%
+}
+.editorWrap{
+padding-left:5%;
+padding-right:5%
+}
+.stats{
+padding-left:5%;
+padding-right:5%
+}
+.title{
+font-size:31px
+}
+.drawTop{
+right:8px;
+max-width:calc(100% - 16px)
+}
+.drawBottom{
+max-width:calc(100% - 16px)
+}
+.templateGrid{
+grid-template-columns:1fr
+}
+}
 </style>
-
 </head>
 
 <body>
 
 <div id="intro">
-
 <div class="introCore">
-
 <svg class="introLogo" viewBox="0 0 120 120">
-
 <ellipse
-
 cx="60"
-
 cy="60"
-
 rx="49"
-
 ry="20"
-
 fill="none"
-
 stroke="#707070"
-
 stroke-width="1.4"
-
 transform="rotate(45 60 60)"
-
 />
-
 <circle cx="60" cy="60" r="16" fill="#202020"/>
-
 <circle cx="60" cy="60" r="10" fill="#f4f4f4"/>
-
 </svg>
-
 <div class="introName">StudyNotes</div>
-
 <div class="introRule"></div>
-
 </div>
-
 </div>
 
 <div id="app">
@@ -2135,29 +913,18 @@ transform="rotate(45 60 60)"
 <div class="sideTop">
 
 <div class="brand">
-
-<svg viewBox="0 0 60 60">
-
-<ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#777" stroke-width="1.2"/>
-
-<ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#777" stroke-width="1.2" transform="rotate(60 30 30)"/>
-
-<ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#777" stroke-width="1.2" transform="rotate(120 30 30)"/>
-
-<circle cx="30" cy="30" r="7" fill="#eee"/>
-
+<svg viewBox="0 0 100 100">
+<ellipse cx="50" cy="50" rx="39" ry="16" fill="none" stroke="#777" stroke-width="3"/>
+<ellipse cx="50" cy="50" rx="39" ry="16" fill="none" stroke="#777" stroke-width="3" transform="rotate(60 50 50)"/>
+<ellipse cx="50" cy="50" rx="39" ry="16" fill="none" stroke="#777" stroke-width="3" transform="rotate(120 50 50)"/>
+<circle cx="50" cy="50" r="9" fill="#ddd"/>
 </svg>
-
 <span>StudyNotes</span>
-
 </div>
 
 <div class="searchWrap">
-
 <div class="searchIcon">⌕</div>
-
-<input id="search" class="search" placeholder="Search notes..." autocomplete="off"/>
-
+<input id="search" class="search" placeholder="Search notes...">
 </div>
 
 </div>
@@ -2166,22 +933,17 @@ transform="rotate(45 60 60)"
 
 <div id="folders" class="folders"></div>
 
-<button class="addFolder" onclick="addFolder()">＋ New folder</button>
+<button class="addFolder" onclick="createFolder()">＋ New folder</button>
+
+<button class="addFolder" onclick="createSecretFolder()">🔒 Secret folder</button>
 
 <div class="sideTitle">Notes</div>
 
 <div id="notes" class="notes"></div>
 
 <div class="sideBottom">
-
 <button class="sideButton" onclick="newNote()">＋ New note</button>
-
 <button class="sideButton" onclick="templates()">▦ Templates</button>
-
-<button class="sideButton" onclick="settings()">⚙ Settings</button>
-
-<button class="sideButton" onclick="help()">? Help</button>
-
 </div>
 
 </aside>
@@ -2190,65 +952,57 @@ transform="rotate(45 60 60)"
 
 <div class="topbar">
 
-<button class="icon" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
+<button class="icon" onclick="toggleSidebar()" title="Toggle side panel">☰</button>
 
 <button class="icon" onclick="newNote()" title="New note">＋</button>
 
-<button class="icon" onclick="duplicateNote()" title="Duplicate">⧉</button>
+<button class="icon" onclick="deleteNote()" title="Delete note">⌫</button>
 
-<button class="icon" id="previewBtn" onclick="togglePreview()" title="Preview">◫</button>
+<button class="icon" onclick="duplicateNote()" title="Duplicate note">⧉</button>
 
-<button class="icon" id="drawBtn" onclick="openDrawing()" title="Drawing">✎</button>
+<button class="icon" onclick="togglePreview()" title="Markdown preview">◫</button>
+
+<button class="icon" id="drawBtn" onclick="openDrawing()" title="Drawing tools">✎</button>
+
+<button class="icon" onclick="settings()" title="Settings">⚙</button>
+
+<button class="icon" onclick="help()" title="Help">?</button>
 
 <div class="status" id="status">Saved</div>
 
 </div>
 
 <div class="noteHeader">
-
-<input id="title" class="title" placeholder="Untitled" autocomplete="off"/>
-
+<input id="title" class="title" placeholder="Untitled note" spellcheck="false">
 <button id="pinBtn" class="icon pin" onclick="togglePin()" title="Pin note">☆</button>
-
 </div>
 
 <div class="toolbar">
 
 <button class="tool" onclick="format('bold')" title="Bold"><b>B</b></button>
-
 <button class="tool" onclick="format('italic')" title="Italic"><i>I</i></button>
-
 <button class="tool" onclick="format('underline')" title="Underline"><u>U</u></button>
 
-<button class="tool" onclick="formatBlock('h2')" title="Heading">H2</button>
+<div class="sep"></div>
 
-<button class="tool" onclick="formatBlock('blockquote')" title="Quote">❝</button>
-
-<button class="tool" onclick="formatBlock('pre')" title="Code">{"}"}</button>
-
+<button class="tool" onclick="format('formatBlock','H2')" title="Heading">H2</button>
+<button class="tool" onclick="format('insertUnorderedList')" title="Bullet list">•</button>
+<button class="tool" onclick="format('insertOrderedList')" title="Numbered list">1.</button>
 <button class="tool" onclick="insertChecklist()" title="Checklist">☑</button>
-
+<button class="tool" onclick="insertCode()" title="Code block">&lt;/&gt;</button>
 <button class="tool" onclick="insertLink()" title="Link">↗</button>
 
 <div class="sep"></div>
 
-<button class="tool" id="highlightBtn" onclick="toggleHighlighter()" title="Highlighter">▰</button>
-
-<button class="tool" onclick="toggleTextColors()" title="Text colour">A</button>
-
-<div class="sep"></div>
-
-<button class="tool" onclick="clearFormatting()" title="Clear formatting">Tx</button>
-
-<button class="tool" onclick="saveNow()" title="Save">✓</button>
+<button class="tool" onclick="showTextColors()" title="Text colour">A</button>
+<button class="tool" id="highlightBtn" onclick="toggleHighlighter()" title="Highlight word">▰</button>
+<button class="tool" onclick="openDrawing()" title="Draw">✎</button>
 
 </div>
 
 <div id="editorWrap" class="editorWrap">
 
 <div id="editor" class="editor" contenteditable="true" spellcheck="true"></div>
-
-<textarea id="markdownArea" class="markdownArea"></textarea>
 
 <div id="drawOverlay">
 
@@ -2257,13 +1011,9 @@ transform="rotate(45 60 60)"
 <div class="drawTop">
 
 <button class="drawTool active" data-draw="pen" onclick="setDrawTool('pen')">Pen</button>
-
 <button class="drawTool" data-draw="pencil" onclick="setDrawTool('pencil')">Pencil</button>
-
 <button class="drawTool" data-draw="marker" onclick="setDrawTool('marker')">Marker</button>
-
 <button class="drawTool" data-draw="ruler" onclick="setDrawTool('ruler')">Ruler</button>
-
 <button class="drawTool" data-draw="eraser" onclick="setDrawTool('eraser')">Eraser</button>
 
 <div class="drawSeparator"></div>
@@ -2276,68 +1026,52 @@ transform="rotate(45 60 60)"
 
 <div class="drawBottom">
 
-<button class="drawColor cBlack selected" onclick="setDrawColor('#050505',this)" title="Black"></button>
+<button class="drawColor cBlack selected" onclick="setDrawColor('#050505',this)"></button>
+<button class="drawColor cWhite" onclick="setDrawColor('#ffffff',this)"></button>
+<button class="drawColor cRed" onclick="setDrawColor('#ff453a',this)"></button>
+<button class="drawColor cOrange" onclick="setDrawColor('#ff9f0a',this)"></button>
+<button class="drawColor cYellow" onclick="setDrawColor('#ffd60a',this)"></button>
+<button class="drawColor cGreen" onclick="setDrawColor('#30d158',this)"></button>
+<button class="drawColor cBlue" onclick="setDrawColor('#0a84ff',this)"></button>
+<button class="drawColor cPurple" onclick="setDrawColor('#bf5af2',this)"></button>
+<button class="drawColor cPink" onclick="setDrawColor('#ff375f',this)"></button>
 
-<button class="drawColor cWhite" onclick="setDrawColor('#ffffff',this)" title="White"></button>
-
-<button class="drawColor cRed" onclick="setDrawColor('#ff453a',this)" title="Red"></button>
-
-<button class="drawColor cOrange" onclick="setDrawColor('#ff9f0a',this)" title="Orange"></button>
-
-<button class="drawColor cYellow" onclick="setDrawColor('#ffd60a',this)" title="Yellow"></button>
-
-<button class="drawColor cGreen" onclick="setDrawColor('#30d158',this)" title="Green"></button>
-
-<button class="drawColor cBlue" onclick="setDrawColor('#0a84ff',this)" title="Blue"></button>
-
-<button class="drawColor cPurple" onclick="setDrawColor('#bf5af2',this)" title="Purple"></button>
-
-<button class="drawColor cPink" onclick="setDrawColor('#ff375f',this)" title="Pink"></button>
-
-<select id="drawSize" class="size" title="Thickness">
-
+<select id="drawSize" class="size">
 <option value="2">Thin</option>
-
 <option value="4" selected>Medium</option>
-
 <option value="7">Thick</option>
-
-<option value="12">XL</option>
-
+<option value="12">Wide</option>
 </select>
 
 <button class="drawTool" onclick="undoDraw()">↶</button>
-
 <button class="drawTool" onclick="redoDraw()">↷</button>
-
 <button class="drawTool" onclick="clearDraw()">Clear</button>
-
-<button class="drawTool drawClose" onclick="closeDrawing()">Done</button>
-
-</div>
-
-<div id="ruler">
-
-<div class="rulerTicks"></div>
-
-<div class="rulerCenter"></div>
+<button class="drawTool" onclick="closeDrawing()">Done</button>
 
 </div>
 
+<div id="ruler" class="ruler">
+<span>0</span>
+<span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+<span>7</span>
+<span>8</span>
+<span>9</span>
+<span>10</span>
 </div>
 
 </div>
 
-<div id="preview"></div>
+</div>
 
 <div class="stats">
-
 <span id="wordCount">0 words</span>
-
-<span style="margin-left:14px" id="charCount">0 characters</span>
-
-<span style="margin-left:14px" id="readingTime">0 min read</span>
-
+<span style="margin-left:12px" id="charCount">0 characters</span>
+<span style="margin-left:12px" id="readTime">0 min read</span>
 </div>
 
 </main>
@@ -2345,40 +1079,27 @@ transform="rotate(45 60 60)"
 </div>
 
 <div id="textColors" class="pop">
-
 <button class="swatch sblack" onclick="setTextColor('#050505')"></button>
-
 <button class="swatch swhite" onclick="setTextColor('#ffffff')"></button>
-
 <button class="swatch sred" onclick="setTextColor('#ff453a')"></button>
-
 <button class="swatch sorange" onclick="setTextColor('#ff9f0a')"></button>
-
 <button class="swatch syellow" onclick="setTextColor('#ffd60a')"></button>
-
 <button class="swatch sgreen" onclick="setTextColor('#30d158')"></button>
-
 <button class="swatch sblue" onclick="setTextColor('#0a84ff')"></button>
-
 <button class="swatch spurple" onclick="setTextColor('#bf5af2')"></button>
-
 <button class="swatch spink" onclick="setTextColor('#ff375f')"></button>
-
 </div>
 
 <div id="modal">
 
 <div class="modalBox">
 
-<div class="modalHead">
-
+<div class="modalHeader">
 <div id="modalTitle" class="modalTitle"></div>
-
 <button class="modalClose" onclick="closeModal()">×</button>
-
 </div>
 
-<div id="modalBody" class="modalBody"></div>
+<div id="modalBody"></div>
 
 </div>
 
@@ -2388,201 +1109,215 @@ transform="rotate(45 60 60)"
 
 const KEY="studynotes_ultra_v2";
 
+const pastelColors=[
+"#C8B6E2",
+"#B8D8D8",
+"#F2C6DE",
+"#C7E9B0",
+"#F4D6A6",
+"#BFD7EA",
+"#D8C3A5",
+"#C6D8D1",
+"#D9C2F0",
+"#F1D3B3"
+];
+
 let data={
-
-folders:[],
-
+folders:["General","School"],
 notes:[],
-
-activeFolder:null,
-
-activeNote:null
-
+current:"",
+secretFolders:{},
+folderColors:{}
 };
 
+let currentFolder="General";
+
 let highlighter=false;
-
-let drawCanvas=null;
-
-let drawCtx=null;
-
-let drawing=false;
-
 let drawTool="pen";
-
 let drawColor="#050505";
-
+let drawing=false;
+let drawCanvas=null;
+let drawCtx=null;
 let undoStack=[];
-
 let redoStack=[];
 
 function $(id){
-
 return document.getElementById(id)
-
 }
 
-/* STORAGE */
+function uid(){
+return Date.now().toString(36)+Math.random().toString(36).slice(2,8)
+}
+
+function codeHash(value){
+let hash=0;
+for(let i=0;i<value.length;i++){
+hash=((hash<<5)-hash)+value.charCodeAt(i);
+hash|=0
+}
+return String(hash)
+}
 
 function save(){
-
 localStorage.setItem(KEY,JSON.stringify(data));
-
-$("status").textContent="Saved";
-
-setTimeout(()=>{
-
-$("status").textContent="";
-
-},1200)
-
+$("status").textContent="Saved"
 }
 
 function load(){
 
 try{
 
-const saved=localStorage.getItem(KEY);
+const saved=JSON.parse(localStorage.getItem(KEY)||"null");
 
 if(saved){
 
-data=JSON.parse(saved)
+data=saved;
 
-}
+if(!Array.isArray(data.folders))
+data.folders=["General"];
 
-}catch(e){
-
-data={folders:[],notes:[],activeFolder:null,activeNote:null}
-
-}
-
-if(!data.folders)
-
-data.folders=[];
-
-if(!data.notes)
-
+if(!Array.isArray(data.notes))
 data.notes=[];
+
+if(!data.secretFolders)
+data.secretFolders={};
+
+if(!data.folderColors)
+data.folderColors={};
+
+}
+
+}catch(e){}
+
+if(!Array.isArray(data.folders))
+data.folders=["General"];
+
+if(!data.secretFolders)
+data.secretFolders={};
+
+if(!data.folderColors)
+data.folderColors={};
+
+/* GIVE EVERY FOLDER A PASTEL DOT */
+data.folders.forEach((folder,index)=>{
+if(!data.folderColors[folder]){
+data.folderColors[folder]=pastelColors[index%pastelColors.length]
+}
+});
+
+/* REMOVE OLD WELCOME/STARTER NOTES */
+data.notes=data.notes.filter(n=>{
+const title=(n.title||"").trim().toLowerCase();
+return title!=="welcome" &&
+title!=="welcome to studynotes" &&
+title!=="start writing"
+});
 
 if(!data.notes.length){
 
-const id=Date.now();
-
-data.notes.push({
-
-id,
-
-title:"Welcome to StudyNotes",
-
-html:"<h1>Welcome</h1><p>This is your writing space.</p><p>Create notes, organise them into folders, use templates, highlight words, format text or open the drawing tools.</p>",
-
-folder:null,
-
+const n={
+id:uid(),
+title:"",
+html:"",
+folder:data.folders[0]||"General",
 pinned:false,
-
 created:Date.now(),
-
 updated:Date.now(),
+drawing:""
+};
 
-drawing:null
+data.notes.push(n);
+data.current=n.id
+}else{
 
-});
-
-data.activeNote=id
+if(!data.current||
+!data.notes.some(n=>n.id===data.current))
+data.current=data.notes[0].id
 
 }
 
-if(!data.activeNote)
+currentFolder=
+data.notes.find(n=>n.id===data.current)?.folder||
+data.folders[0]||
+"General";
 
-data.activeNote=data.notes[0].id;
-
+save();
 render();
 
 setTimeout(()=>{
-
 $("intro").classList.add("exit")
-
 },3000)
-
-}
-
-/* CURRENT NOTE */
-
-function currentNote(){
-
-return data.notes.find(n=>n.id===data.activeNote)
 
 }
 
 /* RENDER */
 
 function render(){
-
 renderFolders();
-
 renderNotes();
-
 renderEditor()
-
 }
 
 /* FOLDERS */
 
 function renderFolders(){
 
-const wrap=$("folders");
-
-wrap.innerHTML="";
-
-const all=document.createElement("button");
-
-all.className="folder "+(!data.activeFolder?"active":"");
-
-all.innerHTML='<span class="dot"></span><span class="folderName">All notes</span>';
-
-all.onclick=()=>{
-
-data.activeFolder=null;
-
-render()
-
-};
-
-wrap.appendChild(all);
+const box=$("folders");
+box.innerHTML="";
 
 data.folders.forEach(folder=>{
 
-const b=document.createElement("button");
+const row=document.createElement("div");
 
-b.className="folder "+(data.activeFolder===folder.id?"active":"");
+row.className=
+"folder"+
+(currentFolder===folder?" active":"");
 
-b.innerHTML=
+const color=
+data.folderColors?.[folder]||
+pastelColors[
+data.folders.indexOf(folder)%pastelColors.length
+];
 
-'<span class="dot"></span>'+
+row.innerHTML=
+'<span class="dot" style="background:'+color+';border-color:'+color+';box-shadow:0 0 7px '+color+'55"></span>'+
+'<span class="folderName">'+escapeHtml(folder)+'</span>'+
+'<button class="folderDel" title="Delete folder">×</button>';
 
-'<span class="folderName">'+escapeHTML(folder.name)+'</span>'+
-
-'<span class="folderDel">×</span>';
-
-b.onclick=(e)=>{
-
-if(e.target.classList.contains("folderDel")){
-
-deleteFolder(folder.id);
-
-return
-
+row.onclick=()=>{
+if(data.secretFolders&&data.secretFolders[folder]){
+if(!unlockSecretFolder(folder))return
 }
-
-data.activeFolder=folder.id;
-
-render()
-
+currentFolder=folder;
+renderFolders();
+renderNotes()
 };
 
-wrap.appendChild(b)
+row.querySelector(".folderDel").onclick=e=>{
+e.stopPropagation();
+deleteFolder(folder)
+};
 
-})
+box.appendChild(row)
+
+});
+
+/* EXISTING PRIVATE FOLDER */
+
+const pr=document.createElement("div");
+
+pr.className=
+"folder"+
+(currentFolder==="__private__"?" active":"");
+
+pr.innerHTML=
+'<span class="dot" style="background:#C8B6E2;border-color:#C8B6E2;box-shadow:0 0 7px #C8B6E255"></span>'+
+'<span class="folderName">Private</span>'+
+'<span class="folderActions"><button class="folderAction" title="Private">⌘</button></span>';
+
+pr.onclick=()=>openPrivateFolder();
+
+box.appendChild(pr)
 
 }
 
@@ -2590,65 +1325,54 @@ wrap.appendChild(b)
 
 function renderNotes(){
 
-const wrap=$("notes");
+const box=$("notes");
+box.innerHTML="";
 
-wrap.innerHTML="";
+const q=
+$("search").value.trim().toLowerCase();
 
-const query=$("search").value.trim().toLowerCase();
-
-let notes=[...data.notes];
-
-if(data.activeFolder)
-
-notes=notes.filter(n=>n.folder===data.activeFolder);
-
-if(query)
-
-notes=notes.filter(n=>
-
-(n.title||"").toLowerCase().includes(query)||
-
-stripHTML(n.html||"").toLowerCase().includes(query)
-
+let notes=
+data.notes.filter(n=>
+n.folder===currentFolder
 );
 
-notes.sort((a,b)=>{
+if(q){
 
-if(a.pinned!==b.pinned)
+notes=data.notes.filter(n=>
+(n.title||"").toLowerCase().includes(q)||
+stripHtml(n.html||"").toLowerCase().includes(q)
+)
 
-return a.pinned?-1:1;
+}
 
-return b.updated-a.updated
+notes
+.sort((a,b)=>
+Number(b.pinned)-Number(a.pinned)||
+b.updated-a.updated
+)
+.forEach(n=>{
 
-});
+const row=document.createElement("div");
 
-notes.forEach(n=>{
+row.className=
+"note"+
+(n.id===data.current?" active":"");
 
-const b=document.createElement("button");
-
-b.className="note "+(n.id===data.activeNote?"active":"");
-
-b.innerHTML=
-
+row.innerHTML=
+'<span class="dot"></span>'+
 '<span class="noteName">'+
+escapeHtml(n.title||"Untitled note")+
+'</span>'+
+(n.pinned?'<span>•</span>':"");
 
-(n.pinned?"★ ":"")+
-
-escapeHTML(n.title||"Untitled")+
-
-'</span>';
-
-b.onclick=()=>{
-
-data.activeNote=n.id;
-
-renderEditor();
-
-renderNotes()
-
+row.onclick=()=>{
+data.current=n.id;
+currentFolder=n.folder;
+save();
+render()
 };
 
-wrap.appendChild(b)
+box.appendChild(row)
 
 })
 
@@ -2660,98 +1384,50 @@ function renderEditor(){
 
 const n=currentNote();
 
-if(!n)
+if(!n)return;
 
-return;
-
-$("title").value=n.title||"Untitled";
-
+$("title").value=n.title||"";
 $("editor").innerHTML=n.html||"";
 
-$("markdownArea").value=htmlToMarkdown(n.html||"");
-
-$("editor").style.display="block";
-
-$("markdownArea").style.display="none";
-
-$("preview").style.display="none";
-
-$("previewBtn").classList.remove("active");
-
-$("pinBtn").textContent=n.pinned?"★":"☆";
+$("pinBtn").textContent=
+n.pinned?"★":"☆";
 
 updateStats()
 
 }
 
-/* UPDATE */
+/* CURRENT */
 
-function update(){
-
-const n=currentNote();
-
-if(!n)
-
-return;
-
-n.title=$("title").value.trim()||"Untitled";
-
-n.html=$("editor").innerHTML;
-
-n.updated=Date.now();
-
-save();
-
-renderNotes();
-
-updateStats()
-
-}
-
-function saveNow(){
-
-update()
-
+function currentNote(){
+return data.notes.find(n=>n.id===data.current)
 }
 
 /* NEW NOTE */
 
 function newNote(){
 
-const id=Date.now();
-
-const folder=data.activeFolder||null;
-
-data.notes.unshift({
-
-id,
-
-title:"Untitled",
-
+const n={
+id:uid(),
+title:"",
 html:"",
-
-folder,
-
+folder:currentFolder==="__private__"?"General":currentFolder,
 pinned:false,
-
 created:Date.now(),
-
 updated:Date.now(),
+drawing:""
+};
 
-drawing:null
+data.notes.unshift(n);
+data.current=n.id;
 
-});
-
-data.activeNote=id;
+if(currentFolder==="__private__")
+currentFolder="General";
 
 save();
-
 render();
 
 setTimeout(()=>{
-
 $("title").focus()
-
 },50)
 
 }
@@ -2762,28 +1438,39 @@ function deleteNote(){
 
 const n=currentNote();
 
-if(!n)
-
-return;
+if(!n)return;
 
 if(!confirm("Delete this note?"))
-
 return;
 
-data.notes=data.notes.filter(x=>x.id!==n.id);
+const index=data.notes.findIndex(x=>x.id===n.id);
 
-if(!data.notes.length){
+data.notes.splice(index,1);
 
-newNote();
+let replacement=
+data.notes.find(x=>x.folder===currentFolder)||
+data.notes[0];
 
-return
+if(!replacement){
 
+replacement={
+id:uid(),
+title:"",
+html:"",
+folder:data.folders[0]||"General",
+pinned:false,
+created:Date.now(),
+updated:Date.now(),
+drawing:""
+};
+
+data.notes.push(replacement)
 }
 
-data.activeNote=data.notes[0].id;
+data.current=replacement.id;
+currentFolder=replacement.folder;
 
 save();
-
 render()
 
 }
@@ -2794,30 +1481,20 @@ function duplicateNote(){
 
 const n=currentNote();
 
-if(!n)
-
-return;
+if(!n)return;
 
 const copy={
-
 ...n,
-
-id:Date.now(),
-
-title:(n.title||"Untitled")+" copy",
-
+id:uid(),
+title:(n.title||"Untitled note")+" copy",
 created:Date.now(),
-
 updated:Date.now()
-
 };
 
 data.notes.unshift(copy);
-
-data.activeNote=copy.id;
+data.current=copy.id;
 
 save();
-
 render()
 
 }
@@ -2828,123 +1505,147 @@ function togglePin(){
 
 const n=currentNote();
 
-if(!n)
-
-return;
+if(!n)return;
 
 n.pinned=!n.pinned;
+n.updated=Date.now();
 
+save();
+renderNotes();
+renderEditor()
+
+}
+
+/* UPDATE */
+
+function update(){
+
+const n=currentNote();
+
+if(!n)return;
+
+n.title=$("title").value;
+n.html=$("editor").innerHTML;
 n.updated=Date.now();
 
 save();
 
 renderNotes();
-
-$("pinBtn").textContent=n.pinned?"★":"☆"
-
-}
-
-/* FOLDERS */
-
-function addFolder(){
-
-const name=prompt("Folder name:");
-
-if(!name||!name.trim())
-
-return;
-
-const folder={
-
-id:Date.now(),
-
-name:name.trim()
-
-};
-
-data.folders.push(folder);
-
-data.activeFolder=folder.id;
-
-save();
-
-render()
+updateStats()
 
 }
 
-function deleteFolder(id){
+/* TITLE */
 
-const folder=data.folders.find(f=>f.id===id);
+$("title").addEventListener("input",update);
 
-if(!folder)
+/* EDITOR */
 
-return;
+$("editor").addEventListener("input",update);
 
-if(!confirm('Delete folder "'+folder.name+'"? Notes will stay.'))
+/* FORMAT */
 
-return;
+function format(command,value=null){
 
-data.notes.forEach(n=>{
+$("editor").focus();
 
-if(n.folder===id)
-
-n.folder=null
-
-});
-
-data.folders=data.folders.filter(f=>f.id!==id);
-
-data.activeFolder=null;
-
-save();
-
-render()
-
-}
-
-/* FORMATTING */
-
-function format(command){
-
-document.execCommand(command,false,null);
+document.execCommand(
+command,
+false,
+value
+);
 
 update()
 
 }
 
-function formatBlock(tag){
-
-document.execCommand("formatBlock",false,tag);
-
-update()
-
-}
+/* CHECKLIST */
 
 function insertChecklist(){
 
-document.execCommand("insertText",false,"☐ ");
+$("editor").focus();
+
+document.execCommand(
+"insertText",
+false,
+"☐ "
+);
 
 update()
 
 }
+
+/* CODE */
+
+function insertCode(){
+
+$("editor").focus();
+
+const selection=
+window.getSelection();
+
+const text=
+selection.toString()||
+"code";
+
+document.execCommand(
+"insertHTML",
+false,
+"<pre>"+escapeHtml(text)+"</pre>"
+);
+
+update()
+
+}
+
+/* LINK */
 
 function insertLink(){
 
-const url=prompt("Enter link:");
+const url=prompt("Link URL:");
 
-if(!url)
+if(!url)return;
 
-return;
-
-document.execCommand("createLink",false,url);
+document.execCommand(
+"createLink",
+false,
+url
+);
 
 update()
 
 }
 
-function clearFormatting(){
+/* TEXT COLOURS */
 
-document.execCommand("removeFormat",false,null);
+function showTextColors(){
+
+const box=$("textColors");
+
+box.classList.toggle("show");
+
+const button=
+document.querySelector('[title="Text colour"]');
+
+const rect=button.getBoundingClientRect();
+
+box.style.left=
+Math.max(8,rect.left)+"px";
+
+box.style.top=
+(rect.bottom+8)+"px"
+
+}
+
+function setTextColor(color){
+
+document.execCommand(
+"foreColor",
+false,
+color
+);
+
+$("textColors").classList.remove("show");
 
 update()
 
@@ -2957,206 +1658,170 @@ function toggleHighlighter(){
 highlighter=!highlighter;
 
 $("highlightBtn")
-
 .classList
-
 .toggle("active",highlighter);
 
 $("editor").style.cursor=
-
 highlighter?"pointer":""
 
 }
 
 function wordRangeFromPoint(e){
 
-let r=null;
+let node=null;
+let offset=0;
 
 if(document.caretRangeFromPoint){
 
-r=document.caretRangeFromPoint(
-
+const range=
+document.caretRangeFromPoint(
 e.clientX,
-
 e.clientY
+);
 
-)
+if(range){
+node=range.startContainer;
+offset=range.startOffset
+}
 
 }else if(document.caretPositionFromPoint){
 
-const p=document.caretPositionFromPoint(
-
+const pos=
+document.caretPositionFromPoint(
 e.clientX,
-
 e.clientY
-
 );
 
-if(p){
-
-r=document.createRange();
-
-r.setStart(
-
-p.offsetNode,
-
-p.offset
-
-);
-
-r.collapse(true)
-
+if(pos){
+node=pos.offsetNode;
+offset=pos.offset
 }
 
 }
 
-if(!r||r.startContainer.nodeType!==3)
+if(!node)return null;
 
-return null;
+if(node.nodeType!==Node.TEXT_NODE){
 
-const node=r.startContainer;
+if(node.childNodes.length){
 
-const text=node.textContent;
+node=node.childNodes[
+Math.min(
+offset,
+node.childNodes.length-1
+)
+];
 
-let a=r.startOffset;
+if(node.nodeType!==Node.TEXT_NODE)
+return null
 
-let b=a;
+}else return null
+
+}
+
+const text=node.textContent||"";
+
+if(!text.trim())return null;
+
+let start=offset;
 
 while(
+start>0 &&
+!/\s/.test(text[start-1])
+){
+start--
+}
 
-a>0&&
-
-!/\s/.test(text[a-1])
-
-)
-
-a--;
+let end=offset;
 
 while(
+end<text.length &&
+!/\s/.test(text[end])
+){
+end++
+}
 
-b<text.length&&
+if(start===end)return null;
 
-!/\s/.test(text[b])
+const range=document.createRange();
 
-)
+range.setStart(node,start);
+range.setEnd(node,end);
 
-b++;
-
-if(a===b)
-
-return null;
-
-const out=document.createRange();
-
-out.setStart(node,a);
-
-out.setEnd(node,b);
-
-return out
+return range
 
 }
 
 $("editor").addEventListener("click",e=>{
 
-if(!highlighter)
-
-return;
+if(!highlighter)return;
 
 const r=wordRangeFromPoint(e);
 
-if(!r)
-
-return;
+if(!r)return;
 
 const sel=getSelection();
 
 sel.removeAllRanges();
-
 sel.addRange(r);
 
-try{
-
 document.execCommand(
-
 "hiliteColor",
-
 false,
-
 "#c9c35b"
-
 );
 
 document.execCommand(
-
 "backColor",
-
 false,
-
 "#c9c35b"
+);
 
-)
-
-}catch(error){}
-
-sel.removeAllRanges();
+sel.collapseToEnd();
 
 update()
 
 });
 
-/* TEXT COLOURS */
-
-function toggleTextColors(){
-
-$("textColors").classList.toggle("show")
-
-}
-
-function setTextColor(color){
-
-document.execCommand(
-
-"foreColor",
-
-false,
-
-color
-
-);
-
-$("textColors").classList.remove("show");
-
-update()
-
-}
-
 /* PREVIEW */
+
+let preview=false;
 
 function togglePreview(){
 
-const e=$("editor");
+preview=!preview;
 
-const p=$("preview");
+if(preview){
 
-if(p.style.display==="block"){
+const n=currentNote();
 
-p.style.display="none";
+$("editor").contentEditable=false;
 
-e.style.display="block";
-
-$("previewBtn").classList.remove("active")
+$("editor").innerHTML=
+markdownToHtml(
+stripHtml(n?.html||"")
+);
 
 }else{
 
-p.innerHTML=e.innerHTML;
-
-p.style.display="block";
-
-e.style.display="none";
-
-$("previewBtn").classList.add("active")
+renderEditor()
 
 }
+
+}
+
+/* MARKDOWN */
+
+function markdownToHtml(text){
+
+return escapeHtml(text)
+.replace(/^### (.*)$/gm,"<h3>$1</h3>")
+.replace(/^## (.*)$/gm,"<h2>$1</h2>")
+.replace(/^# (.*)$/gm,"<h1>$1</h1>")
+.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")
+.replace(/\*(.*?)\*/g,"<em>$1</em>")
+.replace(/`(.*?)`/g,"<code>$1</code>")
+.replace(/\n/g,"<br>")
 
 }
 
@@ -3168,172 +1833,316 @@ $("sidebar").classList.toggle("closed")
 
 }
 
-/* STATS */
+/* FOLDERS */
 
-function updateStats(){
+function createFolder(){
 
-const text=stripHTML(
+const value=
+prompt("Folder name:");
 
-$("editor").innerHTML||""
+if(!value||!value.trim())
+return;
 
-).trim();
+const folder=value.trim();
 
-const words=text?
+if(data.folders.includes(folder)){
 
-text.split(/\s+/).length:
-
-0;
-
-const chars=text.length;
-
-const minutes=words?
-
-Math.max(
-
-1,
-
-Math.ceil(words/200)
-
-):
-
-0;
-
-$("wordCount").textContent=
-
-words+" words";
-
-$("charCount").textContent=
-
-chars+" characters";
-
-$("readingTime").textContent=
-
-minutes+" min read"
+alert("That folder already exists.");
+return
 
 }
 
-/* EDITOR INPUT */
+if(!data.folderColors)
+data.folderColors={};
 
-$("editor").addEventListener("input",()=>{
+const color=
+pastelColors[
+data.folders.length%pastelColors.length
+];
 
-const n=currentNote();
+data.folderColors[folder]=color;
 
-if(!n)
+data.folders.push(folder);
 
+currentFolder=folder;
+
+save();
+renderFolders();
+renderNotes()
+
+}
+
+/* SECRET FOLDER */
+
+function createSecretFolder(){
+
+const value=
+prompt("Secret folder name:");
+
+if(!value||!value.trim())
 return;
 
-n.html=$("editor").innerHTML;
+const code=
+prompt("Create a code for this folder:");
 
-n.updated=Date.now();
-
-updateStats();
-
-$("status").textContent="Editing…"
-
-});
-
-$("title").addEventListener("input",()=>{
-
-const n=currentNote();
-
-if(!n)
-
+if(code===null||!code.trim())
 return;
 
-n.title=$("title").value;
+const folder=value.trim();
 
-n.updated=Date.now();
+if(data.folders.includes(folder)){
 
-renderNotes();
+alert("That folder already exists.");
+return
 
-$("status").textContent="Editing…"
+}
 
-});
+if(!data.secretFolders)
+data.secretFolders={};
 
-$("editor").addEventListener("blur",update);
+if(!data.folderColors)
+data.folderColors={};
 
-$("title").addEventListener("blur",update);
+data.secretFolders[folder]=
+codeHash(code.trim());
+
+data.folderColors[folder]=
+pastelColors[
+data.folders.length%pastelColors.length
+];
+
+data.folders.push(folder);
+
+currentFolder=folder;
+
+save();
+renderFolders();
+renderNotes()
+
+}
+
+function unlockSecretFolder(folder){
+
+if(
+!data.secretFolders||
+!data.secretFolders[folder]
+)
+return true;
+
+const code=
+prompt("Enter the code for "+folder+":");
+
+if(code===null)
+return false;
+
+if(
+codeHash(code.trim())!==
+data.secretFolders[folder]
+){
+
+alert("Wrong code.");
+return false
+
+}
+
+return true
+
+}
+
+/* DELETE FOLDER */
+
+function deleteFolder(folder){
+
+if(data.folders.length<=1){
+
+alert("You need at least one folder.");
+return
+
+}
+
+if(!confirm("Delete folder and its notes?"))
+return;
+
+data.notes=
+data.notes.filter(
+n=>n.folder!==folder
+);
+
+data.folders=
+data.folders.filter(
+x=>x!==folder
+);
+
+if(data.secretFolders)
+delete data.secretFolders[folder];
+
+if(data.folderColors)
+delete data.folderColors[folder];
+
+currentFolder=
+data.folders[0];
+
+let n=
+data.notes.find(
+x=>x.folder===currentFolder
+);
+
+if(!n){
+
+n={
+id:uid(),
+title:"",
+html:"",
+folder:currentFolder,
+pinned:false,
+created:Date.now(),
+updated:Date.now(),
+drawing:""
+};
+
+data.notes.push(n)
+}
+
+data.current=n.id;
+
+save();
+render()
+
+}
+
+/* PRIVATE */
+
+function privateCode(){
+
+return localStorage.getItem(
+KEY+"_private_code"
+)
+
+}
+
+function openPrivateFolder(){
+
+let code=
+privateCode();
+
+if(!code){
+
+const newCode=
+prompt("Create your private folder code:");
+
+if(newCode===null||!newCode.trim())
+return;
+
+code=codeHash(newCode.trim());
+
+localStorage.setItem(
+KEY+"_private_code",
+code
+)
+
+}else{
+
+const entered=
+prompt("Enter private folder code:");
+
+if(entered===null)
+return;
+
+if(
+codeHash(entered.trim())!==code
+){
+
+alert("Wrong code.");
+return
+
+}
+
+}
+
+currentFolder="__private__";
+
+renderFolders();
+renderNotes()
+
+}
 
 /* DRAWING */
 
 function openDrawing(){
 
 if(drawCanvas)
-
 return;
 
-$("drawOverlay").style.display="block";
+$("drawOverlay")
+.style.display=
+"block";
 
-drawCanvas=$("drawCanvas");
+$("editorWrap")?.classList.add("drawingToolsOpen");
 
-drawCanvas.width=$("editorWrap").clientWidth;
+drawCanvas=
+$("drawCanvas");
 
-drawCanvas.height=$("editorWrap").clientHeight;
+drawCanvas.width=
+$("editorWrap").clientWidth;
 
-drawCtx=drawCanvas.getContext("2d");
+drawCanvas.height=
+$("editorWrap").clientHeight;
 
-drawCtx.lineCap="round";
+drawCtx=
+drawCanvas.getContext("2d");
 
-drawCtx.lineJoin="round";
+drawCtx.lineCap=
+"round";
+
+drawCtx.lineJoin=
+"round";
 
 undoStack=[];
-
 redoStack=[];
 
-const n=currentNote();
+const n=
+currentNote();
 
-if(n&&n.drawing){
+if(
+n &&
+n.drawing
+){
 
-const image=new Image();
+const image=
+new Image();
 
 image.onload=()=>{
-
 drawCtx.drawImage(
-
 image,
-
 0,
-
 0
-
 )
-
 };
 
-image.src=n.drawing
+image.src=
+n.drawing
 
 }
 
 saveDrawState();
 
 drawCanvas.addEventListener(
-
 "pointerdown",
-
 drawStart
-
 );
 
 drawCanvas.addEventListener(
-
 "pointermove",
-
 drawMove
-
 );
 
 window.addEventListener(
-
 "pointerup",
-
 drawEnd
-
 );
 
 $("drawBtn")
-
 .classList
-
 .add("active")
 
 }
@@ -3342,36 +2151,30 @@ $("drawBtn")
 
 function drawStart(e){
 
-if(drawTool==="ruler"){
+if(
+drawTool==="ruler"
+){
 
 showRuler();
-
 return
 
 }
 
-if(drawTool==="highlighter")
-
-return;
-
 drawing=true;
 
-drawCanvas.setPointerCapture?.(
-
+drawCanvas
+.setPointerCapture?.(
 e.pointerId
-
 );
 
-const p=point(e);
+const p=
+point(e);
 
 drawCtx.beginPath();
 
 drawCtx.moveTo(
-
 p.x,
-
 p.y
-
 )
 
 }
@@ -3381,63 +2184,55 @@ p.y
 function drawMove(e){
 
 if(!drawing)
-
 return;
 
-const p=point(e);
+const p=
+point(e);
 
 drawCtx.globalCompositeOperation=
-
 drawTool==="eraser"
-
 ?"destination-out"
-
 :"source-over";
 
 let size=
-
 Number(
-
 $("drawSize").value
-
 );
 
-if(drawTool==="pencil"){
+if(
+drawTool==="pencil"
+){
 
-size=Math.max(
-
+size=
+Math.max(
 1,
-
 size*.48
-
 )
 
 }
 
-if(drawTool==="marker"){
+if(
+drawTool==="marker"
+){
 
 size*=3
 
 }
 
-drawCtx.lineWidth=size;
+drawCtx.lineWidth=
+size;
 
 drawCtx.globalAlpha=
-
 drawTool==="marker"
-
 ?.28
-
 :1;
 
-drawCtx.strokeStyle=drawColor;
+drawCtx.strokeStyle=
+drawColor;
 
 drawCtx.lineTo(
-
 p.x,
-
 p.y
-
 );
 
 drawCtx.stroke()
@@ -3449,7 +2244,6 @@ drawCtx.stroke()
 function drawEnd(){
 
 if(!drawing)
-
 return;
 
 drawing=false;
@@ -3457,11 +2251,9 @@ drawing=false;
 drawCtx.globalAlpha=1;
 
 drawCtx.globalCompositeOperation=
-
 "source-over";
 
 saveDrawState();
-
 persistDrawing()
 
 }
@@ -3471,15 +2263,12 @@ persistDrawing()
 function point(e){
 
 const rect=
-
-drawCanvas.getBoundingClientRect();
+drawCanvas
+.getBoundingClientRect();
 
 return{
-
 x:e.clientX-rect.left,
-
 y:e.clientY-rect.top
-
 }
 
 }
@@ -3489,45 +2278,26 @@ y:e.clientY-rect.top
 function setDrawTool(tool){
 
 drawTool=tool;
-
 highlighter=false;
 
 $("highlightBtn")?.classList.remove("active");
-
 $("drawHighlighter")?.classList.remove("active");
-
-$("drawOverlay")?.classList.remove(
-
-"highlighterMode"
-
-);
-
+$("drawOverlay")?.classList.remove("highlighterMode");
 $("editor").style.cursor="";
 
 document
-
 .querySelectorAll("[data-draw]")
-
 .forEach(button=>{
-
 button.classList.toggle(
-
 "active",
-
 button.dataset.draw===tool
-
-)
-
+);
 });
 
 if(tool==="ruler"){
-
-showRuler()
-
+showRuler();
 }else{
-
 hideRuler()
-
 }
 
 }
@@ -3535,58 +2305,53 @@ hideRuler()
 function activateDrawingHighlighter(){
 
 highlighter=true;
-
 drawTool="highlighter";
 
 $("drawHighlighter")?.classList.add("active");
 
 document
-
 .querySelectorAll("[data-draw]")
-
-.forEach(button=>{
-
+.forEach(button=>
 button.classList.remove("active")
-
-});
+);
 
 hideRuler();
 
-$("drawOverlay")?.classList.add(
+$("drawOverlay")
+?.classList
+.add("highlighterMode");
 
-"highlighterMode"
-
-);
-
-$("editor").style.cursor="pointer"
+$("editor").style.cursor="pointer";
 
 }
 
 /* DRAW COLOUR */
 
 function setDrawColor(
-
 color,
-
 button
-
 ){
 
 drawColor=color;
 
 document
-
-.querySelectorAll(".drawColor")
-
-.forEach(b=>
-
-b.classList.remove("selected")
-
+.querySelectorAll(
+".drawColor"
+)
+.forEach(
+b=>
+b.classList.remove(
+"selected"
+)
 );
 
-button.classList.add("selected");
+button.classList.add(
+"selected"
+);
 
-if(drawTool==="eraser"){
+if(
+drawTool==="eraser"
+){
 
 setDrawTool("pen")
 
@@ -3599,16 +2364,15 @@ setDrawTool("pen")
 function saveDrawState(){
 
 if(!drawCanvas)
-
 return;
 
 undoStack.push(
-
 drawCanvas.toDataURL()
-
 );
 
-if(undoStack.length>35){
+if(
+undoStack.length>35
+){
 
 undoStack.shift()
 
@@ -3620,30 +2384,22 @@ redoStack=[]
 
 function restoreDraw(src){
 
-const image=new Image();
+const image=
+new Image();
 
 image.onload=()=>{
 
 drawCtx.clearRect(
-
 0,
-
 0,
-
 drawCanvas.width,
-
 drawCanvas.height
-
 );
 
 drawCtx.drawImage(
-
 image,
-
 0,
-
 0
-
 );
 
 persistDrawing()
@@ -3656,24 +2412,19 @@ image.src=src
 
 function undoDraw(){
 
-if(undoStack.length<2)
-
+if(
+undoStack.length<2
+)
 return;
 
 redoStack.push(
-
 undoStack.pop()
-
 );
 
 restoreDraw(
-
 undoStack[
-
 undoStack.length-1
-
 ]
-
 )
 
 }
@@ -3681,11 +2432,9 @@ undoStack.length-1
 function redoDraw(){
 
 if(!redoStack.length)
-
 return;
 
 const state=
-
 redoStack.pop();
 
 undoStack.push(state);
@@ -3696,36 +2445,36 @@ restoreDraw(state)
 
 function clearDraw(){
 
-if(!confirm("Clear the drawing?"))
-
+if(
+!confirm(
+"Clear the drawing?"
+)
+)
 return;
 
 drawCtx.clearRect(
-
 0,
-
 0,
-
 drawCanvas.width,
-
 drawCanvas.height
-
 );
 
 saveDrawState();
-
 persistDrawing()
 
 }
 
 function persistDrawing(){
 
-const n=currentNote();
+const n=
+currentNote();
 
-if(n&&drawCanvas){
+if(
+n &&
+drawCanvas
+){
 
 n.drawing=
-
 drawCanvas.toDataURL();
 
 save()
@@ -3739,33 +2488,26 @@ function closeDrawing(){
 persistDrawing();
 
 $("drawOverlay")
-
 .classList
-
 .remove("highlighterMode");
 
-$("drawOverlay").style.display="none";
+$("drawOverlay")
+.style.display="none";
 
 $("drawBtn")
-
 .classList
-
 .remove("active");
 
-$("drawHighlighter")?.classList.remove(
-
-"active"
-
-);
+$("drawHighlighter")
+?.classList
+.remove("active");
 
 highlighter=false;
-
 drawTool="pen";
 
 $("editor").style.cursor="";
 
 drawCanvas=null;
-
 drawCtx=null;
 
 hideRuler()
@@ -3777,9 +2519,7 @@ hideRuler()
 function showRuler(){
 
 $("ruler")
-
 .classList
-
 .add("show")
 
 }
@@ -3787,91 +2527,67 @@ $("ruler")
 function hideRuler(){
 
 $("ruler")
-
 .classList
-
 .remove("show")
 
 }
 
 let rulerDrag=false;
-
 let rx=0;
-
 let ry=0;
 
-const ruler=$("ruler");
+const ruler=
+$("ruler");
 
 ruler.addEventListener(
-
 "pointerdown",
-
 e=>{
 
 rulerDrag=true;
 
 rx=
-
 e.clientX-
-
 ruler.offsetLeft;
 
 ry=
-
 e.clientY-
-
 ruler.offsetTop;
 
-ruler.setPointerCapture?.(
-
+ruler
+.setPointerCapture?.(
 e.pointerId
-
 )
 
 }
-
 );
 
 ruler.addEventListener(
-
 "pointermove",
-
 e=>{
 
 if(!rulerDrag)
-
 return;
 
 ruler.style.left=
-
 (
-
 e.clientX-rx
-
 )+"px";
 
 ruler.style.top=
-
 (
-
 e.clientY-ry
-
 )+"px"
 
 }
-
 );
 
 ruler.addEventListener(
-
 "pointerup",
-
 ()=>{
 
 rulerDrag=false
 
 }
-
 );
 
 /* TEMPLATES */
@@ -3879,63 +2595,57 @@ rulerDrag=false
 const templatesData={
 
 "Daily Study":{
-
-desc:"A calm daily page for goals, notes and review.",
-
-shape:"shapeDaily",
-
-html:"<h1>Today</h1><h2>Focus</h2><p>What matters most today?</p><h2>Notes</h2><p></p><h2>Key takeaway</h2><p></p><h2>Tomorrow</h2><p>What should I remember?</p>"
-
+desc:
+"A calm daily page for goals, notes and review.",
+shape:
+"shapeDaily",
+html:
+"<h1>Today</h1><h2>Focus</h2><p>What matters most today?</p><h2>Notes</h2><p></p><h2>Key takeaway</h2><p></p><h2>Tomorrow</h2><p>What should I remember?</p>"
 },
 
 "Cornell Notes":{
-
-desc:"Classic cue, notes and summary layout.",
-
-shape:"shapeCornell",
-
-html:"<h1>Topic</h1><table><tr><td><strong>Cues / Questions</strong></td><td><strong>Notes</strong></td></tr><tr><td><p></p></td><td><p></p></td></tr><tr><td colspan=\"2\"><strong>Summary</strong><p></p></td></tr></table>"
-
+desc:
+"Classic cue, notes and summary layout.",
+shape:
+"shapeCornell",
+html:
+"<h1>Topic</h1><table><tr><td><strong>Cues / Questions</strong></td><td><strong>Notes</strong></td></tr><tr><td><p></p></td><td><p></p></td></tr><tr><td colspan=\"2\"><strong>Summary</strong><p></p></td></tr></table>"
 },
 
 "Exam Revision":{
-
-desc:"Organise topics, weak areas and final review.",
-
-shape:"shapeExam",
-
-html:"<h1>Exam Revision</h1><h2>Topics</h2><p>☐ Topic 1<br>☐ Topic 2<br>☐ Topic 3<br>☐ Topic 4</p><h2>Key concepts</h2><p></p><h2>Weak areas</h2><p></p><h2>Final review</h2><p></p>"
-
+desc:
+"Organise topics, weak areas and final review.",
+shape:
+"shapeExam",
+html:
+"<h1>Exam Revision</h1><h2>Topics</h2><p>☐ Topic 1<br>☐ Topic 2<br>☐ Topic 3<br>☐ Topic 4</p><h2>Key concepts</h2><p></p><h2>Weak areas</h2><p></p><h2>Final review</h2><p></p>"
 },
 
 "Essay Planner":{
-
-desc:"Build an essay from question to conclusion.",
-
-shape:"shapeEssay",
-
-html:"<h1>Essay Planner</h1><h2>Question</h2><p></p><h2>Thesis</h2><p></p><h2>Argument 1</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Argument 2</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Counterargument</h2><p></p><h2>Conclusion</h2><p></p>"
-
+desc:
+"Build an essay from question to conclusion.",
+shape:
+"shapeEssay",
+html:
+"<h1>Essay Planner</h1><h2>Question</h2><p></p><h2>Thesis</h2><p></p><h2>Argument 1</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Argument 2</h2><p><strong>Claim:</strong></p><p><strong>Evidence:</strong></p><h2>Counterargument</h2><p></p><h2>Conclusion</h2><p></p>"
 },
 
 "Project Planner":{
-
-desc:"Plan outcomes, milestones, tasks and next actions.",
-
-shape:"shapeProject",
-
-html:"<h1>Project</h1><h2>Outcome</h2><p></p><h2>Milestones</h2><p>☐ Milestone 1<br>☐ Milestone 2<br>☐ Milestone 3</p><h2>Tasks</h2><p>☐ Task 1<br>☐ Task 2<br>☐ Task 3</p><h2>Next action</h2><p></p>"
-
+desc:
+"Plan outcomes, milestones, tasks and next actions.",
+shape:
+"shapeProject",
+html:
+"<h1>Project</h1><h2>Outcome</h2><p></p><h2>Milestones</h2><p>☐ Milestone 1<br>☐ Milestone 2<br>☐ Milestone 3</p><h2>Tasks</h2><p>☐ Task 1<br>☐ Task 2<br>☐ Task 3</p><h2>Next action</h2><p></p>"
 },
 
 "Flashcards":{
-
-desc:"Turn a lesson into compact question and answer cards.",
-
-shape:"shapeFlash",
-
-html:"<h1>Flashcards</h1><h2>Card 1</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 2</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 3</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p>"
-
+desc:
+"Turn a lesson into compact question and answer cards.",
+shape:
+"shapeFlash",
+html:
+"<h1>Flashcards</h1><h2>Card 1</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 2</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p><h2>Card 3</h2><p><strong>Question:</strong></p><p><strong>Answer:</strong></p>"
 }
 
 };
@@ -3945,61 +2655,39 @@ html:"<h1>Flashcards</h1><h2>Card 1</h2><p><strong>Question:</strong></p><p><str
 function templates(){
 
 let html=
-
 '<div class="templateGrid">';
 
 Object.entries(
-
 templatesData
-
-).forEach(
-
+)
+.forEach(
 ([name,t])=>{
 
 html+=
-
 '<button class="templateCard" onclick="useTemplate('+JSON.stringify(name)+')">'+
-
-'<div class="templatePreview '+
-
-t.shape+
-
-'">'+
-
+'<div class="templatePreview '+t.shape+'">'+
 '<span></span>'+
-
 '<span></span>'+
-
 '<span></span>'+
-
 '<span></span>'+
-
 '</div>'+
-
 '<div class="templateName">'+
-
 name+
-
 '</div>'+
-
 '<div class="templateDesc">'+
-
 t.desc+
-
 '</div>'+
-
 '</button>'
 
-});
+}
+);
 
-html+='</div>';
+html+=
+'</div>';
 
 openModal(
-
 "Templates",
-
 html
-
 )
 
 }
@@ -4008,22 +2696,18 @@ html
 
 function useTemplate(name){
 
-const n=currentNote();
+const n=
+currentNote();
 
 if(!n)
-
 return;
 
 n.title=name;
-
 n.html=
-
 templatesData[name].html;
 
 save();
-
 closeModal();
-
 render()
 
 }
@@ -4033,25 +2717,18 @@ render()
 function settings(){
 
 openModal(
-
 "Settings",
 
 '<div class="settingRow">Private folder code.<button onclick="changePrivateCode()">Change code</button></div>'+
 
 '<div class="settingRow">'+
-
 'Your notes are saved locally in this browser.'+
-
 '<button onclick="exportData()">Export backup</button>'+
-
 '</div>'+
 
 '<div class="settingRow">'+
-
 'Reset your local StudyNotes data.'+
-
 '<button onclick="resetData()">Reset all</button>'+
-
 '</div>'
 
 )
@@ -4060,48 +2737,35 @@ openModal(
 
 function changePrivateCode(){
 
-const old=privateCode();
+const old=
+privateCode();
 
 if(!old)
-
 return openPrivateFolder();
 
-const cur=prompt(
-
-"Current private code:"
-
-);
+const cur=
+prompt("Current private code:");
 
 if(cur===null)
-
 return;
 
-if(codeHash(cur.trim())!==old)
-
+if(
+codeHash(cur.trim())!==old
+)
 return alert("Wrong current code.");
 
-const next=prompt(
-
-"New private code:"
-
-);
+const next=
+prompt("New private code:");
 
 if(
-
 next===null||
-
 !next.trim()
-
 )
-
 return;
 
 localStorage.setItem(
-
 KEY+"_private_code",
-
 codeHash(next.trim())
-
 );
 
 alert("Private code changed.")
@@ -4112,48 +2776,37 @@ alert("Private code changed.")
 
 function exportData(){
 
-const blob=new Blob(
-
+const blob=
+new Blob(
 [
-
 JSON.stringify(
-
 data,
-
 null,
-
 2
-
 )
-
 ],
-
 {
-
 type:"application/json"
-
 }
-
 );
 
-const a=document.createElement("a");
+const a=
+document.createElement("a");
 
 a.href=
-
 URL.createObjectURL(blob);
 
 a.download=
-
 "StudyNotes-backup.json";
 
 a.click();
 
 setTimeout(
-
-()=>URL.revokeObjectURL(a.href),
-
+()=>
+URL.revokeObjectURL(
+a.href
+),
 1000
-
 )
 
 }
@@ -4163,16 +2816,14 @@ setTimeout(
 function resetData(){
 
 if(
-
 confirm(
-
 "Delete all notes and folders?"
-
 )
-
 ){
 
-localStorage.removeItem(KEY);
+localStorage.removeItem(
+KEY
+);
 
 location.reload()
 
@@ -4185,18 +2836,15 @@ location.reload()
 function help(){
 
 openModal(
-
 "StudyNotes",
 
 '<div class="helpText">'+
 
 '<p><b>☰</b> hides the left panel so the writing area becomes full width.</p>'+
 
-'<p><b>Highlighter:</b> open Drawing Tools, choose the soft yellow Highlighter, then simply tap a word.</p>'+
+'<p><b>Highlighter:</b> turn it on, then tap the exact word you want highlighted. It does not draw over the page.</p>'+
 
 '<p><b>Drawing:</b> use Pen, Pencil, Marker, Ruler and Eraser. Choose a colour and thickness.</p>'+
-
-'<p><b>× Close</b> or <b>Done</b> exits the drawing tools completely.</p>'+
 
 '<p><b>Templates:</b> choose a complete study layout and start filling it in.</p>'+
 
@@ -4211,101 +2859,88 @@ openModal(
 /* MODAL */
 
 function openModal(
-
 title,
-
 body
-
 ){
 
-$("modalTitle").textContent=title;
+$("modalTitle")
+.textContent=
+title;
 
-$("modalBody").innerHTML=body;
+$("modalBody")
+.innerHTML=
+body;
 
-$("modal").classList.add("show")
+$("modal")
+.classList
+.add("show")
 
 }
 
 function closeModal(){
 
-$("modal").classList.remove("show")
+$("modal")
+.classList
+.remove("show")
 
 }
 
 /* SEARCH */
 
-$("search").addEventListener(
-
+$("search")
+.addEventListener(
 "input",
-
 renderNotes
-
 );
 
 /* KEYBOARD */
 
 document.addEventListener(
-
 "keydown",
-
 e=>{
 
 const modifier=
-
 e.metaKey||
-
 e.ctrlKey;
 
 if(
-
-modifier&&
-
+modifier &&
 e.key.toLowerCase()==="n"
-
 ){
 
 e.preventDefault();
-
 newNote()
 
 }
 
 if(
-
-modifier&&
-
+modifier &&
 e.key.toLowerCase()==="s"
-
 ){
 
 e.preventDefault();
-
 update()
 
 }
 
 if(
-
-modifier&&
-
+modifier &&
 e.key.toLowerCase()==="f"
-
 ){
 
 e.preventDefault();
-
 $("search").focus()
 
 }
 
-if(e.key==="Escape"){
+if(
+e.key==="Escape"
+){
 
 closeModal();
 
 $("textColors")
-
 .classList
-
 .remove("show");
 
 if(highlighter){
@@ -4313,22 +2948,8 @@ if(highlighter){
 highlighter=false;
 
 $("highlightBtn")
-
 .classList
-
 .remove("active");
-
-$("drawHighlighter")?.classList.remove(
-
-"active"
-
-);
-
-$("drawOverlay")?.classList.remove(
-
-"highlighterMode"
-
-);
 
 $("editor").style.cursor=""
 
@@ -4336,129 +2957,32 @@ $("editor").style.cursor=""
 
 }
 
-});
+}
+);
 
 /* HELPERS */
 
-function stripHTML(html){
+function escapeHtml(value){
 
-const div=
-
-document.createElement("div");
-
-div.innerHTML=html;
-
-return div.textContent||
-
-div.innerText||
-
-""
-
-}
-
-function escapeHTML(str){
-
-return String(str)
-
+return String(value)
 .replace(/&/g,"&amp;")
-
 .replace(/</g,"&lt;")
-
 .replace(/>/g,"&gt;")
-
 .replace(/"/g,"&quot;")
-
 .replace(/'/g,"&#039;")
 
 }
 
-function htmlToMarkdown(html){
+function stripHtml(value){
 
 const div=
-
 document.createElement("div");
 
-div.innerHTML=html;
+div.innerHTML=value;
 
-return div.innerText||""
-
-}
-
-function codeHash(str){
-
-let h=0;
-
-for(
-
-let i=0;
-
-i<str.length;
-
-i++
-
-){
-
-h=
-
-((h<<5)-h)+
-
-str.charCodeAt(i);
-
-h|=0
-
-}
-
-return String(h)
-
-}
-
-function privateCode(){
-
-return localStorage.getItem(
-
-KEY+"_private_code"
-
-)
-
-}
-
-function openPrivateFolder(){
-
-const code=
-
-prompt(
-
-"Create a private folder code:"
-
-);
-
-if(
-
-code===null||
-
-!code.trim()
-
-)
-
-return;
-
-localStorage.setItem(
-
-KEY+"_private_code",
-
-codeHash(
-
-code.trim()
-
-)
-
-);
-
-alert(
-
-"Private folder code created."
-
-)
+return div.textContent||
+div.innerText||
+""
 
 }
 
@@ -4469,5 +2993,4 @@ load();
 </script>
 
 </body>
-
 </html>
